@@ -1,0 +1,39 @@
+name: Brandfolder Plans and Pricing
+description: Brandfolder offers enterprise-focused pricing with Premium and Enterprise tiers. Pricing is not publicly listed and requires a custom quote from the sales team. API access is included as part of both plans.
+url: https://brandfolder.com/contact/sales/
+plans:
+  - name: Premium
+    description: Full-featured DAM platform for teams and growing organizations needing brand asset management, distribution, and integrations including API access.
+    pricing_model: Annual Contract
+    estimated_range: $15,000 - $50,000 per year
+    features:
+      - Digital asset management
+      - Unlimited storage (contract-defined)
+      - Brand portals
+      - Asset distribution and share links
+      - Collections and sections
+      - Custom fields and tagging
+      - REST API access (v4)
+      - Webhooks
+      - SSO integration
+      - Analytics and reporting
+      - Third-party integrations
+  - name: Enterprise
+    description: Advanced DAM platform for large organizations with custom requirements, premium support, advanced analytics, and deeper integrations.
+    pricing_model: Annual Contract
+    estimated_range: $20,000 - $150,000+ per year
+    features:
+      - All Premium features
+      - Custom integrations
+      - Advanced API access
+      - Premium support SLA
+      - Advanced analytics modules
+      - Custom onboarding and training
+      - Dedicated customer success manager
+      - Enhanced security controls
+      - Multi-brand management
+      - Advanced permissions and governance
+notes:
+  - Pricing is not publicly available; contact sales at https://brandfolder.com/contact/sales/
+  - Add-ons such as custom integrations, premium support, and advanced analytics can add 10-30% to base contract value
+  - Brandfolder is a Smartsheet company (acquired August 2020)

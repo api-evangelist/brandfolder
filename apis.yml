@@ -1,0 +1,60 @@
+aid: brandfolder
+name: Brandfolder
+description: Brandfolder is a digital asset management (DAM) platform and Smartsheet company that provides a RESTful API for managing brand assets, collections, sections, tags, share links, webhooks, and asset distribution permissions. The API enables organizations to push Brandfolder content to other applications, pull data from external sources, and synchronize Brandfolder with other platforms.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/brandfolder/refs/heads/main/apis.yml
+created: 2026-06-13
+modified: 2026-06-13
+specificationVersion: "0.19"
+tags:
+  - Digital Asset Management
+  - DAM
+  - Brand Management
+  - Assets
+  - Media
+  - Collections
+  - Smartsheet
+apis:
+  - aid: brandfolder:brandfolder-api
+    name: Brandfolder API
+    description: RESTful JSON API providing programmatic access to Brandfolder resources including organizations, brandfolders, collections, sections, assets, attachments, tags, custom fields, labels, invitations, user permissions, and webhooks.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://developers.smartsheet.com/api/brandfolder
+    baseURL: https://brandfolder.com/api/v4
+    tags:
+      - Digital Asset Management
+      - Assets
+      - Collections
+      - Webhooks
+      - Brand Management
+    properties:
+      - type: Documentation
+        url: https://developers.smartsheet.com/api/brandfolder
+      - type: OpenAPI
+        url: https://developers.smartsheet.com/api/brandfolder/openapi
+common:
+  - type: Website
+    url: https://brandfolder.com
+  - type: Documentation
+    url: https://developers.smartsheet.com/api/brandfolder
+  - type: GitHubOrg
+    url: https://github.com/Brandfolder
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/brandfolder-inc-
+  - type: Blog
+    url: https://brandfolder.engineering/
+  - type: Pricing
+    url: https://brandfolder.com/contact/sales/
+  - type: StatusPage
+    url: https://status.brandfolder.com/
+  - type: X
+    url: https://twitter.com/Brandfolder
+  - type: Plans
+    url: plans/brandfolder-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/brandfolder-rate-limits.yml
+  - type: FinOps
+    url: finops/brandfolder-finops.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

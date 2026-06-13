@@ -1,0 +1,34 @@
+name: Brandfolder FinOps
+description: Financial operations guidance for managing Brandfolder API and platform costs. Brandfolder uses annual enterprise contracts with custom pricing. Cost optimization focuses on storage efficiency, user seat management, and integration scope.
+url: https://brandfolder.com/contact/sales/
+cost_drivers:
+  - name: User Seats
+    description: Number of users with access to the Brandfolder platform; primary cost driver for both Premium and Enterprise tiers
+  - name: Storage Volume
+    description: Amount of digital asset storage consumed; large media files (video, high-res imagery) accelerate storage costs
+  - name: API Usage
+    description: API access is included in both plans; custom or high-volume integrations may require Enterprise tier
+  - name: Add-on Modules
+    description: Advanced analytics, premium support, and custom integrations add 10-30% to base contract value
+  - name: Integrations
+    description: Native integrations with Adobe CC, Slack, Canva, Dropbox, and others included; custom API integrations may require enterprise negotiation
+optimization:
+  - Audit user seats quarterly and remove inactive accounts to reduce seat-based costs
+  - Implement asset lifecycle policies to archive or delete unused assets and manage storage growth
+  - Use webhooks instead of polling APIs to reduce API call volume and potential overage risks
+  - Consolidate brand assets across teams to avoid duplicate storage
+  - Negotiate multi-year contracts for deeper discounts (20-30% potential savings vs. annual)
+  - Evaluate actual storage usage vs. contracted storage during renewal negotiations
+  - Use Brandfolder's built-in analytics to identify low-engagement assets eligible for archival
+billing:
+  - model: Annual Contract
+    description: Brandfolder operates on annual contracts with custom pricing based on seats, storage, and features
+    notes: No public per-user or per-GB pricing; all pricing negotiated with sales team
+  - model: Add-on Pricing
+    description: Optional modules for advanced analytics, premium support, and custom integrations billed separately
+    estimated_premium: 10-30% above base contract
+monitoring:
+  - Track storage consumption monthly via Brandfolder admin dashboard
+  - Monitor API usage patterns to ensure alignment with contracted integration scope
+  - Review user access logs to identify inactive seats
+  - Set internal alerts for storage thresholds approaching contract limits

@@ -1,0 +1,21 @@
+name: Brandfolder API Rate Limits
+description: Brandfolder does not publicly document specific API rate limits. The API uses Bearer token authentication and operates on a per-organization basis. Rate limiting details are typically shared during enterprise onboarding or via the developer support team.
+url: https://developers.smartsheet.com/api/brandfolder
+details:
+  - Brandfolder's API v4 does not publicly specify rate limit thresholds in their developer documentation
+  - Rate limits are expected to follow standard REST API practices with HTTP 429 (Too Many Requests) responses when exceeded
+  - API access is tied to organization and user-level API keys obtained from https://brandfolder.com/profile#integrations
+  - Enterprise customers may have custom rate limit agreements
+  - Webhook subscriptions for event-based callbacks do not count against standard API rate limits
+headers:
+  - name: Authorization
+    description: Bearer token required for all API requests; value is the API key from user profile
+    example: "Authorization: Bearer {BF_API_KEY}"
+  - name: Content-Type
+    description: Must be set to application/json for all requests
+    example: "Content-Type: application/json"
+recommendations:
+  - Implement exponential backoff on 429 responses
+  - Cache asset metadata where possible to reduce repeated API calls
+  - Use webhook subscriptions instead of polling for asset change detection
+  - Batch operations where the API supports bulk endpoints
