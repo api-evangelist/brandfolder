@@ -1,0 +1,299 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "bf": "https://brandfolder.com/api/v4/schema/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+
+    "Organization": {
+      "@id": "bf:Organization",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "tagline": "bf:tagline",
+        "slug": "bf:slug",
+        "publicCollaborators": {
+          "@id": "bf:publicCollaborators",
+          "@type": "xsd:boolean"
+        },
+        "whitelistedDomains": {
+          "@id": "bf:whitelistedDomains",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "Brandfolder": {
+      "@id": "bf:Brandfolder",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "tagline": "bf:tagline",
+        "slug": "bf:slug",
+        "privacy": "bf:privacy",
+        "isPublic": {
+          "@id": "bf:isPublic",
+          "@type": "xsd:boolean"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updatedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Collection": {
+      "@id": "bf:Collection",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "slug": "bf:slug",
+        "brandfolderId": "bf:brandfolderId",
+        "publicUrl": {
+          "@id": "schema:url",
+          "@type": "@id"
+        },
+        "isPublic": {
+          "@id": "bf:isPublic",
+          "@type": "xsd:boolean"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updatedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Section": {
+      "@id": "bf:Section",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "slug": "bf:slug",
+        "defaultAssetType": "bf:defaultAssetType",
+        "position": {
+          "@id": "bf:position",
+          "@type": "xsd:integer"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updatedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Asset": {
+      "@id": "bf:Asset",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "description": "schema:description",
+        "slug": "bf:slug",
+        "assetType": "bf:assetType",
+        "thumbnailUrl": {
+          "@id": "schema:thumbnailUrl",
+          "@type": "@id"
+        },
+        "score": {
+          "@id": "bf:score",
+          "@type": "xsd:number"
+        },
+        "availability": "bf:availability",
+        "isMergeable": {
+          "@id": "bf:isMergeable",
+          "@type": "xsd:boolean"
+        },
+        "approved": {
+          "@id": "bf:approved",
+          "@type": "xsd:boolean"
+        },
+        "expiresAt": {
+          "@id": "bf:expiresAt",
+          "@type": "xsd:dateTime"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updatedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Attachment": {
+      "@id": "bf:Attachment",
+      "@context": {
+        "id": "@id",
+        "filename": "schema:name",
+        "url": {
+          "@id": "schema:url",
+          "@type": "@id"
+        },
+        "mimetype": "schema:encodingFormat",
+        "size": {
+          "@id": "schema:contentSize",
+          "@type": "xsd:integer"
+        },
+        "width": {
+          "@id": "schema:width",
+          "@type": "xsd:integer"
+        },
+        "height": {
+          "@id": "schema:height",
+          "@type": "xsd:integer"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updatedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Tag": {
+      "@id": "bf:Tag",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "autoTagged": {
+          "@id": "bf:autoTagged",
+          "@type": "xsd:boolean"
+        }
+      }
+    },
+
+    "CustomField": {
+      "@id": "bf:CustomField",
+      "@context": {
+        "id": "@id",
+        "key": "bf:key",
+        "value": "schema:value",
+        "prioritized": {
+          "@id": "bf:prioritized",
+          "@type": "xsd:boolean"
+        },
+        "allowedValues": {
+          "@id": "bf:allowedValues",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "Label": {
+      "@id": "bf:Label",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "path": "bf:path",
+        "position": {
+          "@id": "bf:position",
+          "@type": "xsd:integer"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updatedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Invitation": {
+      "@id": "bf:Invitation",
+      "@context": {
+        "id": "@id",
+        "email": "schema:email",
+        "permission": "bf:permission",
+        "resourceType": "bf:resourceType",
+        "resourceId": "bf:resourceId",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "ShareLink": {
+      "@id": "bf:ShareLink",
+      "@context": {
+        "id": "@id",
+        "url": {
+          "@id": "schema:url",
+          "@type": "@id"
+        },
+        "token": "bf:token",
+        "permission": "bf:permission",
+        "expiresAt": {
+          "@id": "bf:expiresAt",
+          "@type": "xsd:dateTime"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Webhook": {
+      "@id": "bf:Webhook",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "url": {
+          "@id": "schema:url",
+          "@type": "@id"
+        },
+        "event": "bf:event",
+        "active": {
+          "@id": "bf:active",
+          "@type": "xsd:boolean"
+        },
+        "resourceType": "bf:resourceType",
+        "resourceId": "bf:resourceId",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updatedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "UserPermission": {
+      "@id": "bf:UserPermission",
+      "@context": {
+        "id": "@id",
+        "email": "schema:email",
+        "permission": "bf:permission",
+        "resourceType": "bf:resourceType",
+        "resourceId": "bf:resourceId",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    }
+  }
+}
