@@ -33,6 +33,10 @@ apis:
       - type: OpenAPI
         url: https://developers.smartsheet.com/api/brandfolder/openapi
 common:
+  - type: TrustCenter
+    url: security/brandfolder-trust-center.yml
+  - type: DomainSecurity
+    url: security/brandfolder-domain-security.yml
   - type: Website
     url: https://brandfolder.com
   - type: Documentation
