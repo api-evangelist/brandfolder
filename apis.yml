@@ -16,7 +16,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/brandfolder.png
 url: https://raw.githubusercontent.com/api-evangelist/brandfolder/refs/heads/main/apis.yml
 created: 2026-06-13
-modified: 2026-06-13
+modified: 2026-08-13
 specificationVersion: "0.19"
 tags:
   - Digital Asset Management
@@ -43,8 +43,26 @@ apis:
       - type: Documentation
         url: https://developers.smartsheet.com/api/brandfolder
       - type: OpenAPI
+        url: openapi/brandfolder-openapi-original.yml
+      - type: APIReference
         url: https://developers.smartsheet.com/api/brandfolder/openapi
+      - type: Overlay
+        url: overlays/brandfolder-openapi-original-overlay.yaml
+      - type: Webhooks
+        url: asyncapi/brandfolder-webhooks.yml
+      - type: MCPServer
+        url: mcp/brandfolder-mcp.yml
+      - type: ToolCrosswalk
+        url: mcp/brandfolder-tool-crosswalk.yml
+      - type: ErrorCatalog
+        url: errors/brandfolder-problem-types.yml
+      - type: DataModel
+        url: data-model/brandfolder-data-model.yml
 common:
+  - type: AgenticAccess
+    url: agentic-access/brandfolder-agentic-access.yml
+  - type: Authentication
+    url: authentication/brandfolder-authentication.yml
   - type: TrustCenter
     url: security/brandfolder-trust-center.yml
   - type: DomainSecurity
@@ -53,18 +71,58 @@ common:
     url: https://brandfolder.com
   - type: Documentation
     url: https://developers.smartsheet.com/api/brandfolder
-  - type: GitHubOrg
-    url: https://github.com/Brandfolder
+  - type: GitHubOrganization
+    url: https://github.com/brandfolder
   - type: LinkedIn
     url: https://www.linkedin.com/company/brandfolder-inc-
   - type: Blog
     url: https://brandfolder.engineering/
   - type: Pricing
-    url: https://brandfolder.com/contact/sales/
+    url: https://brandfolder.com/pricing
   - type: StatusPage
     url: https://status.brandfolder.com/
   - type: X
     url: https://twitter.com/Brandfolder
+  - type: DeveloperPortal
+    url: https://developers.smartsheet.com/api/brandfolder
+  - type: GettingStarted
+    url: https://developers.smartsheet.com/api/brandfolder/introduction
+  - type: Support
+    url: https://help.smartsheet.com/brandfolder
+  - type: Community
+    url: https://community.smartsheet.com/
+  - type: Login
+    url: https://brandfolder.com/signin/
+  - type: TermsOfService
+    url: https://www.smartsheet.com/legal/user-agreement
+  - type: PrivacyPolicy
+    url: https://www.smartsheet.com/legal/privacy
+  - type: Integrations
+    url: https://brandfolder.com/integrations/
+  - type: Security
+    url: https://www.smartsheet.com/legal/bugbounty
+  - type: VulnerabilityDisclosure
+    url: security/brandfolder-vulnerability-disclosure.yml
+  - type: Compliance
+    url: https://www.smartsheet.com/legal/security
+  - type: Conformance
+    url: conformance/brandfolder-conformance.yml
+  - type: Packages
+    url: packages/brandfolder-packages.yml
+  - type: SDKs
+    url: packages/brandfolder-packages.yml
+  - type: Components
+    url: components/brandfolder-components.yml
+  - type: Conventions
+    url: conventions/brandfolder-conventions.yml
+  - type: Lifecycle
+    url: lifecycle/brandfolder-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/brandfolder-changelog.yml
+  - type: LLMsTxt
+    url: llms/brandfolder-llms.txt
+  - type: AgentSkill
+    url: skills/_index.yml
   - type: Plans
     url: plans/brandfolder-plans-pricing.yml
   - type: RateLimits
@@ -74,3 +132,9 @@ common:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+
+x-enrichment:
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 28
+  pass: local-v1
