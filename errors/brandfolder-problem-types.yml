@@ -1,0 +1,94 @@
+generated: '2026-08-13'
+method: searched
+source: https://developers.smartsheet.com/api/brandfolder/error-codes
+derived_from: openapi/brandfolder-openapi-original.yml
+format: none
+envelope:
+  media_type: application/json
+  note: >
+    Brandfolder does NOT use RFC 9457 problem+json. The OpenAPI declares a
+    `default` response on 72 of 73 operations whose schema is a bare
+    `type: string` labelled "Generic error payload" - i.e. the machine-readable
+    contract for errors is an unstructured string. Only the status code carries
+    reliable meaning. There is no documented error `code`, `type` URI, or
+    per-field validation structure. An agent cannot branch on an error body
+    here; it must branch on the HTTP status.
+status_codes:
+  - status: 400
+    title: Bad Request
+    meaning: >
+      You probably misspelled a parameter in the query string, used one that
+      isn't valid for that endpoint, or forgot a required data attribute in the
+      request body.
+    source: docs
+    spec_descriptions:
+      - Invalid Payload Provided
+      - Invalid Header Provided
+    spec_occurrences: 5
+    remediation: Check required body attributes and the query-parameter names for the endpoint.
+  - status: 403
+    title: Forbidden
+    meaning: >
+      You do not have access to the requested resource because you are not
+      sending an appropriate API key or the resource was deleted.
+    source: docs
+    spec_descriptions:
+      - Permission Denied for Provided Resource
+      - This occurs for CDN URLs of assets that are pending approval or unpublished.
+    spec_occurrences: 3
+    remediation: >
+      Verify the Authorization bearer key from https://brandfolder.com/profile#integrations
+      and that the calling user's permissions cover the resource. Note Brandfolder
+      returns 403 (not 404) for deleted resources.
+  - status: 404
+    title: Not Found
+    meaning: You may have misspelled the resource ID or the endpoint path in the request URL.
+    source: docs
+    spec_descriptions:
+      - Provided Resource Does Not Exist
+      - The Requested Webhook Does Not Exist
+      - Could Not Determine This Webhook Exists or the Requester Does Not Own the Webhook.
+      - This occurs for CDN URLs of assets that are pending approval or unpublished.
+    spec_occurrences: 8
+    remediation: Confirm the resource key; Brandfolder keys are opaque strings such as oqgkkd-fr5iv4-443db.
+  - status: 405
+    title: Method Not Allowed
+    meaning: >
+      You tried to use an HTTP method that isn't accepted by our API. The only
+      valid methods are GET, PUT, POST, and DELETE and not every one is valid
+      for every endpoint.
+    source: docs
+    spec_occurrences: 0
+    remediation: The v4 API has no PATCH; use PUT for updates.
+  - status: 409
+    title: Conflict
+    meaning: Subscription Already Exists
+    source: openapi
+    spec_descriptions:
+      - Subscription Already Exists
+    spec_occurrences: 2
+    remediation: >
+      Returned by the webhook endpoints when an identical event_type +
+      resource_key + callback_url subscription is already registered. Not listed
+      on the published error-codes page - captured from the OpenAPI.
+  - status: 429
+    title: Too Many Requests
+    meaning: You're sending too many requests in a short period of time.
+    source: docs
+    spec_occurrences: 0
+    remediation: >
+      Back off and retry. Brandfolder publishes no rate-limit numbers and the
+      OpenAPI declares no 429 response and no RateLimit/Retry-After headers, so
+      the threshold and the retry hint are both undiscoverable in advance.
+      See rate-limits/brandfolder-rate-limits.yml.
+  - status: 500
+    title: Internal Server Error
+    meaning: We had a problem with our server. Please try again later and let us know if the problem persists.
+    source: docs
+    spec_occurrences: 0
+    remediation: Retry with backoff; contact support if persistent.
+gaps:
+  - No RFC 9457 / problem+json.
+  - No error code registry beyond HTTP status.
+  - '`default` response schema is `type: string` on 72 of 73 operations.'
+  - 405 / 429 / 500 are documented in prose but absent from the OpenAPI responses.

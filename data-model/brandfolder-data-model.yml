@@ -1,0 +1,195 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/brandfolder-openapi-original.yml
+enriched_from: https://developers.smartsheet.com/api/brandfolder/introduction
+note: >
+  Entity graph derived from the 32 component schemas and the path hierarchy of
+  the 73 published operations, cross-checked against the containment model the
+  API introduction states in prose: "Organizations can have multiple
+  Brandfolders. Brandfolders have Sections which hold Assets. Assets can also
+  belong to multiple Collections within a Brandfolder. Assets have Attachments
+  and can also have Tags and Custom Fields."
+identifier_convention:
+  form: opaque triplet, e.g. oqgkkd-fr5iv4-443db
+  typed_prefixes: false
+  note: >
+    IDs carry no type prefix, so an asset key and a section key are
+    indistinguishable by inspection. The docs use "key" and "id" interchangeably.
+resource_type_field:
+  field: type
+  note: >
+    Each resource object carries a `type` discriminator. For assets the value is
+    the asset subtype, not "assets" - observed values in the docs include
+    generic_files, and the Insights schema documents the full set as Color,
+    ExternalMedium, Font, GenericFile, Person, Press, Text.
+entities:
+  - name: Organization
+    schema: Organization
+    attributes: [name, tagline, slug]
+    extra_fields: [cname]
+    note: cname is retrievable via ?fields=cname (changelog 2025-11-24).
+  - name: Brandfolder
+    schema: Brandfolder
+    attributes: [name, privacy, slug, tagline]
+  - name: Collection
+    schema: Collection
+    attributes: [name, tagline, slug, public, stealth, is_workspace]
+  - name: Section
+    schema: Section
+    attributes: [name, default_asset_type, position]
+  - name: Asset
+    schema: Asset
+    attributes: [name, description, thumbnail_url, approved]
+    request_only_attributes: [availability_start, availability_end, attachments]
+    optional_fields: [cdn_url, updated_at]
+  - name: Attachment
+    schema: Attachment
+    attributes: [mimetype, extension, filename, size, width, height, url, position, thumbnail_url]
+  - name: Tag
+    schema: Tag
+    attributes: [name, auto_generated, source]
+  - name: CustomFieldKey
+    schema: CustomFieldKey
+    attributes: [name, allowed_values, position, prioritized, required, restricted]
+  - name: CustomFieldValue
+    schema: CustomFieldValue
+    attributes: [key, value]
+  - name: Label
+    schema: Label
+    attributes: [name, path, position, depth]
+    note: Labels form a tree - `path` and `depth` encode nesting, and PUT /labels/{id}/move re-parents a node.
+  - name: Invitation
+    schema: Invitation
+    attributes: [email, permission_level, personal_message, invitation_url]
+  - name: UserPermission
+    schema: [UserPermissionToOrganization, UserPermissionToBrandfolder, UserPermissionToCollection]
+    note: >
+      Three separate schemas, one per scope. Each is the only schema family in
+      the spec that declares a `relationships` block.
+  - name: User
+    schema: User
+    attributes: [email, first_name, last_name]
+  - name: Webhook
+    schema: Webhook
+    attributes: [event_type, resource_key, resource_type, callback_url]
+    note: The only schema without a `type` field.
+relationships:
+  - from: Organization
+    to: Brandfolder
+    kind: has_many
+    via: POST /organizations/{organization_id}/brandfolders
+  - from: Brandfolder
+    to: Section
+    kind: has_many
+    via: brandfolder_id
+  - from: Brandfolder
+    to: Collection
+    kind: has_many
+    via: brandfolder_id
+  - from: Brandfolder
+    to: Asset
+    kind: has_many
+    via: brandfolder_id
+  - from: Brandfolder
+    to: Label
+    kind: has_many
+    via: brandfolder_id
+  - from: Brandfolder
+    to: CustomFieldKey
+    kind: has_many
+    via: brandfolder_id
+  - from: Brandfolder
+    to: Tag
+    kind: has_many
+    via: brandfolder_id
+  - from: Section
+    to: Asset
+    kind: has_many
+    via: section_id
+  - from: Asset
+    to: Section
+    kind: belongs_to
+    via: relationships.section
+  - from: Asset
+    to: Brandfolder
+    kind: belongs_to
+    via: relationships.brandfolder
+  - from: Collection
+    to: Asset
+    kind: has_many
+    via: collection_id
+    note: Many-to-many in practice - an asset can belong to multiple collections within a Brandfolder.
+  - from: Asset
+    to: Attachment
+    kind: has_many
+    via: relationships.attachments
+  - from: Asset
+    to: Tag
+    kind: has_many
+    via: asset_id
+  - from: Asset
+    to: CustomFieldValue
+    kind: has_many
+    via: asset_id
+  - from: CustomFieldKey
+    to: CustomFieldValue
+    kind: has_many
+    via: custom_field_key_id
+  - from: Label
+    to: Asset
+    kind: has_many
+    via: label_id
+  - from: Label
+    to: Label
+    kind: has_many
+    via: path/depth (self-referential tree)
+  - from: Organization
+    to: Invitation
+    kind: has_many
+    via: organization_id
+  - from: Brandfolder
+    to: Invitation
+    kind: has_many
+    via: brandfolder_id
+  - from: Collection
+    to: Invitation
+    kind: has_many
+    via: collection_id
+  - from: Organization
+    to: UserPermission
+    kind: has_many
+    via: organization_id
+  - from: Brandfolder
+    to: UserPermission
+    kind: has_many
+    via: brandfolder_id
+  - from: Collection
+    to: UserPermission
+    kind: has_many
+    via: collection_id
+  - from: UserPermission
+    to: User
+    kind: belongs_to
+    via: relationships.user
+  - from: Webhook
+    to: Brandfolder
+    kind: belongs_to
+    via: resource_key (resource_type = brandfolder)
+undocumented_in_spec:
+  - entity: Portal
+    note: >
+      /portals/{portal_id}/invitations exists as an operation, but no Portal
+      schema is published - a caller cannot discover a portal_id through the API.
+  - entity: Brandguide
+    note: >
+      /brandguides/{brandguide_id}/invitations exists as an operation, but no
+      Brandguide schema is published.
+analytics_model:
+  source: https://developers.smartsheet.com/api/brandfolder/insights-data-connector
+  note: >
+    A separate, non-API data model is published for the Insights Data Connector -
+    an Enterprise-tier BigQuery dataset (`<gcp-project>.brandfolder.<table>`,
+    refreshed nightly) with assets, attachments, cdn_aggregates, events,
+    events-with-sharelink and events-with-user-session tables. It is a warehouse
+    export, not a REST surface, and its column set does not match the API's
+    attribute set.

@@ -1,0 +1,99 @@
+generated: '2026-08-13'
+method: probed
+source: live GET of /.well-known/* on the API host, docs host and parent-company host
+note: >
+  brandfolder.com — the API host named in servers[] — serves nothing under
+  /.well-known/: every path returns the Brandfolder 404 HTML page. The two 200s
+  recorded below are on Smartsheet hosts. Brandfolder has been a Smartsheet
+  company since August 2020; brandfolder.com's own CAA record carries
+  `0 iodef "mailto:security@smartsheet.com"`, which is the provider's own DNS
+  pointing security reporting at the parent, so the security.txt on
+  www.smartsheet.com is the applicable disclosure document for this domain.
+hosts:
+  - https://brandfolder.com
+  - https://developers.smartsheet.com
+  - https://www.smartsheet.com
+documents:
+  - host: brandfolder.com
+    path: /.well-known/security.txt
+    status: 404
+  - host: brandfolder.com
+    path: /.well-known/openid-configuration
+    status: 404
+  - host: brandfolder.com
+    path: /.well-known/oauth-authorization-server
+    status: 404
+  - host: brandfolder.com
+    path: /.well-known/api-catalog
+    status: 404
+  - host: brandfolder.com
+    path: /.well-known/ai-plugin.json
+    status: 404
+  - host: brandfolder.com
+    path: /.well-known/agent-card.json
+    status: 404
+  - host: brandfolder.com
+    path: /.well-known/agent.json
+    status: 404
+  - host: developers.smartsheet.com
+    path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: brandfolder-oauth-authorization-server.json
+    note: >
+      RFC 8414 metadata for the developer portal's own MCP/OAuth surface — issuer
+      is auth.cloud.redocly.com (the docs platform), authorization endpoint
+      https://developers.smartsheet.com/_mcp/oauth2/auth. This governs
+      authenticated access to the docs portal MCP, NOT the Brandfolder v4 API,
+      which is bearer-API-key only. Recorded because it is a real 200 document
+      on the docs host.
+  - host: developers.smartsheet.com
+    path: /.well-known/security.txt
+    status: 404
+  - host: developers.smartsheet.com
+    path: /.well-known/openid-configuration
+    status: 404
+  - host: developers.smartsheet.com
+    path: /.well-known/api-catalog
+    status: 404
+  - host: developers.smartsheet.com
+    path: /.well-known/ai-plugin.json
+    status: 404
+  - host: developers.smartsheet.com
+    path: /.well-known/agent-card.json
+    status: 404
+  - host: developers.smartsheet.com
+    path: /.well-known/agent.json
+    status: 404
+  - host: www.smartsheet.com
+    path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain
+    file: brandfolder-security.txt
+    note: >
+      RFC 9116 security.txt on the parent-company host. Carries
+      Contact: https://www.smartsheet.com/legal/bugbounty and
+      Contact: security@smartsheet.com. Expires field reads 2026-07-01, i.e. the
+      document was expired at probe time — recorded as-published.
+  - host: www.smartsheet.com
+    path: /.well-known/openid-configuration
+    status: 404
+  - host: www.smartsheet.com
+    path: /.well-known/oauth-authorization-server
+    status: 404
+  - host: www.smartsheet.com
+    path: /.well-known/api-catalog
+    status: 404
+  - host: www.smartsheet.com
+    path: /.well-known/ai-plugin.json
+    status: 404
+  - host: www.smartsheet.com
+    path: /.well-known/agent-card.json
+    status: 404
+  - host: www.smartsheet.com
+    path: /.well-known/agent.json
+    status: 404
+summary:
+  paths_probed: 21
+  hits: 2
+  api_host_hits: 0

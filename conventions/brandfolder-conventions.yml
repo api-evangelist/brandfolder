@@ -1,0 +1,122 @@
+generated: '2026-08-13'
+method: searched
+source: https://developers.smartsheet.com/api/brandfolder/guides/basics/query-parameters
+also_source:
+  - https://developers.smartsheet.com/api/brandfolder/introduction
+  - https://developers.smartsheet.com/api/brandfolder/guides/recipes
+derived_from: openapi/brandfolder-openapi-original.yml
+api_style: REST/JSON, JSON:API-flavoured (data / included / relationships / attributes envelope, but not JSON:API conformant)
+base_url: https://brandfolder.com/api/v4
+version_note: >
+  The webhook operations run on https://brandfolder.com/api/v1 - the OpenAPI
+  overrides servers[] at the path level for /webhooks, /webhooks/send and
+  /webhooks/{webhook_id}, and the descriptions say so explicitly. One product,
+  two live API versions on the same host.
+authentication:
+  style: bearer
+  header: 'Authorization: Bearer {BF_API_KEY}'
+  key_source: https://brandfolder.com/profile#integrations
+  scope: >
+    The key is a user key. Every response is filtered to what that user can see -
+    permissions are carried by the key holder, not by scopes.
+  see: authentication/brandfolder-authentication.yml
+request:
+  content_type_header_required: true
+  content_type: application/json
+  note: >
+    Content-Type: application/json is declared REQUIRED as an explicit header
+    parameter on the webhook paths, with an enum of exactly one value.
+idempotency:
+  supported: false
+  note: >
+    Brandfolder documents no idempotency key, no request-deduplication window and
+    no safe-retry contract, and the OpenAPI declares no Idempotency-Key parameter
+    on any of its 30 write operations. A retried POST /brandfolders/{id}/assets
+    creates duplicate assets. No Idempotency pointer is emitted for this provider.
+pagination:
+  style: page-number
+  params:
+    - name: page
+      description: Which page of results to return. Numbering starts at 1.
+      default: 1
+    - name: per
+      description: Maximum records per page.
+      default: 100
+      maximum: 3000
+  response_fields:
+    - meta.total_count
+  note: >
+    Offset/page pagination with a total count. No cursor, no Link header, no
+    next/prev URLs - a client computes page numbers from meta.total_count itself.
+sorting:
+  params:
+    - name: sort_by
+      values: [name, score, position, updated_at, created_at]
+    - name: order
+      values: [ASC, DESC]
+  note: sort_by and order must be sent together; either alone is not a valid request.
+field_selection:
+  param: fields
+  form: comma-separated, no spaces
+  description: >
+    Requests non-default attributes onto the fetched resource(s), e.g.
+    ?fields=cdn_url,updated_at. Valid values are per-endpoint - the docs warn
+    that using these parameters can slow the response.
+relationship_expansion:
+  param: include
+  form: comma-separated record types, no spaces
+  description: >
+    Adds related records to a top-level `included` array and populates
+    `relationships` on each resource, e.g. ?include=brandfolder,section,attachments.
+search:
+  param: search
+  description: >
+    Full search-syntax query, identical to the Brandfolder web UI search bar
+    (e.g. search=extension:png, search=label:"name"). Must be URL-encoded.
+  note: >
+    Search is a query parameter on the asset listing operations, not a separate
+    search endpoint.
+response_envelope:
+  success:
+    - data           # object or array; each item has id, type, attributes, relationships
+    - included       # present only when ?include= is used
+    - meta           # meta.total_count on collection responses
+  error:
+    note: See errors/brandfolder-problem-types.yml - the error body is an unstructured string.
+identifiers:
+  form: opaque lowercase base36-ish triplets, e.g. oqgkkd-fr5iv4-443db
+  note: >
+    The docs use "key" and "id" interchangeably. IDs are not typed by prefix, so
+    a caller cannot tell an asset key from a section key by inspection.
+request_tracing:
+  request_id_header: null
+  note: No request-id / correlation header is documented or declared in the spec.
+rate_limit_signaling:
+  headers: []
+  note: >
+    No RateLimit-*, X-RateLimit-* or Retry-After headers are documented or
+    declared. 429 is documented on the error-codes page only.
+  see: rate-limits/brandfolder-rate-limits.yml
+versioning:
+  scheme: uri-path
+  current: v4
+  also_live: v1 (webhooks only)
+  see: lifecycle/brandfolder-lifecycle.yml
+uploads:
+  flow: >
+    Files must be at a publicly reachable URL before they can become an
+    Attachment. For direct file content, GET /upload_requests returns a
+    temporary storage upload URL, PUT /upload_url writes the bytes, and the
+    returned URL is then used when creating the Asset/Attachment. A resumable
+    variant exists at /resumable_upload_url (POST to start, PUT to resume).
+  operations:
+    - opIdStorageserviceUploadRequestsGet
+    - opIdStorageserviceBfUploadRequestBucketPut
+    - opIdStorageserviceBfUploadRequestPost
+    - opIdStorageserviceBfUploadRequestPut
+cross_links:
+  authentication: authentication/brandfolder-authentication.yml
+  errors: errors/brandfolder-problem-types.yml
+  lifecycle: lifecycle/brandfolder-lifecycle.yml
+  rate_limits: rate-limits/brandfolder-rate-limits.yml
+  data_model: data-model/brandfolder-data-model.yml

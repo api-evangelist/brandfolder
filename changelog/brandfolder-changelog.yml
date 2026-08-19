@@ -1,0 +1,40 @@
+generated: '2026-08-13'
+method: searched
+source: https://developers.smartsheet.com/api/brandfolder/changelog
+url: https://developers.smartsheet.com/api/brandfolder/changelog
+scheme: dated-entries
+current_version: v4
+format_note: >
+  Entries are titled either with a date or with a prose headline; there is no
+  semantic version per entry and no breaking-change flag. Captured verbatim
+  from the published page on 2026-08-13 - this is the FULL published log, not a
+  recent window: the page carries exactly two entries.
+entry_count: 2
+latest_entry_date: '2025-11-24'
+staleness_note: >
+  The most recent published change is Nov-24-2025, and both entries are
+  documentation corrections rather than API changes. No functional change to the
+  v4 API has been announced through this channel.
+entries:
+  - date: '2025-11-24'
+    title: 'Correction: You can access an organization''s CNAME'
+    kind: FIX
+    breaking: false
+    additions: false
+    highlights: >
+      Documentation corrected for GET /api/v4/organizations/{organization_id} -
+      `cname` is a valid value for the `fields` query parameter, returning the
+      organization's Canonical Name.
+    operations:
+      - opIdApiV4OrganizationsByIdGet
+  - date: '2025-07-10'
+    title: Operation titles corrected
+    kind: FIX
+    breaking: false
+    additions: false
+    highlights: >
+      "Create custom fields" renamed to "Create custom field values for an
+      asset"; "Create tags" renamed to "Create tags for an asset".
+    operations:
+      - opIdApiV4CustomFieldKeysCustomFieldValuesByCustomFieldKeyIdPost
+      - opIdApiV4AssetsTagsByAssetIdPost

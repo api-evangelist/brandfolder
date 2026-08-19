@@ -1,0 +1,81 @@
+generated: '2026-08-13'
+method: searched
+source: openapi/brandfolder-openapi-original.yml (webhooks tag) + https://developers.smartsheet.com/api/brandfolder/openapi
+spec_type: none
+asyncapi_published: false
+asyncapi_note: >
+  Brandfolder publishes no AsyncAPI document. The event surface is documented
+  only as three REST operations under the `webhooks` tag in the OpenAPI, so this
+  artifact captures the webhook catalog rather than a machine-readable event
+  spec. Nothing here is invented - every event type and field below is read from
+  the published OpenAPI request schemas.
+surface: webhooks
+transport: HTTPS POST to a subscriber-supplied callback_url
+management_api:
+  base: https://brandfolder.com/api/v1
+  note: The webhook operations run on v1 while the rest of the API is v4.
+  operations:
+    - operationId: opIdApiV4WebhooksGet
+      method: GET
+      path: /webhooks
+      summary: List active webhooks
+    - operationId: opIdApiV4WebhooksPost
+      method: POST
+      path: /webhooks
+      summary: Create a webhook subscription
+    - operationId: opIdApiV4WebhooksByIdGet
+      method: GET
+      path: /webhooks/{webhook_id}
+      summary: Fetch an active webhook
+    - operationId: opIdApiV4WebhooksByIdDelete
+      method: DELETE
+      path: /webhooks/{webhook_id}
+      summary: Delete a webhook
+    - operationId: opIdApiV4WebhooksSendPost
+      method: POST
+      path: /webhooks/send
+      summary: Generate a test webhook
+events:
+  - name: asset.create
+    description: A new asset has been created within the subscribed Brandfolder.
+  - name: asset.update
+    description: Asset data has been updated within the subscribed Brandfolder.
+  - name: asset.delete
+    description: An asset has been removed from within the subscribed Brandfolder.
+event_count: 3
+subscription:
+  resource_type:
+    values: [brandfolder]
+    note: brandfolder is the only supported subscription scope - you cannot subscribe at collection, section or organization level.
+  required_attributes: [event_type, resource_key, resource_type, callback_url]
+  callback_url_constraints: >
+    Must begin with https:// and resolve to a public domain (not localhost, not
+    behind a firewall, not requiring authentication), and must answer the POST
+    with a 2xx status.
+delivery:
+  signing: null
+  signature_header: null
+  retries: null
+  ordering: null
+  note: >
+    Brandfolder documents no webhook payload signature, no shared secret, no
+    retry policy and no delivery-ordering guarantee. A receiver cannot verify
+    that a delivered payload came from Brandfolder. This is a real gap, recorded
+    as measured - the OpenAPI declares no signing field and the docs mention none.
+testing:
+  operation: opIdApiV4WebhooksSendPost
+  description: >
+    POST /webhooks/send queues a fake notification to your callback_url and
+    answers 202. The docs instruct you to confirm receipt here before creating a
+    production subscription. This is the closest thing Brandfolder ships to a
+    sandbox for the event surface.
+  optional_overrides: [asset_key, organization_key]
+errors:
+  - status: 400
+    meaning: Invalid payload or header provided
+  - status: 403
+    meaning: Permission denied for provided resource
+  - status: 404
+    meaning: Webhook does not exist, or requester does not own it
+  - status: 409
+    meaning: Subscription already exists

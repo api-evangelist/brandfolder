@@ -1,0 +1,69 @@
+generated: '2026-08-13'
+method: searched
+status: published
+source: https://developers.smartsheet.com/mcp
+server:
+  name: smartsheet-developer-portal-docs-mcp
+  transport: http
+  protocol_version: '2025-06-18'
+  server_info: "MCP server 2026-08-13"
+  url: https://developers.smartsheet.com/mcp
+deployment:
+  mode: remote
+  endpoint: https://developers.smartsheet.com/mcp
+  auth: none
+  verified: probed
+scope:
+  plane: documentation
+  note: >
+    IMPORTANT — read this before treating the server as a Brandfolder data plane.
+    This is a DOCUMENTATION/REFERENCE MCP server operated on Smartsheet's
+    developer portal (Redocly-hosted). Its tools read the OpenAPI descriptions and
+    docs pages published at developers.smartsheet.com; they do NOT call the
+    Brandfolder v4 API and cannot create, read or modify a customer's assets. It
+    is recorded for Brandfolder because a `list-apis` call with filter
+    "brandfolder" returns exactly one API — "Brandfolder OpenAPI Reference",
+    v4, servers https://brandfolder.com/api/v4 — so the Brandfolder contract is
+    genuinely served by this endpoint.
+  covered_apis:
+    - Brandfolder OpenAPI Reference (v4)
+  not_covered: >
+    Asset/attachment/collection operations. There is no Brandfolder
+    operations MCP server. Smartsheet separately ships a Smartsheet-product MCP
+    server (developers.smartsheet.com/ai-mcp/smartsheet) whose documented tool
+    list contains zero Brandfolder tools.
+tools:
+  - name: list-apis
+    description: Lists available APIs with their context and purpose
+    input_schema_required: []
+    input_schema_properties: [filter, page, limit]
+  - name: get-endpoints
+    description: Get all endpoints for a specific API
+    input_schema_required: [name]
+    input_schema_properties: [name, version]
+  - name: get-endpoint-info
+    description: Get comprehensive information about specific endpoint including parameters, security, and examples
+    input_schema_required: [name, path, method]
+    input_schema_properties: [name, path, method, version]
+  - name: get-security-schemes
+    description: Get the security schemes for a specific API
+    input_schema_required: [name]
+    input_schema_properties: [name, version]
+  - name: get-full-api-description
+    description: Get the complete OpenAPI description
+    input_schema_required: [name]
+    input_schema_properties: [name, version]
+  - name: search
+    description: Search across the documentation to fetch relevant content for a given query
+    input_schema_required: [query]
+    input_schema_properties: [query]
+raw_tools_list: brandfolder-mcp-tools-list.json
+x-evidence:
+  fetched: '2026-08-13'
+  url: https://developers.smartsheet.com/mcp
+  method: 'POST {"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  http_status: 200
+  content_type: text/event-stream
+  authenticated: false
+  tools_returned: 6
+  verification_call: 'tools/call list-apis {"filter":"brandfolder"} -> 1 result, Brandfolder OpenAPI Reference v4'

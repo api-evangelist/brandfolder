@@ -1,0 +1,63 @@
+generated: '2026-08-13'
+method: searched
+source: https://developers.smartsheet.com/api/brandfolder/introduction
+versioning:
+  scheme: uri-path
+  current: v4
+  base: https://brandfolder.com/api/v4
+  other_live_versions:
+    - version: v1
+      base: https://brandfolder.com/api/v1
+      surface: webhooks
+      note: >
+        The three webhook paths are still served from v1 and the OpenAPI carries
+        path-level servers[] overrides saying so. This is not a deprecated
+        remnant the docs ask you to migrate off - it is the current documented
+        way to manage webhook subscriptions.
+  docs: https://developers.smartsheet.com/api/brandfolder/introduction
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  note: >
+    Brandfolder publishes no deprecation or sunset policy, no notice window, and
+    no RFC 8594 Sunset/Deprecation header support. The changelog carries no
+    deprecation entries. No Deprecation pointer is emitted.
+deprecated_operations: []
+deprecated_operation_count: 0
+changelog:
+  url: https://developers.smartsheet.com/api/brandfolder/changelog
+  see: changelog/brandfolder-changelog.yml
+sla:
+  url: null
+  uptime_target: null
+  note: >
+    No public SLA for the Brandfolder API. Availability commitments are contract
+    terms - both published plans are quote-only (plans/brandfolder-plans-pricing.yml).
+status_page: https://status.brandfolder.com/
+status_page_note: >
+  status.brandfolder.com serves the Smartsheet Status page (Statuspage-hosted,
+  regionalised North America / European Union / Australia / Gov). Probed 200 on
+  2026-08-13.
+support:
+  help_center: https://help.smartsheet.com/brandfolder
+  community: https://community.smartsheet.com/
+terms:
+  api_license: >
+    The API introduction states "By activating or using the Brandfolder API, you
+    acknowledge and agree to the API License Agreement found here" - but the
+    phrase "found here" is not a link on the published page, and no
+    Brandfolder API License Agreement document was reachable at
+    brandfolder.com/api-license-agreement (404) or
+    smartsheet.com/legal/api-license-agreement (404) on 2026-08-13. The governing
+    published terms are https://www.smartsheet.com/legal/user-agreement.
+x-evidence:
+  - url: https://status.brandfolder.com/
+    status: 200
+  - url: https://developers.smartsheet.com/api/brandfolder/changelog
+    status: 200
+  - url: https://brandfolder.com/api-license-agreement
+    status: 404
+  - url: https://www.smartsheet.com/legal/api-license-agreement
+    status: 404

@@ -1,0 +1,48 @@
+generated: '2026-08-13'
+method: searched
+source: https://developers.smartsheet.com/api/brandfolder/guides/additional-resources
+note: >
+  Brandfolder ships one embeddable client-side surface (the Panel UI) plus a
+  hosted CDN delivery surface. Both are distinct from the server-side SDKs in
+  packages/brandfolder-packages.yml.
+families:
+  - name: Panel UI
+    kind: embedded-iframe
+    description: >
+      The Panel UI SDK embeds Brandfolder's asset panel into a host application
+      via iframe, so end users can browse the DAM and upload content into it
+      without leaving the host app. Marketed as the integration path for
+      partner/customer applications.
+    loader:
+      registry: npm
+      package: "@brandfolder-panel/sdk"
+      url: https://www.npmjs.com/package/@brandfolder-panel/sdk
+      version: 0.9.33
+      published: '2024-12-17'
+      install: npm install @brandfolder-panel/sdk
+    status_note: Still pre-1.0; last published 2024-12-17.
+  - name: Smart CDN
+    kind: hosted-delivery
+    description: >
+      Assets are served from cdn.bfldr.com with query-string transforms applied
+      at the edge - the documented asset attribute `cdn_url` carries the form
+      https://cdn.bfldr.com/<org>/at/<key>/<file>?auto=webp&format=png. Embedding
+      a cdn_url is the supported way to place a governed asset on a web page
+      without proxying it through your own API.
+    host: cdn.bfldr.com
+    obtained_via:
+      - opIdApiV4BrandfoldersAssetsByBrandfolderIdGet (?fields=cdn_url)
+      - opIdApiV4AssetsByIdGet (?fields=cdn_url)
+    access_note: >
+      The OpenAPI records that CDN URLs for assets that are pending approval or
+      unpublished return 403/404 - availability state is enforced at the edge,
+      not only in the API.
+  - name: Sketch plugin
+    kind: design-tool-plugin
+    description: Brandfolder plugin for Sketch, published in the brandfolder GitHub org.
+    repository: https://github.com/brandfolder/sketch-plugin-brandfolder
+    note: Open-source repo; last pushed 2026-04-14. Not documented on the developer portal.
+not_found:
+  - web-components
+  - hosted checkout / prebuilt forms
+  - embedded analytics dashboard SDK

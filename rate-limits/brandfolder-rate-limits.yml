@@ -1,21 +1,57 @@
+generated: '2026-08-13'
+method: searched
+source: https://developers.smartsheet.com/api/brandfolder/error-codes
+url: https://developers.smartsheet.com/api/brandfolder/error-codes
 name: Brandfolder API Rate Limits
-description: Brandfolder does not publicly document specific API rate limits. The API uses Bearer token authentication and operates on a per-organization basis. Rate limiting details are typically shared during enterprise onboarding or via the developer support team.
-url: https://developers.smartsheet.com/api/brandfolder
-details:
-  - Brandfolder's API v4 does not publicly specify rate limit thresholds in their developer documentation
-  - Rate limits are expected to follow standard REST API practices with HTTP 429 (Too Many Requests) responses when exceeded
-  - API access is tied to organization and user-level API keys obtained from https://brandfolder.com/profile#integrations
-  - Enterprise customers may have custom rate limit agreements
-  - Webhook subscriptions for event-based callbacks do not count against standard API rate limits
+description: >
+  Brandfolder publishes NO rate limits. Every page of the developer portal was
+  read on 2026-08-13 - introduction, guides/basics (authentication, query
+  parameters), recipes, error codes, changelog, insights data connector - and the
+  only rate-limiting fact stated anywhere is that HTTP 429 means "You're sending
+  too many requests in a short period of time." No threshold, no window, no
+  scope, no burst allowance, no response headers, and no Retry-After. The
+  OpenAPI declares no 429 response on any of its 73 operations. An integrator
+  cannot size a workload against this API in advance, and an agent cannot read
+  its remaining budget at runtime.
+limit_count: 0
+limits: []
+exhaustion:
+  status: 429
+  documented_at: https://developers.smartsheet.com/api/brandfolder/error-codes
+  meaning: You're sending too many requests in a short period of time.
+  declared_in_openapi: false
 headers:
-  - name: Authorization
-    description: Bearer token required for all API requests; value is the API key from user profile
-    example: "Authorization: Bearer {BF_API_KEY}"
-  - name: Content-Type
-    description: Must be set to application/json for all requests
-    example: "Content-Type: application/json"
+  response: []
+  response_note: >
+    No RateLimit-Limit / RateLimit-Remaining / RateLimit-Reset, no
+    X-RateLimit-*, and no Retry-After are documented or declared in the spec.
+    Checked against the published OpenAPI - it defines no response headers at all.
+  request:
+    - name: Authorization
+      description: Bearer API key, required on every request.
+      example: 'Authorization: Bearer {BF_API_KEY}'
+    - name: Content-Type
+      description: application/json; declared a required header parameter on the webhook operations.
+      example: 'Content-Type: application/json'
+soft_limits_published:
+  - name: per (page size)
+    value: 3000
+    default: 100
+    scope: per request
+    source: https://developers.smartsheet.com/api/brandfolder/guides/basics/query-parameters
+    note: >
+      The only hard published number in the API. It caps records per response,
+      not requests per interval - it is a payload bound, not a rate limit, but it
+      is the only quantitative ceiling Brandfolder states.
+  - name: query-parameter cost warning
+    value: null
+    source: https://developers.smartsheet.com/api/brandfolder/guides/basics/query-parameters
+    note: >
+      The docs warn "Using these can slow down the API response time" for
+      fields/include/search - a qualitative performance caution with no number.
 recommendations:
-  - Implement exponential backoff on 429 responses
-  - Cache asset metadata where possible to reduce repeated API calls
-  - Use webhook subscriptions instead of polling for asset change detection
-  - Batch operations where the API supports bulk endpoints
+  - Implement exponential backoff on 429; there is no Retry-After to honour.
+  - Use per=3000 to reduce request count on large listings rather than paging at the 100 default.
+  - Subscribe to asset.create/update/delete webhooks instead of polling for change detection (asyncapi/brandfolder-webhooks.yml).
+  - Enterprise customers needing bulk reads should use the Insights Data Connector BigQuery export rather than the REST API.
+  - Negotiate any required throughput in the contract - it is not a published property of the product.

@@ -1,0 +1,86 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/brandfolder-openapi-original.yml
+enriched_from:
+  - https://developers.smartsheet.com/api/brandfolder/guides/basics/query-parameters
+  - https://developers.smartsheet.com/api/brandfolder/error-codes
+  - https://www.smartsheet.com/legal/security
+standards:
+  - id: openapi-3.0
+    conforms: true
+    evidence: 'openapi: 3.0.3 published at https://developers.smartsheet.com/_bundle/api/brandfolder/openapi.yaml; 45 paths, 73 operations, 32 component schemas'
+  - id: openapi-3.1
+    conforms: false
+    evidence: document declares 3.0.3
+  - id: rest
+    conforms: true
+    evidence: resource-oriented URI paths, GET/POST/PUT/DELETE (no PATCH - the error-codes page states these four are the only valid methods)
+  - id: json-api
+    conforms: false
+    evidence: >
+      Envelope is JSON:API-shaped (data / included / relationships / attributes,
+      type + id per resource) but the media type is application/json not
+      application/vnd.api+json, pagination is page/per rather than page[number]/
+      page[size], and errors are not JSON:API error objects. Flavoured, not conformant.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: 'the `default` error response schema is `type: string` ("Generic error payload") on 72 of 73 operations'
+  - id: oauth2
+    conforms: false
+    evidence: only securityScheme is APIToken (http bearer); no oauth2 flows declared and none documented
+  - id: oidc
+    conforms: false
+    evidence: no openIdConnect scheme; /.well-known/openid-configuration 404 on brandfolder.com
+  - id: http-bearer-auth
+    conforms: true
+    evidence: 'components.securitySchemes.APIToken type http scheme bearer, applied globally via security: [{APIToken: []}]'
+  - id: rfc9116-security-txt
+    conforms: partial
+    evidence: >
+      brandfolder.com/.well-known/security.txt returns 404; the applicable
+      document is on the parent host www.smartsheet.com/.well-known/security.txt
+      (200), and its Expires field reads 2026-07-01 - expired at probe time.
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: no Sunset/Deprecation header support documented; no deprecation policy published
+  - id: rfc9110-idempotency
+    conforms: false
+    evidence: no idempotency key documented; no Idempotency-Key parameter in the spec across 30 write operations
+  - id: rate-limit-headers
+    conforms: false
+    evidence: no RateLimit-* / X-RateLimit-* / Retry-After headers documented or declared; 429 documented in prose only
+  - id: pagination
+    conforms: true
+    evidence: 'documented page/per parameters with meta.total_count and a PaginationMetadataResponse schema (current_page, next_page, prev_page, total_pages, total_count)'
+  - id: webhooks
+    conforms: partial
+    evidence: >
+      Three event types (asset.create/update/delete) with a subscription API and
+      a test-delivery endpoint, but no payload signing, no retry policy and no
+      AsyncAPI document. See asyncapi/brandfolder-webhooks.yml.
+  - id: asyncapi
+    conforms: false
+    evidence: no AsyncAPI document published
+  - id: mcp
+    conforms: true
+    evidence: >
+      https://developers.smartsheet.com/mcp answers tools/list anonymously with
+      protocolVersion 2025-06-18 and 6 tools, and serves the Brandfolder v4
+      contract. Documentation plane only - see mcp/brandfolder-mcp.yml.
+  - id: a2a
+    conforms: false
+    evidence: /.well-known/agent-card.json and /.well-known/agent.json both 404 on brandfolder.com, developers.smartsheet.com and www.smartsheet.com
+  - id: graphql
+    conforms: false
+    evidence: no GraphQL surface published
+compliance_program:
+  published: true
+  url: https://www.smartsheet.com/legal/security
+  scope: >
+    Certifications are published by Smartsheet, the parent company, and cover the
+    Smartsheet platform including Brandfolder. Brandfolder does not publish a
+    separate trust page.
+  certifications:
+    - SOC 2
+    - HIPAA
+  see: security/brandfolder-trust-center.yml

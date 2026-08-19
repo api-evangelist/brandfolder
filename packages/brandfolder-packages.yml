@@ -1,0 +1,74 @@
+generated: '2026-08-13'
+method: searched
+source: https://developers.smartsheet.com/api/brandfolder/guides/additional-resources
+note: >
+  Brandfolder names three first-party client libraries on its "Additional resources"
+  docs page: a Python SDK, a PHP SDK, and the Panel UI SDK on npm. Versions and
+  publication dates below were read from each registry's metadata endpoint on
+  2026-08-13. Every one of the three last shipped in 2024 — the newest release in
+  the set is 8 months older than the API changelog's most recent entry
+  (Nov-24-2025), which is the clearest decay signal available for this provider.
+packages:
+  - language: python
+    registry: pypi
+    name: brandfolder
+    url: https://pypi.org/project/brandfolder/
+    install: pip install brandfolder
+    official: true
+    version: 2.0.0
+    published: '2024-12-20'
+    repository: https://github.com/brandfolder/brandfolder-sdk-python
+    license: MIT
+    note: >
+      PyPI metadata lists author "Brandfolder" / developers@brandfolder.com and
+      homepage github.com/brandfolder/brandfolder-sdk-python, so first-party is
+      established from the registry record itself, not only the docs link.
+      GitHub repo last pushed 2024-12-20.
+  - language: php
+    registry: packagist
+    name: brandfolder/brandfolder-sdk-php
+    url: https://packagist.org/packages/brandfolder/brandfolder-sdk-php
+    install: composer require brandfolder/brandfolder-sdk-php
+    official: true
+    version: 4.0.0-alpha
+    published: '2024-08-13'
+    repository: https://github.com/brandfolder/brandfolder-sdk-php
+    note: >
+      Latest published release is a pre-release (4.0.0-alpha, 2024-08-13); the
+      newest stable is 3.0.2 (2023-12-21). Packagist source now resolves to
+      github.com/orientier/brandfolder-sdk-php while the docs page and the
+      brandfolder GitHub org still carry brandfolder/brandfolder-sdk-php — the
+      GitHub repo under the brandfolder org last pushed 2024-01-10.
+  - language: javascript
+    registry: npm
+    name: "@brandfolder-panel/sdk"
+    url: https://www.npmjs.com/package/@brandfolder-panel/sdk
+    install: npm install @brandfolder-panel/sdk
+    official: true
+    version: 0.9.33
+    published: '2024-12-17'
+    note: >
+      Panel UI SDK — embeds the Brandfolder upload/browse panel into a host
+      application via iframe. Still pre-1.0 after four years. See
+      components/brandfolder-components.yml for the component surface.
+absent:
+  - registry: maven-central
+    checked: '2026-08-13'
+    version: null
+    note: No first-party Brandfolder Java artifact found.
+  - registry: nuget
+    checked: '2026-08-13'
+    version: null
+    note: No first-party Brandfolder .NET package found.
+  - registry: rubygems
+    checked: '2026-08-13'
+    version: null
+    note: No first-party Brandfolder Ruby gem found.
+  - registry: crates.io
+    checked: '2026-08-13'
+    version: null
+    note: No first-party Brandfolder Rust crate found.
+  - registry: pkg.go.dev
+    checked: '2026-08-13'
+    version: null
+    note: No first-party Brandfolder Go module found.

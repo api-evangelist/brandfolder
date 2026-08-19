@@ -1,0 +1,100 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Brandfolder API
+  version: 1.0.0
+extends: openapi/brandfolder-openapi-original.yml
+x-generated: '2026-08-13'
+x-method: generated
+x-source: >
+  Enhancements derived from the provider's own published documentation
+  (developers.smartsheet.com/api/brandfolder) and from live probes recorded in
+  this repo. The harvested spec is never mutated; everything here is additive.
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-enriched: '2026-08-13'
+      x-apievangelist-repo: https://github.com/api-evangelist/brandfolder
+      contact:
+        name: Brandfolder Developer Documentation
+        url: https://developers.smartsheet.com/api/brandfolder
+      x-parent-company: Smartsheet (acquired Brandfolder, August 2020)
+      x-operation-count: 73
+      x-path-count: 45
+
+  - target: $.info
+    update:
+      x-agent-notes:
+        idempotency: >
+          Not supported. No Idempotency-Key parameter exists on any of the 30
+          write operations and none is documented. Retrying a POST creates a
+          duplicate resource.
+        errors: >
+          Not RFC 9457. The `default` response schema is `type: string` on 72 of
+          73 operations. Branch on HTTP status, not on the error body.
+          403 (not 404) is returned for deleted resources.
+        rate_limits: >
+          None published. 429 is documented on the error-codes page but declares
+          no threshold, and the API returns no RateLimit-*/Retry-After headers.
+        pagination: >
+          page/per with meta.total_count. Default per=100, maximum per=3000.
+          No cursor and no next-page link.
+        version_split: >
+          The three webhook operations run on https://brandfolder.com/api/v1
+          while everything else is v4. Path-level servers[] overrides carry this.
+
+  - target: $.info
+    update:
+      x-artifacts:
+        conventions: conventions/brandfolder-conventions.yml
+        errors: errors/brandfolder-problem-types.yml
+        authentication: authentication/brandfolder-authentication.yml
+        data_model: data-model/brandfolder-data-model.yml
+        lifecycle: lifecycle/brandfolder-lifecycle.yml
+        rate_limits: rate-limits/brandfolder-rate-limits.yml
+        webhooks: asyncapi/brandfolder-webhooks.yml
+        packages: packages/brandfolder-packages.yml
+        mcp: mcp/brandfolder-mcp.yml
+        skills: skills/_index.yml
+
+  - target: $.tags[?(@.name=='binary_upload')]
+    update:
+      x-flow-order:
+        - opIdStorageserviceUploadRequestsGet
+        - opIdStorageserviceBfUploadRequestBucketPut
+        - create asset/attachment referencing the returned URL
+      x-note: >
+        Files must be reachable at a public URL before they can be imported as
+        an Attachment. The upload_requests/upload_url pair provides Brandfolder's
+        temporary storage bucket for that purpose.
+
+  - target: $.tags[?(@.name=='webhooks')]
+    update:
+      x-server-override: https://brandfolder.com/api/v1
+      x-event-types:
+        - asset.create
+        - asset.update
+        - asset.delete
+      x-subscription-scope: brandfolder
+      x-signing: >
+        None published. Brandfolder documents no webhook payload signature or
+        shared secret, so a receiver cannot verify delivery origin.
+      x-test-endpoint: opIdApiV4WebhooksSendPost
+
+  - target: $.components.securitySchemes.APIToken
+    update:
+      x-key-source: https://brandfolder.com/profile#integrations
+      x-scopes: none
+      x-authorization-model: >
+        The key inherits the issuing user's permissions verbatim. Least privilege
+        is achieved by creating a restricted user, not by restricting the token.
+
+  - target: $.paths./brandfolders/{brandfolder_id}/assets.get
+    update:
+      x-common-query-parameters:
+        fields: comma-separated non-default attributes, e.g. cdn_url,updated_at
+        include: comma-separated related types, e.g. brandfolder,section,attachments
+        search: Brandfolder UI search syntax, URL-encoded, e.g. extension:png
+        sort_by: name | score | position | updated_at | created_at
+        order: ASC | DESC (must accompany sort_by)
+        page: 1-based
+        per: default 100, maximum 3000

@@ -1,0 +1,54 @@
+generated: '2026-08-13'
+method: searched
+source: openapi/brandfolder-openapi-original.yml
+docs: https://developers.smartsheet.com/api/brandfolder/guides/basics/authentication
+summary:
+  types:
+  - http
+  http_schemes:
+  - bearer
+  oauth2_flows: []
+  api_key_in: []
+schemes:
+- name: APIToken
+  type: http
+  scheme: bearer
+  description: API Token.
+  applied: global
+  sources:
+  - openapi/brandfolder-openapi-original.yml
+model:
+  credential: personal API key (per user)
+  header: 'Authorization: Bearer {BF_API_KEY}'
+  issuance: >
+    Self-service from the signed-in user profile at
+    https://brandfolder.com/profile#integrations - copy the key from the
+    Integrations tab. Requires a Brandfolder account, which requires a sales
+    contract (plans/brandfolder-plans-pricing.yml).
+  authorization: >
+    There are no scopes. The key inherits the issuing user's permissions
+    verbatim: "Each response to your API calls will only include the resources
+    that you (or the User whose API key your application is using) can access
+    based on your permissions." Least-privilege is achieved by creating a
+    restricted user, not by restricting the token.
+  rotation: null
+  expiry: null
+  multiple_keys: null
+  service_accounts: null
+oauth2: false
+oauth2_note: >
+  Brandfolder publishes no OAuth 2.0 authorization server for the v4 API.
+  /.well-known/oauth-authorization-server 404s on brandfolder.com. The 200 on
+  developers.smartsheet.com is the docs platform's own OAuth (issuer
+  auth.cloud.redocly.com) governing the portal MCP - it does not issue tokens
+  for the Brandfolder API. No scopes/ artifact is emitted for this provider.
+gaps:
+  - No scopes or permission grants on the credential itself.
+  - No documented key rotation, expiry or revocation procedure.
+  - No machine-to-machine / service-account credential distinct from a human user key.
+  - Keys are long-lived bearer strings; compromise grants the full permission set of the issuing user.
+x-evidence:
+  - url: https://developers.smartsheet.com/api/brandfolder/guides/basics/authentication
+    status: 200
+  - url: https://brandfolder.com/.well-known/oauth-authorization-server
+    status: 404

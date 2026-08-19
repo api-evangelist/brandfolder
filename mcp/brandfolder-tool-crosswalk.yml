@@ -1,0 +1,180 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/brandfolder-openapi-original.yml + mcp/brandfolder-mcp.yml (live tools/list)
+note: >
+  The crosswalk for Brandfolder is a NEGATIVE result, and that is the finding.
+  The only reachable MCP server carrying the Brandfolder contract
+  (https://developers.smartsheet.com/mcp) operates on the documentation plane:
+  its six tools read OpenAPI descriptions and docs pages. Not one of them binds
+  to a Brandfolder v4 REST operation, so crosswalk[] is empty by measurement,
+  not by omission. All 73 published operations are rest_only: an agent can be
+  told ABOUT the Brandfolder API through MCP, but cannot act on assets through
+  it. Nothing here is inferred - the tool list was read live and unauthenticated.
+surfaces:
+  openapi:
+    file: openapi/brandfolder-openapi-original.yml
+    server: https://brandfolder.com/api/v4
+    operations: 73
+    gated: false
+    note: OpenAPI 3.0.3 published at https://developers.smartsheet.com/_bundle/api/brandfolder/openapi.yaml
+  mcp:
+    url: https://developers.smartsheet.com/mcp
+    tools: 6
+    gated: false
+    note: tools/list returned 200 anonymously; documentation plane only
+  graphql:
+    present: false
+    note: Brandfolder publishes no GraphQL surface.
+crosswalk: []
+mcp_only:
+  - tool: list-apis
+    reason: >
+      Enumerates APIs described on the Smartsheet developer portal. No Brandfolder v4 REST equivalent - the portal has no self-describing catalog endpoint.
+  - tool: get-endpoints
+    reason: >
+      Returns the endpoint list for a named portal API. Reads the OpenAPI document, not the running Brandfolder API.
+  - tool: get-endpoint-info
+    reason: >
+      Returns parameters, security and examples for one documented endpoint. A spec reader, not a call.
+  - tool: get-security-schemes
+    reason: >
+      Returns the securitySchemes block of a documented API. For Brandfolder that is the single APIToken bearer scheme.
+  - tool: get-full-api-description
+    reason: >
+      Returns the complete OpenAPI description - this is how an agent obtains the Brandfolder v4 contract through MCP.
+  - tool: search
+    reason: >
+      Full-text search over the developer portal documentation, including the Brandfolder guides, recipes, error codes and changelog.
+rest_only:
+  - capability: brandfolders
+    description: Brandfolder container CRUD
+    count: 5
+    operations:
+      - list-brandfolders
+      - opIdApiV4BrandfoldersByIdGet
+      - opIdApiV4BrandfoldersByIdPut
+      - opIdApiV4OganizationsBrandfoldersByOrganizationIdPost
+      - opIdApiV4BrandfoldersTagsByBrandfolderIdGet
+  - capability: collections
+    description: Collections within a Brandfolder
+    count: 7
+    operations:
+      - opIdApiV4BrandfoldersCollectionsByBrandfolderIdGet
+      - opIdApiV4BrandfoldersCollectionsByBrandfolderIdPost
+      - opIdApiV4CollectionsGet
+      - opIdApiV4CollectionsByIdGet
+      - opIdApiV4CollectionsByIdPut
+      - opIdApiV4CollectionsByIdDelete
+      - opIdApiV4CollectionsTagsByCollectionIdGet
+  - capability: custom_fields
+    description: Custom field keys and values
+    count: 8
+    operations:
+      - opIdApiV4BrandfoldersCustomFieldKeysByBrandfolderIdGet
+      - opIdApiV4BrandfoldersCustomFieldKeysByBrandfolderIdPost
+      - opIdApiV4AssetsCustomFieldValuesByAssetIdGet
+      - opIdApiV4CustomFieldKeysCustomFieldValuesByCustomFieldKeyIdPost
+      - opIdApiV4CustomFieldKeysByIdPut
+      - opIdApiV4CustomFieldKeysByIdDelete
+      - opIdApiV4CustomFieldValuesByIdPut
+      - opIdApiV4CustomFieldValuesByIdDelete
+  - capability: organizations
+    description: Organization read + Brandfolder creation
+    count: 2
+    operations:
+      - opIdApiV4OrganizationsGet
+      - opIdApiV4OrganizationsByIdGet
+  - capability: assets
+    description: Asset CRUD, listing and search
+    count: 10
+    operations:
+      - opIdApiV4CollectionsAssetsByCollectionIdGet
+      - opIdApiV4CollectionsAssetsByCollectionIdPost
+      - opIdApiV4SectionsAssetsBySectionIdGet
+      - opIdApiV4BrandfoldersAssetsByBrandfolderIdGet
+      - opIdApiV4CollectionsAssetsByBrandfolderIdPost
+      - opIdApiV4AssetsByIdGet
+      - opIdApiV4AssetsByIdPut
+      - opIdApiV4AssetsByIdDelete
+      - opIdApiV4AssetsTagsByAssetIdGet
+      - opIdApiV4LabelsAssetsByLabelIdGet
+  - capability: sections
+    description: Sections within a Brandfolder
+    count: 3
+    operations:
+      - opIdApiV4SectionsGet
+      - opIdApiV4BrandfoldersSectionsByBrandfolderIdPost
+      - opIdApiV4SectionsByIdGet
+  - capability: tags
+    description: Asset tagging
+    count: 3
+    operations:
+      - opIdApiV4AssetsTagsByAssetIdPost
+      - opIdApiV4TagsByIdPut
+      - opIdApiV4AsyncTagsAssetsByAssetKeyDelete
+  - capability: attachments
+    description: Attachment (file) CRUD
+    count: 3
+    operations:
+      - opIdApiV4AttachmentsByIdGet
+      - opIdApiV4AttachmentsByIdPut
+      - opIdApiV4AttachmentsByIdDelete
+  - capability: labels
+    description: Label tree CRUD and moves
+    count: 6
+    operations:
+      - opIdApiV4OrganizationsLabelsByBrandfolderIdGet
+      - opIdApiV4CollectionsLabelsByBrandfolderIdPost
+      - opIdApiV4LabelsByIdGet
+      - opIdApiV4UpdateLabelPut
+      - opIdApiV4LabelsByIdDelete
+      - opIdApiV4MoveLabelPut
+  - capability: invitations
+    description: Invitations across organizations, Brandfolders, collections, portals and Brandguides
+    count: 12
+    operations:
+      - opIdApiV4BrandfoldersInvitationsByBrandfolderIdGet
+      - opIdApiV4BrandfoldersInvitationsByBrandfolderIdPost
+      - opIdApiV4OrganizationsInvitationsByOrganizationIdGet
+      - opIdApiV4OrganizationsInvitationsByOrganizationIdPost
+      - opIdApiV4CollectionsInvitationsByCollectionIdGet
+      - opIdApiV4CollectionsInvitationsByCollectionIdPost
+      - opIdApiV4PortalsInvitationsByPortalIdGet
+      - opIdApiV4PortalsInvitationsByPortalIdPost
+      - opIdApiV4BrandguidesInvitationsByBrandguideIdGet
+      - opIdApiV4BrandguidesInvitationsByBrandguideIdPost
+      - opIdApiV4InvitationsByIdGet
+      - opIdApiV4InvitationsByIdDelete
+  - capability: user_permissions
+    description: User permission listing and revocation
+    count: 5
+    operations:
+      - opIdApiV4OrganizationsUserPermissionsByOrganizationIdGet
+      - opIdApiV4BrandfoldersUserPermissionsByBrandfolderIdGet
+      - opIdApiV4CollectionsUserPermissionsByCollectionIdGet
+      - opIdApiV4UserPermissionsByIdGet
+      - opIdApiV4UserPermissionsByIdDelete
+  - capability: webhooks
+    description: Webhook subscription lifecycle and test delivery
+    count: 5
+    operations:
+      - opIdApiV4WebhooksSendPost
+      - opIdApiV4WebhooksGet
+      - opIdApiV4WebhooksPost
+      - opIdApiV4WebhooksByIdGet
+      - opIdApiV4WebhooksByIdDelete
+  - capability: binary_upload
+    description: Direct and resumable binary upload to temporary storage
+    count: 4
+    operations:
+      - opIdStorageserviceUploadRequestsGet
+      - opIdStorageserviceBfUploadRequestBucketPut
+      - opIdStorageserviceBfUploadRequestPost
+      - opIdStorageserviceBfUploadRequestPut
+coverage:
+  mcp_tools_named: 6
+  mcp_tools_bound_to_rest: 0
+  mcp_only: 6
+  rest_operations_total: 73
+  rest_operations_with_a_tool: 0
+  binding_rate: 0.0

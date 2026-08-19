@@ -1,0 +1,78 @@
+generated: '2026-08-13'
+method: generated
+source: openapi/brandfolder-openapi-original.yml + https://developers.smartsheet.com/api/brandfolder
+note: >
+  Five packaged Agent Skills covering the marquee flows of the Brandfolder v4
+  API. Every operationId referenced in these skills was verified to exist
+  verbatim in openapi/brandfolder-openapi-original.yml. Each skill carries the
+  cross-cutting rules captured in conventions/, errors/ and
+  rate-limits/ - in particular that this API has no idempotency contract, no
+  published rate limits and no structured error body, all of which change how an
+  agent must behave.
+skills:
+  - file: brandfolder-find-assets.md
+    name: Find assets in Brandfolder
+    api: openapi/brandfolder-openapi-original.yml
+    operations:
+      - list-brandfolders
+      - opIdApiV4SectionsGet
+      - opIdApiV4BrandfoldersAssetsByBrandfolderIdGet
+      - opIdApiV4CollectionsGet
+      - opIdApiV4CollectionsAssetsByCollectionIdGet
+      - opIdApiV4SectionsAssetsBySectionIdGet
+      - opIdApiV4LabelsAssetsByLabelIdGet
+      - opIdApiV4AssetsByIdGet
+  - file: brandfolder-upload-asset.md
+    name: Upload a file into Brandfolder
+    api: openapi/brandfolder-openapi-original.yml
+    operations:
+      - opIdStorageserviceUploadRequestsGet
+      - opIdStorageserviceBfUploadRequestBucketPut
+      - opIdStorageserviceBfUploadRequestPost
+      - opIdStorageserviceBfUploadRequestPut
+      - opIdApiV4CollectionsAssetsByBrandfolderIdPost
+      - opIdApiV4CollectionsAssetsByCollectionIdPost
+      - opIdApiV4AttachmentsByIdGet
+  - file: brandfolder-tag-and-classify.md
+    name: Tag and classify Brandfolder assets
+    api: openapi/brandfolder-openapi-original.yml
+    operations:
+      - opIdApiV4BrandfoldersCustomFieldKeysByBrandfolderIdGet
+      - opIdApiV4BrandfoldersCustomFieldKeysByBrandfolderIdPost
+      - opIdApiV4CustomFieldKeysCustomFieldValuesByCustomFieldKeyIdPost
+      - opIdApiV4AssetsCustomFieldValuesByAssetIdGet
+      - opIdApiV4CustomFieldValuesByIdPut
+      - opIdApiV4AssetsTagsByAssetIdGet
+      - opIdApiV4AssetsTagsByAssetIdPost
+      - opIdApiV4BrandfoldersTagsByBrandfolderIdGet
+      - opIdApiV4TagsByIdPut
+      - opIdApiV4AsyncTagsAssetsByAssetKeyDelete
+      - opIdApiV4OrganizationsLabelsByBrandfolderIdGet
+      - opIdApiV4MoveLabelPut
+  - file: brandfolder-subscribe-to-asset-events.md
+    name: Subscribe to Brandfolder asset events
+    api: openapi/brandfolder-openapi-original.yml
+    operations:
+      - opIdApiV4WebhooksSendPost
+      - opIdApiV4WebhooksPost
+      - opIdApiV4WebhooksGet
+      - opIdApiV4WebhooksByIdGet
+      - opIdApiV4WebhooksByIdDelete
+  - file: brandfolder-manage-access.md
+    name: Grant and audit Brandfolder access
+    api: openapi/brandfolder-openapi-original.yml
+    operations:
+      - opIdApiV4OrganizationsGet
+      - opIdApiV4OrganizationsInvitationsByOrganizationIdGet
+      - opIdApiV4OrganizationsInvitationsByOrganizationIdPost
+      - opIdApiV4BrandfoldersInvitationsByBrandfolderIdGet
+      - opIdApiV4BrandfoldersInvitationsByBrandfolderIdPost
+      - opIdApiV4CollectionsInvitationsByCollectionIdGet
+      - opIdApiV4CollectionsInvitationsByCollectionIdPost
+      - opIdApiV4InvitationsByIdGet
+      - opIdApiV4InvitationsByIdDelete
+      - opIdApiV4OrganizationsUserPermissionsByOrganizationIdGet
+      - opIdApiV4BrandfoldersUserPermissionsByBrandfolderIdGet
+      - opIdApiV4CollectionsUserPermissionsByCollectionIdGet
+      - opIdApiV4UserPermissionsByIdGet
+      - opIdApiV4UserPermissionsByIdDelete
