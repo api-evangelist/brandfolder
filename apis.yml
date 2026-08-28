@@ -1,6 +1,18 @@
 aid: brandfolder
 name: Brandfolder
 description: Brandfolder is a digital asset management (DAM) platform and Smartsheet company that provides a RESTful API for managing brand assets, collections, sections, tags, share links, webhooks, and asset distribution permissions. The API enables organizations to push Brandfolder content to other applications, pull data from external sources, and synchronize Brandfolder with other platforms.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: approval
