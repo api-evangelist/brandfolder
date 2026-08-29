@@ -476,6 +476,9 @@ apis:
   - type: DataModel
     url: data-model/brandfolder-data-model.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/brandfolder-capability-edges.yml
+    name: Brandfolder Business Capability Map
   - type: Overlay
     url: overlays/brandfolder-openapi-original-overlay.yaml
   - type: MCPServer

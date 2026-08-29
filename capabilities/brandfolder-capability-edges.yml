@@ -1,0 +1,66 @@
+slug: brandfolder
+provider: Brandfolder
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Media, Entertainment & Telecom Content
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 5
+edges:
+- tag: assets
+  spec_file: brandfolder-assets-api-openapi.yml
+  capability_id: BC-3710
+  capability_id_l1: BC-3710
+  capability_name: Media Asset Management
+  confidence: 0.8
+  evidence: '"List assets in a Brandfolder", "Create assets in a collection", "List tags for an asset"
+    — vendor is "a digital asset management (DAM) platform"'
+  reason: 'Core DAM asset lifecycle: create, fetch, update, delete assets and their tags across collections/sections/labels.
+    Clearly media asset management; spans cataloguing and storage so no single L2 chosen.'
+- tag: user_permissions
+  spec_file: brandfolder-user-permissions-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.72
+  evidence: '"List user permissions for an organization", "Fetch a user permission", "Delete a user permission",
+    schemas UserPermissionToCollection, UserPermissionToBrandfolder'
+  reason: The operations enumerate and revoke per-user permission grants against organizations, Brandfolders
+    and collections — access rights administration, which is Identity & Access Management. Not a content
+    capability despite the DAM context.
+- tag: attachments
+  spec_file: brandfolder-attachments-api-openapi.yml
+  capability_id: BC-3710
+  capability_id_l1: BC-3710
+  capability_name: Media Asset Management
+  confidence: 0.7
+  evidence: '"Fetch an attachment", "Update an attachment", "Delete an attachment" with schema "AttachmentAttributes"'
+  reason: Attachments are the underlying files of DAM assets, so this is media asset stewardship. Thin
+    operation set (three CRUD calls) so L2 not determinable and confidence moderate.
+- tag: custom_fields
+  spec_file: brandfolder-custom-fields-api-openapi.yml
+  capability_id: BC-3710.20
+  capability_id_l1: BC-3710
+  capability_name: Metadata Cataloguing
+  confidence: 0.7
+  evidence: '"Create custom field keys", "Create custom field values for an asset", schemas CustomFieldKey,
+    CustomFieldValueAttributes'
+  reason: Custom field keys and per-asset values are user-defined descriptive metadata attached to digital
+    assets, which is metadata cataloguing that makes assets discoverable. Grounded directly in the operation
+    summaries.
+- tag: tags
+  spec_file: brandfolder-tags-api-openapi.yml
+  capability_id: BC-3710.20
+  capability_id_l1: BC-3710
+  capability_name: Metadata Cataloguing
+  confidence: 0.7
+  evidence: '"List tags for an asset", "Create tags for an asset", "Update a tag"'
+  reason: Tags here are descriptive keywords authored and curated against digital assets to make them
+    findable — metadata cataloguing in a DAM, not any other sense of 'tag'. Operations are explicitly
+    asset-scoped.
