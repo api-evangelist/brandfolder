@@ -1,0 +1,982 @@
+openapi: 3.2.0
+info:
+  title: Brandfolder OpenAPI Reference Invitations API
+  version: v4
+  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
+
+    '
+servers:
+- url: https://brandfolder.com/api/v4
+security:
+- APIToken: []
+tags:
+- name: invitations
+  x-displayName: Invitations
+  description: 'Invitations are exactly what they sound like and can be created to invite Users to join your Organization, Brandfolder, or Collection as a `guest`, `collaborator`, `admin`, or (when inviting someone to an Organization) `owner`.
+
+
+    Learn more about the permission levels you can grant Users in our Knowledge Base article on <a href="https://help.smartsheet.com/115002602273-User-Permissions" target="_blank">User Permissions</a>.
+
+    '
+paths:
+  /brandfolders/{brandfolder_id}/invitations:
+    parameters:
+    - name: brandfolder_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgiju-21olts-ce9egi
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4BrandfoldersInvitationsByBrandfolderIdGet
+      summary: List invitations to a Brandfolder
+      description: 'Lists invitations to the matching Brandfolder.
+
+        '
+      tags:
+      - invitations
+      parameters:
+      - in: query
+        name: fields
+        description: 'Set it to `created_at` to return it as part of the invitation''s
+
+          attributes in the response.
+
+
+          Allowed value: `created_at`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: created_at
+      - in: query
+        name: include
+        description: 'Set it to a comma-separated list (no spaces) of any of the following
+
+          record names to return those records related to the invitations you''re
+
+          fetching. Related records are returned in an `included` array in the
+
+          response.
+
+
+          Allowed values:
+
+
+          - `inviter`
+
+          - `inviteable`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: inviter
+      responses:
+        '200':
+          description: 'Invitations to the matching Brandfolder.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Invitation'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: opIdApiV4BrandfoldersInvitationsByBrandfolderIdPost
+      summary: Create an invitation to a Brandfolder
+      description: 'Creates an invitation to the matching Brandfolder.
+
+        '
+      tags:
+      - invitations
+      requestBody:
+        description: An invitation to the Brandfolder.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvitationCreationRequest'
+      responses:
+        '200':
+          description: 'The new invitation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      attributes:
+                        $ref: '#/components/schemas/Invitation'
+                  meta:
+                    type: object
+                    properties:
+                      auto_accepted:
+                        type: boolean
+                        example: false
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /organizations/{organization_id}/invitations:
+    parameters:
+    - name: organization_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-cocc75
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4OrganizationsInvitationsByOrganizationIdGet
+      summary: List invitations to an organization
+      description: 'Lists invitations to the matching organization.
+
+        '
+      tags:
+      - invitations
+      parameters:
+      - in: query
+        name: fields
+        description: 'Set it to `created_at` to return it as part of the invitation''s
+
+          attributes in the response.
+
+
+          Allowed value: `created_at`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: created_at
+      - in: query
+        name: include
+        description: 'Set it to a comma-separated list (no spaces) of any of the following
+
+          record names to return those records related to the invitations you''re
+
+          fetching. Related records are returned in an `included` array in the
+
+          response.
+
+
+          Allowed values:
+
+
+          - `inviter`
+
+          - `inviteable`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: inviter
+      responses:
+        '200':
+          description: 'Invitations to the matching organization.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Invitation'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: opIdApiV4OrganizationsInvitationsByOrganizationIdPost
+      summary: Create an invitation to an organization
+      description: 'Creates an invitation to the matching organization.
+
+        '
+      tags:
+      - invitations
+      requestBody:
+        description: An invitation to the organization.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvitationCreationRequest'
+      responses:
+        '200':
+          description: 'The new invitation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      attributes:
+                        $ref: '#/components/schemas/Invitation'
+                  meta:
+                    type: object
+                    properties:
+                      auto_accepted:
+                        type: boolean
+                        example: false
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /collections/{collection_id}/invitations:
+    parameters:
+    - name: collection_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgiju-21olts-ce9egi
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4CollectionsInvitationsByCollectionIdGet
+      summary: List invitations to a collection
+      description: 'Lists invitations to the matching collection.
+
+        '
+      tags:
+      - invitations
+      parameters:
+      - in: query
+        name: fields
+        description: 'Set it to `created_at` to return it as part of the invitation''s
+
+          attributes in the response.
+
+
+          Allowed value: `created_at`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: created_at
+      - in: query
+        name: include
+        description: 'Set it to a comma-separated list (no spaces) of any of the following
+
+          record names to return those records related to the invitations you''re
+
+          fetching. Related records are returned in an `included` array in the
+
+          response.
+
+
+          Allowed values:
+
+
+          - `inviter`
+
+          - `inviteable`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: inviter
+      responses:
+        '200':
+          description: 'Invitations to the matching collection.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Invitation'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: opIdApiV4CollectionsInvitationsByCollectionIdPost
+      summary: Create an invitation to a collection
+      description: 'Creates an invitation to the matching collection.
+
+        '
+      tags:
+      - invitations
+      requestBody:
+        description: An invitation to the collection.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvitationCreationRequest'
+      responses:
+        '200':
+          description: 'The new invitation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      attributes:
+                        $ref: '#/components/schemas/Invitation'
+                  meta:
+                    type: object
+                    properties:
+                      auto_accepted:
+                        type: boolean
+                        example: false
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /portals/{portal_id}/invitations:
+    parameters:
+    - name: portal_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgiju-21olts-ce9egi
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4PortalsInvitationsByPortalIdGet
+      summary: List invitations to a portal
+      description: 'Lists invitations to the matching portal.
+
+
+        > **Important:** You can get the portal ID in the response from **Fetch an
+
+        organization**.
+
+        '
+      tags:
+      - invitations
+      parameters:
+      - in: query
+        name: fields
+        description: 'Set it to `created_at` to return it as part of the invitation''s
+
+          attributes in the response.
+
+
+          Allowed value: `created_at`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: created_at
+      - in: query
+        name: include
+        description: 'Set it to a comma-separated list (no spaces) of any of the following
+
+          record names to return those records related to the invitations you''re
+
+          fetching. Related records are returned in an `included` array in the
+
+          response.
+
+
+          Allowed values:
+
+
+          - `inviter`
+
+          - `inviteable`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: inviter
+      responses:
+        '200':
+          description: 'Invitations to the matching portal.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Invitation'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: opIdApiV4PortalsInvitationsByPortalIdPost
+      summary: Create an invitation to a portal
+      description: 'Creates an invitation to the matching portal.
+
+        '
+      tags:
+      - invitations
+      requestBody:
+        description: An invitation to the portal.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvitationCreationRequest'
+      responses:
+        '200':
+          description: 'The new invitation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      attributes:
+                        $ref: '#/components/schemas/Invitation'
+                  meta:
+                    type: object
+                    properties:
+                      auto_accepted:
+                        type: boolean
+                        example: false
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /brandguides/{brandguide_id}/invitations:
+    parameters:
+    - name: brandguide_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgiju-21olts-ce9egi
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4BrandguidesInvitationsByBrandguideIdGet
+      summary: List invitations to a Brandguide
+      description: 'Lists invitations to the matching Brandguide.
+
+
+        > **Important:** You can get the Brandguide ID in the response from **Fetch
+
+        an organization**.
+
+        '
+      tags:
+      - invitations
+      parameters:
+      - in: query
+        name: fields
+        description: 'Set it to `created_at` to return it as part of the invitation''s
+
+          attributes in the response.
+
+
+          Allowed value: `created_at`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: created_at
+      - in: query
+        name: include
+        description: 'Set it to a comma-separated list (no spaces) of any of the following
+
+          record names to return those records related to the invitations you''re
+
+          fetching. Related records are returned in an `included` array in the
+
+          response.
+
+
+          Allowed values:
+
+
+          - `inviter`
+
+          - `inviteable`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: inviter
+      responses:
+        '200':
+          description: 'Invitations to the matching Brandguide.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Invitation'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: opIdApiV4BrandguidesInvitationsByBrandguideIdPost
+      summary: Create an invitation to a Brandguide
+      description: 'Creates an invitation to the matching Brandguide.
+
+        '
+      tags:
+      - invitations
+      requestBody:
+        description: An invitation to the Brandguide.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvitationCreationRequest'
+      responses:
+        '200':
+          description: 'The new invitation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      attributes:
+                        $ref: '#/components/schemas/Invitation'
+                  meta:
+                    type: object
+                    properties:
+                      auto_accepted:
+                        type: boolean
+                        example: false
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /invitations/{invitation_id}:
+    parameters:
+    - name: invitation_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: a3dlao-hd6so4-7d91d2
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4InvitationsByIdGet
+      summary: Fetch an invitation
+      description: 'Gets a matching invitation.
+
+        '
+      tags:
+      - invitations
+      parameters:
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      - in: query
+        name: fields
+        description: 'Set it to `created_at` to return it as part of the invitation''s
+
+          attributes in the response.
+
+
+          Allowed value: `created_at`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: created_at
+      - in: query
+        name: include
+        description: 'Set it to `inviteable` to include the Brandfolder, Collection, or
+
+          Organization that this Invitation is for.
+
+
+          Allowed value: `inviteable`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: inviteable
+      responses:
+        '200':
+          description: 'The matching invitation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Invitation'
+                required:
+                - data
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: opIdApiV4InvitationsByIdDelete
+      summary: Delete an invitation
+      description: 'Deletes the matching invitation.
+
+        '
+      tags:
+      - invitations
+      responses:
+        '200':
+          description: 'Successful response (always an empty object)
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
+    Invitation:
+      title: Invitation
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: a3dlao-hd6so4-7d91d2
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - invitations
+        attributes:
+          $ref: '#/components/schemas/InvitationAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    InvitationAttributes:
+      title: Invitation attributes
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email address of the recipient.
+          example: test@example.com
+        permission_level:
+          type: string
+          description: Access to grant the recipient.
+          example: guest
+        personal_message:
+          type: string
+          description: A message for the recipient.
+          example: Welcome to my Brandfolder!
+        invitation_url:
+          type: string
+          description: The invitation's URL.
+          example: https://brandfolder.com/invitations/abc123
+      required:
+      - email
+    InvitationCreationRequest:
+      title: Invitation creation request
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            attributes:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Email address of invitee.
+                  example: test@example.com
+                permission_level:
+                  type: string
+                  description: 'Access to grant invitee.
+
+
+                    > **Note:** `owner` is only valid when inviting someone to an Organization.
+
+
+                    Learn more about the permission levels you can grant Users in our Knowledge Base article on <a href="https://help.smartsheet.com/115002602273-User-Permissions" target="_blank">User Permissions</a>.
+
+                    '
+                  enum:
+                  - guest
+                  - collaborator
+                  - admin
+                  - owner
+                  example: guest
+                personal_message:
+                  type: string
+                  description: A message for invitee.
+                  example: Welcome to my Brandfolder!
+                prevent_email:
+                  type: boolean
+                  description: Set this to `true` to skip sending an invitation email to the invitee.
+                  default: false
+              required:
+              - email
+              - permission_level
+          required:
+          - attributes
+      required:
+      - data
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
+  securitySchemes:
+    APIToken:
+      scheme: bearer
+      type: http
+      description: API Token.

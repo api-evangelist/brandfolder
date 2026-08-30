@@ -1,0 +1,471 @@
+openapi: 3.2.0
+info:
+  title: Brandfolder OpenAPI Reference Sections API
+  version: v4
+  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
+
+    '
+servers:
+- url: https://brandfolder.com/api/v4
+security:
+- APIToken: []
+tags:
+- name: sections
+  x-displayName: Sections
+  description: 'Sections are nested under a Brandfolder and contain many Assets. They exist to help keep Assets organized within a Brandfolder. They also determine which type of digital assets can be uploaded within them (files, external media, fonts, etc.).
+
+    '
+paths:
+  /brandfolders/{brandfolder_id}/sections:
+    parameters:
+    - name: brandfolder_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgiju-21olts-ce9egi
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4SectionsGet
+      summary: List sections
+      description: Returns the Brandfolder's sections.
+      tags:
+      - sections
+      parameters:
+      - in: query
+        name: include
+        schema:
+          type: string
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nrecord names, to return those records related to the sections. Related\nrecords are returned in an `included` array in the response.\n\nAllowed values: \n\n- brandfolder\n- assets\n\nWARNING: This parameter can slow response times.\n"
+        example: brandfolder
+      responses:
+        '200':
+          description: 'The sections in the matching Brandfolder.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Section'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: opIdApiV4BrandfoldersSectionsByBrandfolderIdPost
+      summary: Create a section
+      description: Creates a section in the matching Brandfolder.
+      tags:
+      - sections
+      requestBody:
+        description: 'Attribute values for the section.
+
+          '
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: A name.
+                          example: My section
+                        default_asset_type:
+                          type: string
+                          description: 'Set this to the type of asset to put in the section.
+
+
+                            IMPORTANT: If you''re using the API to add assets to the
+
+                            section, we strongly recommend setting this to
+
+                            `GenericFile`.
+
+                            '
+                          enum:
+                          - GenericFile
+                          - Color
+                          - Font
+                          - ExternalMedium
+                          - Person
+                          - Press
+                          - Text
+                          example: GenericFile
+                        position:
+                          type: integer
+                          minimum: 0
+                          description: 'Set this to a non-negative integer that represents where to
+
+                            display the section relative to other sections. The first
+
+                            position is `0`. The new position defaults to the next
+
+                            available position.
+
+                            '
+                          example: 0
+                      required:
+                      - name
+                      - default_asset_type
+                  required:
+                  - attributes
+              required:
+              - data
+      responses:
+        '200':
+          description: 'The new section.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Section'
+                required:
+                - data
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /sections/{section_id}:
+    parameters:
+    - name: section_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgol8-dslwxs-58b2z3
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4SectionsByIdGet
+      summary: Fetch a section.
+      description: Fetches the matching section.
+      tags:
+      - sections
+      parameters:
+      - in: query
+        name: include
+        schema:
+          type: string
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nrecord names, to return those records related to the sections. Related\nrecords are returned in an `included` array in the response.\n\nAllowed values: \n\n- brandfolder\n- assets\n\nWARNING: This parameter can slow response times.\n"
+        example: brandfolder
+      responses:
+        '200':
+          description: 'The matching section.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Section'
+                required:
+                - data
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /sections/{section_id}/assets:
+    parameters:
+    - name: section_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgol8-dslwxs-58b2z3
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4SectionsAssetsBySectionIdGet
+      summary: List assets in a section
+      description: Lists assets in the matching section.
+      tags:
+      - sections
+      parameters:
+      - in: query
+        name: page
+        description: 'Set this to a positive, non-zero integer representing the page number of
+
+          the results you want.
+
+          '
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+      - in: query
+        name: per
+        description: 'Set this pagination parameter to the maximum number of results you want
+
+          to receive back from your request. More records may exist (as denoted by
+
+          the `meta.total_count` value).
+
+          '
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 3000
+          default: 100
+      - in: query
+        name: search
+        description: 'Set it to any URL-encoded query to fetch only assets that match your
+
+          criteria.
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: extension:png
+      - in: query
+        name: fields
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nattributes of the asset to return as part of the asset's attributes in\nthe response.\n\nAllowed values: \n\n- `created_at`\n- `updated_at`\n- `cdn_url`\n- `availability`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: cdn_url
+      responses:
+        '200':
+          description: 'The matching section assets.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        '404':
+          description: "This occurs for CDN URLs of assets that are pending approval or\nunpublished. \n"
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
+    SectionAttributes:
+      title: Section attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the section.
+          example: My section
+        default_asset_type:
+          type: string
+          description: 'The type of asset the section contains.
+
+            '
+          enum:
+          - GenericFile
+          - Color
+          - Font
+          - ExternalMedium
+          - Person
+          - Press
+          - Text
+          example: GenericFile
+        position:
+          type: integer
+          minimum: 0
+          description: 'A non-negative integer that represents where the section displays relative to other sections. The first position is `0`.
+
+            '
+          example: 0
+    Section:
+      title: Section
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-hh142d
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - sections
+        attributes:
+          $ref: '#/components/schemas/SectionAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    Asset:
+      title: Asset
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-443db
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - generic_files
+        attributes:
+          $ref: '#/components/schemas/AssetAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    AssetAttributes:
+      title: Asset attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
+          type: string
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
+  securitySchemes:
+    APIToken:
+      scheme: bearer
+      type: http
+      description: API Token.

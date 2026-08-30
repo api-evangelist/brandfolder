@@ -1,0 +1,428 @@
+openapi: 3.2.0
+info:
+  title: Brandfolder OpenAPI Reference Webhooks API
+  version: v4
+  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
+
+    '
+servers:
+- url: https://brandfolder.com/api/v4
+security:
+- APIToken: []
+tags:
+- name: webhooks
+  x-displayName: Webhooks
+  description: "The Brandfolder Webhooks service allows you to subscribe to event-based notifications (callbacks) when a qualifying event is triggered within Brandfolder. Asset data will then be sent to the user-provided `callback_url` at the time the subscribed event occurs within the specified Brandfolder. \n\n> NOTE: The `callback_url` must be accessible from the public internet, meaning any localhost, private network domains, or domains that require authentication will all fail.\n\n<h2>Authentication</h2>\n\nUtilizing Webhooks requires authentication with the resource (Brandfolder) being subscribed to. A user's unique API Key is required in a header for actions on all endpoints related to the Webhooks service.\n\n- Find your API key at <a href=\"https://brandfolder.com/profile#integrations\" target=\"_blank\">https://brandfolder.com/profile#integrations</a>.\n- Click the icon to the right of your key to copy it to your clipboard.\n\nThere are two required headers in each request: \n\n`Content-Type: application/json` <br>\n`Authorization:  Bearer <api_key>`\n\nThe provided API Key is checked against any provided resource (where applicable) to confirm the appropriate permissions.\n___\n\n<h2>Service Details</h2>\n\nThe Brandfolder Webhooks service allows for subscriptions to events within individual Brandfolders. \n\n> NOTE: Asset data updates made at the Collection level will trigger a Brandfolder Webhook subscription. Since assets live at the Brandfolder level, any updates made at the Collection level would be reflected on the Brandfolder level as well, thus triggering a Webhook.\n\nDue to the way Brandfolder manages assets, you will see both an `\"asset.create\"` event and an `\"asset.update\"` event upon creation of a new asset. A `create` event is triggered when Brandfolder recognizes the new asset and begins to process it for use. An `update` event is triggered when the asset is ready for use.\n\nThe following event types trigger webhooks:\n\n* `asset.create` - Asset creation. A new asset has been added to a subscribed Brandfolder.\n* `asset.update` - Asset update. Asset data has been updated within a subscribed Brandfolder. One or more of the following asset attributes has been updated:\n    * Name\n    * Description\n    * Section\n    * Approval status\n    * Expiration status\n    * Comments & Annotations\n        * Adding / Updating\n        * Deleting\n    * Tags\n        * Adding / Updating\n        * Deleting\n    * Custom Fields\n        * Adding / Updating\n        * Deleting\n* `asset.delete` - Asset deletion. An asset has been removed from within a subscribed Brandfolder.\n\n> Once a Webhook subscription as been created, the payload that will be sent to the user-provided `callback_url` after an event has been triggered will have the following structure:\n\n```json\n{\n    \"data\": {\n        \"attributes\": {\n            \"key\": \"<unique_asset_identifier>\",\n            \"event_time\": \"<event occurance timestamp in format YYYY-MM-DD HH:MM:SS.000000 with six decimal place microsecond precision>\",\n            \"event_type\": \"<the event type that triggered the webhook>\",\n            \"brandfolder_key\": \"<unique_brandfolder_identifier>\",\n            \"organization_key\": \"<unique_organization_identifier>\"\n        },\n        \"webhook_id\": \"<webhook_id>\"\n    }\n}\n```\n\n> NOTE: The callback payload is a \"skinny\" payload -- it indicates which assets changed and the type of event that occurred, but does not contain any data from the assets themselves.\n\nThe Brandfolder Webhook service requires your application to immediately acknowledge receipt of any Webhooks by returning a `2xx` HTTP status code. If Brandfolder does not receive an acknowledgement or any non `2xx` HTTP status code is returned, Brandfolder will retry the Webhook up to 15 times with exponentially increasing wait times in between. \n\n**Any Webhook subscriptions that continue to fail without remedy will be made inactive.**\n\nMessages may be sent out of order to the `callback_url` associated with a Webhook subscription. The `event_time` provided in the payload can be used to order events.\n\nIf the API Key associated with a Webhook subscription loses access to the associated resource, the subscription will be deactivated within 30 minutes.\n"
+paths:
+  /webhooks/send:
+    parameters:
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    post:
+      servers:
+      - url: https://brandfolder.com/api/v1
+      operationId: opIdApiV4WebhooksSendPost
+      summary: Generate a test webhook
+      description: "Generates a test Webhook.\n\n> **Important:** This operation uses server `https://brandfolder.com/api/v1` (notice the version is `v1`).\n\n> **Important:** Ensure that your code is able to receive a Brandfolder\nWebhook using this endpoint before creating a production Webhook\nsubscription.\n\nIf you receive a `202` response at this endpoint, then a fake Webhook\nnotification will POST to your `callback_url`. If you don't receive anything\nat your `callback_url` within a few minutes, it is likely that\n`callback_url` is invalid. Please ensure the URL begins with `https://` and\nthat it is a public domain (not `localhost`, behind a firewall, or any other\ndomain requiring authentication) which can receive HTTP `POST` requests and\nrespond with a `2xx` HTTP status code. \n"
+      tags:
+      - webhooks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        event_type:
+                          type: string
+                          description: Event type.
+                          enum:
+                          - asset.create
+                          - asset.update
+                          - asset.delete
+                          example: asset.create
+                        resource_key:
+                          type: string
+                          description: Brandfolder ID.
+                          example: oqgiju-21olts-ce9egi
+                        resource_type:
+                          type: string
+                          description: The type of resource the event acts on. Currently, `brandfolder` is the only supported type.
+                          example: brandfolder
+                          enum:
+                          - brandfolder
+                        callback_url:
+                          type: string
+                          description: 'An HTTPS URL where webhook data will be posted.
+
+
+                            Please ensure the URL begins with `https://` and that it is a public domain (not `localhost`, behind a firewall, or any other domain requiring authentication) which can receive HTTP `POST` requests and respond with a `2xx` HTTP status code.
+
+                            '
+                          example: https://your_company.com/your_callback_url
+                        asset_key:
+                          type: string
+                          description: Asset ID override
+                          example: oqgkkd-fr5iv4-443db
+                        organization_key:
+                          type: string
+                          description: organization ID override.
+                          example: oqgkkd-fr5iv4-cocc75
+                      required:
+                      - event_type
+                      - resource_key
+                      - resource_type
+                      - callback_url
+                  required:
+                  - attributes
+              required:
+              - data
+      responses:
+        '202':
+          description: 'The webhook was successfully created.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    default: Added demo webhook to queue
+                  status:
+                    type: string
+                    default: ok
+        '400':
+          description: 'Invalid Payload Provided
+
+            '
+        '403':
+          description: 'Permission Denied for Provided Resource
+
+            '
+        '404':
+          description: 'Provided Resource Does Not Exist
+
+            '
+        '409':
+          description: 'Subscription Already Exists
+
+            '
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /webhooks:
+    servers:
+    - url: https://brandfolder.com/api/v1
+    parameters:
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4WebhooksGet
+      summary: List active webhooks
+      description: "List all active webhooks. \n\n> **Important:** This operation uses server `https://brandfolder.com/api/v1` (notice the version is `v1`).\n"
+      tags:
+      - webhooks
+      responses:
+        '200':
+          description: 'The active webhooks.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Webhook'
+                required:
+                - data
+        '400':
+          description: 'Invalid header provided
+
+            '
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: opIdApiV4WebhooksPost
+      summary: Create a webhook subscription
+      description: "Subscribes to get Webhook notifications for the specified asset event type\nwithin the specified Brandfolder. \n\n> **Important:** This operation uses server `https://brandfolder.com/api/v1` (notice the version is `v1`).\n"
+      tags:
+      - webhooks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        event_type:
+                          type: string
+                          description: 'An event type. Here are the currently supported event types:
+
+
+                            - `asset.create`: A new asset has been created within the subscribed Brandfolder
+
+                            - `asset.update`: Asset data has been updated within the subscribed Brandfolder
+
+                            - `asset.delete`: An asset has been removed from within the subscribed Brandfolder
+
+                            '
+                          example: asset.create
+                          enum:
+                          - asset.create
+                          - asset.update
+                          - asset.delete
+                        resource_key:
+                          type: string
+                          description: The ID of the resource being acted on.
+                          example: oqgiju-21olts-ce9egi
+                        resource_type:
+                          type: string
+                          description: The type of resource the event acts on. Currently, `brandfolder` is the only supported type.
+                          example: brandfolder
+                        callback_url:
+                          type: string
+                          description: 'An HTTPS URL where webhook data will be posted.
+
+
+                            Please ensure the URL begins with `https://` and that it is a public domain (not `localhost`, behind a firewall, or any other domain requiring authentication) which can receive HTTP `POST` requests and respond with a `2xx` HTTP status code.
+
+                            '
+                          example: https://your_company.com/your_callback_url
+                      required:
+                      - event_type
+                      - resource_key
+                      - resource_type
+                      - callback_url
+                  required:
+                  - attributes
+              required:
+              - data
+      responses:
+        '200':
+          description: 'The webhook was successfully created.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Webhook'
+                required:
+                - data
+        '400':
+          description: 'Invalid Payload Provided
+
+            '
+        '403':
+          description: 'Permission Denied for Provided Resource
+
+            '
+        '404':
+          description: 'Provided Resource Does Not Exist
+
+            '
+        '409':
+          description: 'Subscription Already Exists
+
+            '
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /webhooks/{webhook_id}:
+    servers:
+    - url: https://brandfolder.com/api/v1
+    parameters:
+    - name: webhook_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-hh142d
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4WebhooksByIdGet
+      summary: Fetch an active webhook
+      description: "Gets an active matching webhook. \n\n> **Important:** This operation uses server `https://brandfolder.com/api/v1` (notice the version is `v1`).\n"
+      tags:
+      - webhooks
+      responses:
+        '200':
+          description: 'The webhook details.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Webhook'
+                required:
+                - data
+        '400':
+          description: 'Invalid Header Provided
+
+            '
+        '404':
+          description: 'The Requested Webhook Does Not Exist
+
+            '
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: opIdApiV4WebhooksByIdDelete
+      summary: Delete a webhook
+      description: 'Deletes the matching webhook, so that data is no longer sent by it to its
+
+        associated callback URL.
+
+
+        > **Important:** This operation uses server `https://brandfolder.com/api/v1` (notice the version is `v1`).
+
+        '
+      tags:
+      - webhooks
+      responses:
+        '200':
+          description: 'Successful response (always an empty object)
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: 'Invalid Header Provided
+
+            '
+        '404':
+          description: 'Could Not Determine This Webhook Exists or the Requester Does Not Own
+
+            the Webhook.
+
+            '
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
+  schemas:
+    WebhookAttributes:
+      type: object
+      title: Webhook subscription attributes
+      properties:
+        event_type:
+          type: string
+          description: 'An event type. Here are the currently supported event types:
+
+
+            - `asset.create`: A new asset has been created within the subscribed Brandfolder
+
+            - `asset.update`: Asset data has been updated within the subscribed Brandfolder
+
+            - `asset.delete`: An asset has been removed from within the subscribed Brandfolder
+
+            '
+          example: asset.create
+          enum:
+          - asset.create
+          - asset.update
+          - asset.delete
+        resource_key:
+          type: string
+          description: brandfolder_id
+          example: oqgiju-21olts-ce9egi
+        resource_type:
+          type: string
+          example: brandfolder
+        callback_url:
+          type: string
+          example: https://your_company.com/your_callback_url
+      required:
+      - event_type
+      - resource_key
+      - resource_type
+      - callback_url
+    Webhook:
+      title: Webhook
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-hh142d
+        attributes:
+          $ref: '#/components/schemas/WebhookAttributes'
+      required:
+      - id
+      - attributes
+  securitySchemes:
+    APIToken:
+      scheme: bearer
+      type: http
+      description: API Token.

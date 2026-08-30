@@ -1,0 +1,380 @@
+openapi: 3.2.0
+info:
+  title: Brandfolder OpenAPI Reference Binary Upload API
+  version: v4
+  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
+
+    '
+servers:
+- url: https://brandfolder.com/api/v4
+security:
+- APIToken: []
+tags:
+- name: binary_upload
+  x-displayName: Binary upload
+  description: "Brandfolder's Binary Upload service allows for authenticated users to upload locally stored files into Brandfolder via our API.\n\nBinary Upload is a multi-step process:\n\n1.  [Get an upload URL](/api/brandfolder/openapi/binary_upload/opidstorageserviceuploadrequestsget)\n2.  Upload the file to the storage bucket using one of the methods below : \n    - [Upload a file](/api/brandfolder/openapi/binary_upload/opidstorageservicebfuploadrequestbucketput)\n    - [Resumable upload](/api/brandfolder/openapi/binary_upload/opidstorageservicebfuploadrequestpost)\n3.  [Create an asset](/api/brandfolder/openapi/assets/opidapiv4collectionsassetsbybrandfolderidpost), telling the Brandfolder API the attachment is at that URL.\n\nThe Brandfolder Upload Request endpoint will return a response body with a signed `upload_url`, `resumable_upload_url`, storage `service_type` and `object_url`.\n\nEach Binary Upload `request_url` and `object_url` are designed to be used one time for a singular Asset. Both the `upload_url` and `resumable_upload_url` will expire 24 hours after they're issued. Assets uploaded to the `object_url` will be stored for 7 days before being purged. Should any of these URLs expire, you will simply need to restart the workflow to obtain active URLs. \n\n> **Tip:** We recommend that you use the Resumable Upload flow if you have poor internet connection, you're uploading local files that are larger than 200MB or if you're uploading files from a server that are larger than 500MB.\n\n![Upload Request Flow](../images/bf-upload-request-interactions.png)\n"
+paths:
+  /upload_requests:
+    parameters:
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdStorageserviceUploadRequestsGet
+      summary: Get an upload URL
+      description: 'Gets an upload URL.
+
+
+        > **NOTE:** After uploading a file, you can add it as Brandfolder asset by
+
+        copying the `object_url` value from the response into your request body''s
+
+        `attachments.url` property. See [Create assets in a
+
+        Brandfolder](/api/brandfolder/openapi/assets/opidapiv4collectionsassetsbybrandfolderidpost)
+
+        for details.
+
+        '
+      tags:
+      - binary_upload
+      responses:
+        '200':
+          description: 'The request URL(s).
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  upload_url:
+                    type: string
+                    description: A signed upload_url that allows a user to PUT a file.
+                  resumable_upload_url:
+                    type: string
+                    description: 'A signed URL that allows a user to resume PUT operations for a
+
+                      file.
+
+                      '
+                  service:
+                    type: string
+                    description: The storage service type.
+                  object_url:
+                    type: string
+                    description: 'An attachment URL to provide to the Brandfolder create assets
+
+                      API call.
+
+                      '
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /upload_url:
+    put:
+      servers:
+      - url: upload_url
+      security: []
+      operationId: opIdStorageserviceBfUploadRequestBucketPut
+      summary: Upload a file
+      description: "To upload file data to the storage bucket, copy the `upload_url` provided\nfrom the `upload_request` response body. Create a PUT request with a path to\nthe file binary. \n\n> **NOTE:** Non-Resumable Uploads use the PUT method on initial creation.\n\n> **NOTE:** After uploading the file, you can add it as Brandfolder asset by\ncopying the `object_url` value from the [Get an upload\nURL](/api/brandfolder/openapi/binary_upload/opidstorageserviceuploadrequestsget)\nresponse into your request body's `attachments.url` property. See [Create\nassets in a\nBrandfolder](/api/brandfolder/openapi/assets/opidapiv4collectionsassetsbybrandfolderidpost)\nfor details.\n"
+      tags:
+      - binary_upload
+      requestBody:
+        required: true
+        content:
+          image/png:
+            schema:
+              type: string
+              format: binary
+              description: Path to the file you're uploading.
+              example: '@/path/to/file'
+      responses:
+        '200':
+          description: 'Successful response (always an empty object)
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: 'curl -X PUT \
+
+          --data-binary @/path/to/file  \
+
+          "upload_url"
+
+          '
+      - lang: C#
+        label: C#
+        source: No example currently available.
+      - lang: Java
+        label: Java
+        source: No example currently available.
+      - lang: JavaScript
+        label: JavaScript
+        source: No example currently available.
+      - lang: Node.js
+        label: Node.js
+        source: No example currently available.
+      - lang: Python
+        label: Python
+        source: No example currently available.
+      - lang: PHP
+        label: PHP
+        source: No example currently available.
+      - lang: Go
+        label: Go
+        source: No example currently available.
+  /resumable_upload_url:
+    post:
+      servers:
+      - url: resumable_upload_url
+      security: []
+      operationId: opIdStorageserviceBfUploadRequestPost
+      summary: Resumable upload
+      description: 'Users uploading larger files and/or with poor connectivity can initiate a
+
+        resumable upload session with the `resumable_upload_url` from the
+
+        `upload_request` body.
+
+
+        Google provides some great
+
+        <a href="https://cloud.google.com/storage/docs/performing-resumable-uploads" target="_blank">documentation</a>
+
+        on resumable uploads (as the content will be uploaded to Google Cloud
+
+        Storage).
+
+
+        > **NOTE:** Resumable Uploads use the POST method on initialization and the
+
+        PUT method after to resume upload.
+
+
+        > **NOTE:** After uploading a file, you can add it as Brandfolder asset by
+
+        copying the `object_url` value from the [Get an upload
+
+        URL](/api/brandfolder/openapi/binary_upload/opidstorageserviceuploadrequestsget)
+
+        response into your request body''s `attachments.url` property. See [Create
+
+        assets in a
+
+        Brandfolder](/api/brandfolder/openapi/assets/opidapiv4collectionsassetsbybrandfolderidpost)
+
+        for details.
+
+        '
+      tags:
+      - binary_upload
+      parameters:
+      - in: header
+        name: x-goog-resumable
+        required: true
+        schema:
+          type: string
+          enum:
+          - start
+        example: start
+      requestBody:
+        required: true
+        content:
+          image/png:
+            schema:
+              type: string
+              format: binary
+              description: Path to the file you're uploading.
+              example: '@/path/to/file'
+      responses:
+        '200':
+          description: 'Successful response.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '201':
+          description: 'Upload was interrupted. Resume uploading at this URL.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  location:
+                    type: string
+                    example: 'https://storageservice.com/bf-upload-request/signed-resumable-upload-url
+
+                      '
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: 'curl -v -X POST \
+
+          -H ''x-goog-resumable: start'' \
+
+          -H ''Content-Type: image/png'' \
+
+          --data-binary @/path/to/file  \
+
+          "resumable_upload_url"
+
+          '
+      - lang: C#
+        label: C#
+        source: No example currently available.
+      - lang: Java
+        label: Java
+        source: No example currently available.
+      - lang: JavaScript
+        label: JavaScript
+        source: No example currently available.
+      - lang: Node.js
+        label: Node.js
+        source: No example currently available.
+      - lang: Python
+        label: Python
+        source: No example currently available.
+      - lang: PHP
+        label: PHP
+        source: No example currently available.
+      - lang: Go
+        label: Go
+        source: No example currently available.
+    put:
+      servers:
+      - url: resumable_upload_url
+      security: []
+      operationId: opIdStorageserviceBfUploadRequestPut
+      summary: Resume upload
+      description: 'Resumes uploading a file to the same location.
+
+
+        > **NOTE:** After uploading the file, you can add it as Brandfolder asset by
+
+        copying the `object_url` value from the [Get an upload
+
+        URL](/api/brandfolder/openapi/binary_upload/opidstorageserviceuploadrequestsget)
+
+        response into your request body''s `attachments.url` property. See [Create
+
+        assets in a
+
+        Brandfolder](/api/brandfolder/openapi/assets/opidapiv4collectionsassetsbybrandfolderidpost)
+
+        for details.
+
+        '
+      tags:
+      - binary_upload
+      requestBody:
+        required: true
+        content:
+          image/png:
+            schema:
+              type: string
+              format: binary
+              description: Path to the file you're uploading.
+              example: '@/path/to/your-file'
+      responses:
+        '200':
+          description: 'Successful response.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '201':
+          description: 'Upload was interrupted. Resume uploading at this URL.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  location:
+                    type: string
+                    example: 'https://storageservice.com/bf-upload-request/signed-resumable-upload-url
+
+                      '
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: 'curl -X PUT \
+
+          -H ''Content-Type: image/png'' \
+
+          --data-binary @/path/to/file  \
+
+          "resumable_upload_url"
+
+          '
+      - lang: C#
+        label: C#
+        source: No example currently available.
+      - lang: Java
+        label: Java
+        source: No example currently available.
+      - lang: JavaScript
+        label: JavaScript
+        source: No example currently available.
+      - lang: Node.js
+        label: Node.js
+        source: No example currently available.
+      - lang: Python
+        label: Python
+        source: No example currently available.
+      - lang: PHP
+        label: PHP
+        source: No example currently available.
+      - lang: Go
+        label: Go
+        source: No example currently available.
+components:
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
+  securitySchemes:
+    APIToken:
+      scheme: bearer
+      type: http
+      description: API Token.

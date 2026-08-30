@@ -1,0 +1,868 @@
+openapi: 3.2.0
+info:
+  title: Brandfolder OpenAPI Reference Custom Fields API
+  version: v4
+  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
+
+    '
+servers:
+- url: https://brandfolder.com/api/v4
+security:
+- APIToken: []
+tags:
+- name: custom_fields
+  x-displayName: Custom fields
+  description: 'Custom Fields can be assigned to Assets and are generally helpful for organizing and searching Assets within a Brandfolder, as well as for understanding more details about each Asset.
+
+
+    Each Custom Field is essentially a key/value pair associated with **exactly one Asset**. Keys and values are always a string type, so use `"123"` instead of `123`.
+
+
+    For example, if you have several Assets that represent products you sell in different colors, you might create a Custom Field for each of those Assets with a key of `"color"` and a value of `"blue"` or `"red"`, etc. If you modify or delete a `"color":"blue"` Custom Field for any particular Asset, it will not affect other Custom Fields on other Assets, even if they have the same key and/or value.
+
+
+    > **IMPORTANT:** Think carefully about whether Tags or Custom Fields are better suited to meet the needs of your particular use case.
+
+    '
+paths:
+  /brandfolders/{brandfolder_id}/custom_field_keys:
+    parameters:
+    - name: brandfolder_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgiju-21olts-ce9egi
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4BrandfoldersCustomFieldKeysByBrandfolderIdGet
+      summary: List custom field keys
+      description: 'Lists custom field keys for the matching Brandfolder.
+
+        '
+      tags:
+      - custom_fields
+      parameters:
+      - in: query
+        name: fields
+        description: 'Set it to `value` to return it as part of the asset''s attributes in the
+
+          response.
+
+
+          Allowed value: `value`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: value
+      - in: query
+        name: include
+        description: 'Set it to `custom_field_values` to return those records related to the
+
+          asset you''re fetching. Related records are returned in an `included`
+
+          array in the response.
+
+
+          Allowed value: `custom_field_values`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: custom_field_values
+      responses:
+        '200':
+          description: 'All custom field keys for the matching Brandfolder.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CustomFieldKey'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: opIdApiV4BrandfoldersCustomFieldKeysByBrandfolderIdPost
+      summary: Create custom field keys
+      description: 'Creates custom field keys for the matching brandfolder.
+
+
+        This endpoint is **only** needed for setting up controlled Custom Fields. If
+
+        this is enabled for your Brandfolder, you can set the allowed keys and
+
+        optionally restrict their allowed values for Custom Fields using this
+
+        endpoint.
+
+        '
+      tags:
+      - custom_fields
+      requestBody:
+        description: Custom field keys for the matching brandfolder.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            description: The key name.
+                            example: color
+                          allowed_values:
+                            type: array
+                            description: The `value` that can be used with this `key` when creating or updating any Custom Field on an Asset must be one of these strings. If not included or empty array `[]`, the `values` are unrestricted.
+                            items:
+                              type: string
+                            example:
+                            - red
+                            - white
+                            - blue
+                          position:
+                            type: integer
+                            format: int32
+                            description: Sets the location of the custom field among other custom fields in the Brandfolder UI.
+                            minimum: 0
+                            example: 0
+                          prioritized:
+                            type: boolean
+                            description: Set to `true` to display the custom field in asset previews. A Brandfolder can have up to five prioritized custom fields.
+                            example: false
+                          required:
+                            type: boolean
+                            description: If set to `true`, users uploading an asset must input the custom field before uploading the asset. Children of dependent custom fields can also be marked as required.
+                            example: false
+                          restricted:
+                            type: boolean
+                            description: If set to `true`, the field value is restricted to a set of allowed values (see `allowed_values`); otherwise, the field value is unrestricted.
+                            example: true
+                      required:
+                      - name
+                  required:
+                  - attributes
+              required:
+              - data
+      responses:
+        '200':
+          description: 'The new custom field keys.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CustomFieldKey'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /assets/{asset_id}/custom_field_values:
+    parameters:
+    - name: asset_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-443db
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4AssetsCustomFieldValuesByAssetIdGet
+      summary: List custom fields
+      description: 'Lists custom fields for the matching asset.
+
+        '
+      parameters:
+      - in: query
+        name: include
+        schema:
+          type: string
+        description: 'Set it to `custom_field_key` to return those custom field keys related
+
+          to the asset you''re fetching. Related records are returned in an
+
+          `included` array in the response.
+
+
+          Allowed value: `custom_field_key`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+      tags:
+      - custom_fields
+      responses:
+        '200':
+          description: 'The custom fields for the asset.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CustomFieldValue'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /custom_field_keys/{custom_field_key_id}/custom_field_values:
+    parameters:
+    - name: custom_field_key_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-443db
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    post:
+      operationId: opIdApiV4CustomFieldKeysCustomFieldValuesByCustomFieldKeyIdPost
+      summary: Create custom field values for an asset
+      description: 'Creates custom fields for the matching asset.
+
+
+        In order to use this endpoint, you will need to have the Custom Field Key ID
+
+        for the Custom Field you wish to create. Please see [List Custom Field Keys
+
+        for a
+
+        Brandfolder](/api/brandfolder/openapi/custom_fields/opidapiv4brandfolderscustomfieldkeysbybrandfolderidget)
+
+        to get a list of the Custom Field Key IDs.
+
+
+        Want to learn more about Custom Fields? Check out out our Knowledge Base
+
+        article on <a href="https://help.smartsheet.com/115002608613-Setting-up-Custom-Fields" target="_blank">Custom
+
+        Fields</a>.
+
+        '
+      tags:
+      - custom_fields
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  description: A list of custom field associations.
+                  items:
+                    type: object
+                    properties:
+                      attributes:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                            description: Custom field key value.
+                            example: red
+                        required:
+                        - value
+                      relationships:
+                        type: object
+                        description: Specifies the object receiving the custom field.
+                        properties:
+                          asset:
+                            type: object
+                            properties:
+                              data:
+                                type: object
+                                properties:
+                                  type:
+                                    type: string
+                                    description: The type of target object.
+                                    enum:
+                                    - assets
+                                  id:
+                                    type: string
+                                    description: The ID of the asset.
+                                    example: k5nj2bf5mc36j3ssm63359h
+                                required:
+                                - type
+                                - id
+                            required:
+                            - data
+                        required:
+                        - asset
+                    required:
+                    - attributes
+                    - relationships
+              required:
+              - data
+      responses:
+        '200':
+          description: 'The new custom fields.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Unique identifier for the resource instance.
+                          example: r79p3j4gbcgtv33gbsqrxb
+                        type:
+                          type: string
+                          description: The type of the resource.
+                          enum:
+                          - custom_field_values
+                        attributes:
+                          type: object
+                          properties:
+                            key:
+                              type: string
+                              description: A key name.
+                              example: team
+                            value:
+                              type: string
+                              description: The value for the key.
+                              example: product
+                      required:
+                      - id
+                      - type
+                      - attributes
+                required:
+                - data
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /custom_field_keys/{custom_field_key_id}:
+    parameters:
+    - name: custom_field_key_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: plqlkk-22rw6g-3dqgx0
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    put:
+      operationId: opIdApiV4CustomFieldKeysByIdPut
+      summary: Update a custom field key
+      description: 'Update the matching custom field key.
+
+
+        > **Warning:** It is NOT recommended to update keys that are currently in
+
+        use. Changing allowed values or whether they are restricted after other
+
+        values have already been used can lead to undesirable results.
+
+        '
+      tags:
+      - custom_fields
+      parameters:
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The key name.
+                          example: color
+                        allowed_values:
+                          type: array
+                          description: The `value` that can be used with this `key` when creating or updating any Custom Field on an Asset must be one of these strings. If not included or empty array `[]`, the `values` are unrestricted.
+                          items:
+                            type: string
+                          example:
+                          - orange
+                          - gray
+                          - green
+                  required:
+                  - attributes
+              required:
+              - data
+      responses:
+        '200':
+          description: 'The updated custom field key.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier for the resource instance.
+                        example: plqlkk-22rw6g-3dqgx0
+                      type:
+                        type: string
+                        description: The type of the resource.
+                        enum:
+                        - custom_field_keys
+                      attributes:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            description: The key name.
+                            example: color
+                          allowed_values:
+                            type: array
+                            description: The `value` that can be used with this `key` when creating or updating any Custom Field on an Asset must be one of these strings. If not included or empty array `[]`, the `values` are unrestricted.
+                            items:
+                              type: string
+                            example:
+                            - orange
+                            - gray
+                            - green
+                          position:
+                            type: integer
+                            format: int32
+                            description: Sets the location of the custom field among other custom fields in the Brandfolder UI.
+                            minimum: 0
+                            example: 0
+                          prioritized:
+                            type: boolean
+                            description: Set to `true` to display the custom field in asset previews. A Brandfolder can have up to five prioritized custom fields.
+                            example: false
+                          required:
+                            type: boolean
+                            description: If set to `true`, users uploading an asset must input the custom field before uploading the asset. Children of dependent custom fields can also be marked as required.
+                            example: false
+                          restricted:
+                            type: boolean
+                            description: If set to `true`, the field value is restricted to a set of allowed values (see `allowed_values`); otherwise, the field value is unrestricted.
+                            example: true
+                    required:
+                    - id
+                    - type
+                    - attributes
+                required:
+                - data
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: opIdApiV4CustomFieldKeysByIdDelete
+      summary: Delete a custom field key
+      description: 'Deletes the matching custom field key.
+
+
+        > **Warning:** Be very careful when using this endpoint as it also deletes
+
+        all associated values for that key.
+
+        '
+      tags:
+      - custom_fields
+      parameters:
+      - in: header
+        name: Content-Type
+        required: true
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      responses:
+        '200':
+          description: 'Successful response (always an empty object)
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /custom_field_values/{custom_field_value_id}:
+    parameters:
+    - name: custom_field_value_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: 123456-22mpg8-dfmfi7
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    put:
+      operationId: opIdApiV4CustomFieldValuesByIdPut
+      summary: Update a custom field
+      description: 'Update the matching custom field.
+
+        '
+      tags:
+      - custom_fields
+      parameters:
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        value:
+                          type: string
+                          example: Fall
+                  required:
+                  - attributes
+              required:
+              - data
+      responses:
+        '200':
+          description: 'The updated custom field.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CustomFieldValue'
+                required:
+                - data
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: opIdApiV4CustomFieldValuesByIdDelete
+      summary: Delete a custom field
+      description: 'Deletes the matching custom field.
+
+        '
+      tags:
+      - custom_fields
+      parameters:
+      - in: header
+        name: Content-Type
+        required: true
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      responses:
+        '200':
+          description: 'Successful response (always an empty object)
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
+    CustomFieldKeyAttributes:
+      title: Custom field key attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The key name.
+          example: color
+        allowed_values:
+          type: array
+          description: The `value` that can be used with this `key` when creating or updating any Custom Field on an Asset must be one of these strings. If not included or empty array `[]`, the `values` are unrestricted.
+          items:
+            type: string
+          example:
+          - red
+          - white
+          - blue
+        position:
+          type: integer
+          format: int32
+          description: Sets the location of the custom field among other custom fields in the Brandfolder UI.
+          minimum: 0
+          example: 0
+        prioritized:
+          type: boolean
+          description: Set to `true` to display the custom field in asset previews. A Brandfolder can have up to five prioritized custom fields.
+          example: false
+        required:
+          type: boolean
+          description: If set to `true`, users uploading an asset must input the custom field before uploading the asset. Children of dependent custom fields can also be marked as required.
+          example: false
+        restricted:
+          type: boolean
+          description: If set to `true`, the field value is restricted to a set of allowed values (see `allowed_values`); otherwise, the field value is unrestricted.
+          example: true
+      required:
+      - name
+    CustomFieldValue:
+      title: Custom field value
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: r79p3j4gbcgtv33gbsqrxb
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - custom_field_values
+        attributes:
+          $ref: '#/components/schemas/CustomFieldValueAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    CustomFieldValueAttributes:
+      title: Custom field value attributes
+      type: object
+      properties:
+        key:
+          type: string
+          description: A key name.
+          example: Campaign
+        value:
+          type: string
+          description: The value for the key.
+          example: Fall
+    CustomFieldKey:
+      title: Custom field key
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: plqlkk-22rw6g-3dqgx0
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - custom_field_keys
+        attributes:
+          $ref: '#/components/schemas/CustomFieldKeyAttributes'
+      required:
+      - id
+      - type
+      - attributes
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
+  securitySchemes:
+    APIToken:
+      scheme: bearer
+      type: http
+      description: API Token.

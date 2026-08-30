@@ -1,0 +1,1026 @@
+openapi: 3.2.0
+info:
+  title: Brandfolder OpenAPI Reference Assets API
+  version: v4
+  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
+
+    '
+servers:
+- url: https://brandfolder.com/api/v4
+security:
+- APIToken: []
+tags:
+- name: assets
+  x-displayName: Assets
+  description: 'Assets are the core resource of Brandfolder. They act like containers that hold all of your digital resources and files, which we call Attachments. They belong to a Section in a Brandfolder and can also exist within many Collections.
+
+    '
+paths:
+  /collections/{collection_id}/assets:
+    parameters:
+    - name: collection_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-443db
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4CollectionsAssetsByCollectionIdGet
+      summary: List assets in a collection
+      description: Lists assets in a collection.
+      tags:
+      - assets
+      parameters:
+      - in: query
+        name: page
+        description: 'Set this to a positive, non-zero integer representing the page number of
+
+          the results you want.
+
+          '
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+      - in: query
+        name: per
+        description: 'Set this pagination parameter to the maximum number of results you want
+
+          to receive back from your request. More records may exist (as denoted by
+
+          the `meta.total_count` value).
+
+          '
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 3000
+          default: 100
+      - in: query
+        name: search
+        description: 'Set it to any URL-encoded query to fetch only assets that match your
+
+          criteria.
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: extension:png
+      - in: query
+        name: fields
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nattributes of the asset to return as part of the asset's attributes in\nthe response.\n\nAllowed values: \n\n- `created_at`\n- `updated_at`\n- `cdn_url`\n- `availability`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: cdn_url
+      - in: query
+        name: include
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nrecord names to return those records related to the asset you're\nfetching. Related records are returned in an `included` array in the\nresponse.\n\nAllowed values: \n\n- `attachments`\n- `brandfolder`\n- `collections`\n- `custom_fields`\n- `section`\n- `tags`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: tags
+      responses:
+        '200':
+          description: 'The matching collection assets.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        '404':
+          description: "This occurs for CDN URLs of assets that are pending approval or\nunpublished. \n"
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: opIdApiV4CollectionsAssetsByCollectionIdPost
+      summary: Create assets in a collection
+      description: 'Creates assets in the matching collection.
+
+
+        Any files you wish to use as an Attachment in Brandfolder must be hosted at
+
+        a publicly available URL (until they have been successfully imported). If
+
+        you need to upload file contents directly to a server, you can use do a
+
+        binary file upload to our temporary storage bucket and then use that URL
+
+        when creating Assets/Attachments.
+
+        '
+      tags:
+      - assets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/AssetAttributesRequest'
+                  required:
+                  - attributes
+                section_key:
+                  type: string
+                  description: 'ID of the Section in which you want the newly created Asset(s)
+
+                    to live.
+
+                    '
+                  example: oqgol8-dslwxs-58b2z3
+              required:
+              - data
+              - section_key
+      responses:
+        '200':
+          description: 'The new assets.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /sections/{section_id}/assets:
+    parameters:
+    - name: section_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgol8-dslwxs-58b2z3
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4SectionsAssetsBySectionIdGet
+      summary: List assets in a section
+      description: Lists assets in the matching section.
+      tags:
+      - assets
+      parameters:
+      - in: query
+        name: page
+        description: 'Set this to a positive, non-zero integer representing the page number of
+
+          the results you want.
+
+          '
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+      - in: query
+        name: per
+        description: 'Set this pagination parameter to the maximum number of results you want
+
+          to receive back from your request. More records may exist (as denoted by
+
+          the `meta.total_count` value).
+
+          '
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 3000
+          default: 100
+      - in: query
+        name: search
+        description: 'Set it to any URL-encoded query to fetch only assets that match your
+
+          criteria.
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: extension:png
+      - in: query
+        name: fields
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nattributes of the asset to return as part of the asset's attributes in\nthe response.\n\nAllowed values: \n\n- `created_at`\n- `updated_at`\n- `cdn_url`\n- `availability`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: cdn_url
+      responses:
+        '200':
+          description: 'The matching section assets.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        '404':
+          description: "This occurs for CDN URLs of assets that are pending approval or\nunpublished. \n"
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /brandfolders/{brandfolder_id}/assets:
+    parameters:
+    - name: brandfolder_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgiju-21olts-ce9egi
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4BrandfoldersAssetsByBrandfolderIdGet
+      summary: List assets in a Brandfolder
+      description: Lists assets in a Brandfolder.
+      tags:
+      - assets
+      parameters:
+      - in: query
+        name: page
+        description: 'Set this to a positive, non-zero integer representing the page number of
+
+          the results you want.
+
+          '
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+      - in: query
+        name: per
+        description: 'Set this pagination parameter to the maximum number of results you want
+
+          to receive back from your request. More records may exist (as denoted by
+
+          the `meta.total_count` value).
+
+          '
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 3000
+          default: 100
+      - in: query
+        name: search
+        description: 'Set it to any URL-encoded query to fetch only assets that match your
+
+          criteria.
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: extension:png
+      - in: query
+        name: fields
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nattributes of the asset to return as part of the asset's attributes in\nthe response.\n\nAllowed values: \n\n- `created_at`\n- `updated_at`\n- `cdn_url`\n- `availability`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: cdn_url
+      - in: query
+        name: include
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nrecord names to return those records related to the asset you're\nfetching. Related records are returned in an `included` array in the\nresponse.\n\nAllowed values: \n\n- `attachments`\n- `brandfolder`\n- `collections`\n- `custom_fields`\n- `section`\n- `tags`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: tags
+      responses:
+        '200':
+          description: 'The matching Brandfolder assets.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        '404':
+          description: "This occurs for CDN URLs of assets that are pending approval or\nunpublished. \n"
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: opIdApiV4CollectionsAssetsByBrandfolderIdPost
+      summary: Create assets in a Brandfolder
+      description: 'Creates assets in the matching Brandfolder.
+
+
+        Any files you wish to use as an Attachment in Brandfolder must be hosted at
+
+        a publicly available URL (until they have been successfully imported). If
+
+        you need to upload file contents directly to a server, you can use do a
+
+        binary file upload to our temporary storage bucket and then use that URL
+
+        when creating Assets/Attachments.
+
+
+        > **NOTE:** To create an asset from a binary upload, copy the `object_url`
+
+        value from the [Get an upload
+
+        URL](/api/brandfolder/openapi/binary_upload/opidstorageserviceuploadrequestsget)
+
+        response into your request body''s `attachments.url` property.
+
+        '
+      tags:
+      - assets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/AssetAttributesRequest'
+                  required:
+                  - attributes
+                section_key:
+                  type: string
+                  description: 'ID of the Section in which you want the newly created Asset(s)
+
+                    to live.
+
+                    '
+                  example: oqgol8-dslwxs-58b2z3
+              required:
+              - data
+              - section_key
+      responses:
+        '200':
+          description: 'The new assets.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /assets/{asset_id}:
+    parameters:
+    - name: asset_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-443db
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4AssetsByIdGet
+      summary: Fetch an asset
+      description: Fetches the matching asset.
+      tags:
+      - assets
+      parameters:
+      - in: query
+        name: fields
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nattributes of the asset to return as part of the asset's attributes in\nthe response.\n\nAllowed values: \n\n- `created_at`\n- `updated_at`\n- `cdn_url`\n- `availability`\n- `availability_start`\n- `availability_end`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: cdn_url
+      - in: query
+        name: include
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nrecord names to return those records related to the asset you're\nfetching. Related records are returned in an `included` array in the\nresponse.\n\nAllowed values: \n\n- `attachments`\n- `brandfolder`\n- `collections`\n- `custom_fields`\n- `section`\n- `tags`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: tags
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      responses:
+        '200':
+          description: 'The matching asset.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Asset'
+                required:
+                - data
+        '403':
+          description: "This occurs for CDN URLs of assets that are pending approval or\nunpublished. \n"
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    put:
+      operationId: opIdApiV4AssetsByIdPut
+      summary: Update an asset
+      description: 'Updates the matching asset.
+
+
+        > **Note:** All attributes are optional when updating. Only include the ones
+
+        you want to change.
+
+
+        Any files you wish to use as an Attachment in Brandfolder must be hosted at
+
+        a publicly available URL (until they have been successfully imported). If
+
+        you need to upload file contents directly to a server, you can use do a
+
+        binary file upload to our temporary storage bucket and then use that URL
+
+        when creating Assets/Attachments.
+
+        '
+      tags:
+      - assets
+      requestBody:
+        description: 'Attribute updates for an asset.
+
+          '
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      $ref: '#/components/schemas/AssetAttributesRequest'
+                  required:
+                  - attributes
+              required:
+              - data
+      responses:
+        '200':
+          description: 'The updated asset.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Asset'
+                required:
+                - data
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: opIdApiV4AssetsByIdDelete
+      summary: Delete an asset
+      description: Removes the matching asset.
+      tags:
+      - assets
+      responses:
+        '200':
+          description: 'Successful response (always an empty object)
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /assets/{asset_id}/tags:
+    parameters:
+    - name: asset_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-443db
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4AssetsTagsByAssetIdGet
+      summary: List tags for an asset
+      description: 'Lists tags for the matching asset.
+
+        '
+      tags:
+      - assets
+      parameters:
+      - in: query
+        name: include
+        description: 'Set it to `asset` to return those asset records related to the tag
+
+          you''re fetching. Related records are returned in an `included` array in
+
+          the response.
+
+
+          Allowed value:  `asset`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: asset
+      responses:
+        '200':
+          description: 'Tags for the matching asset.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tag'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /labels/{label_id}/assets:
+    parameters:
+    - name: label_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-443db
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4LabelsAssetsByLabelIdGet
+      summary: List assets in a label
+      description: Lists assets in a label.
+      tags:
+      - assets
+      parameters:
+      - in: query
+        name: page
+        description: 'Set this to a positive, non-zero integer representing the page number of
+
+          the results you want.
+
+          '
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+      - in: query
+        name: per
+        description: 'Set this pagination parameter to the maximum number of results you want
+
+          to receive back from your request. More records may exist (as denoted by
+
+          the `meta.total_count` value).
+
+          '
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 3000
+          default: 100
+      - in: query
+        name: search
+        description: 'Set it to any URL-encoded query to fetch only assets that match your
+
+          criteria.
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: extension:png
+      - in: query
+        name: fields
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nattributes of the asset to return as part of the asset's attributes in\nthe response.\n\nAllowed values: \n\n- `created_at`\n- `updated_at`\n- `cdn_url`\n- `availability`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: cdn_url
+      - in: query
+        name: include
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nrecord names to return those records related to the asset you're\nfetching. Related records are returned in an `included` array in the\nresponse.\n\nAllowed values: \n\n- `attachments`\n- `brandfolder`\n- `collections`\n- `custom_fields`\n- `section`\n- `tags`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: tags
+      responses:
+        '200':
+          description: 'The matching label assets.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        '404':
+          description: "This occurs for CDN URLs of assets that are pending approval or\nunpublished. \n"
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
+    Tag:
+      title: Tag
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: a3dlao-hd6so4-7d91d2
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - tags
+        attributes:
+          $ref: '#/components/schemas/TagAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    Asset:
+      title: Asset
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-443db
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - generic_files
+        attributes:
+          $ref: '#/components/schemas/AssetAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    AssetAttributes:
+      title: Asset attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
+          type: string
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
+    TagAttributes:
+      title: Tag attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'A keyword associated with exactly one asset.
+
+
+            For example, if you have several assets that represent products you sell, you might create a "product" tag for each one. If you modify or delete the "product" tag for any particular Asset, it doesn''t affect other tags with the same value on other assets.
+
+            '
+          example: product
+        auto_generated:
+          type: boolean
+          description: If `true`, this tag was generated automatically by our smart analysis of file attachments; otherwise, a user created it.
+          example: true
+        source:
+          type:
+          - string
+          - 'null'
+          description: The tag author.
+          example: google_vision
+          default: null
+      required:
+      - name
+    AssetAttributesRequest:
+      title: Asset attributes request body
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
+          type: string
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
+        availability_start:
+          type: string
+          format: date-time
+          description: 'This represents the publish/availability date in Brandfolder, the label `draft` will show.
+
+            '
+          example: '2024-02-23T18:22:49.771Z'
+        availability_end:
+          type: string
+          format: date-time
+          description: 'This represents the expiration date in brandfolder, the label `expired` will show.
+
+            '
+          example: '2025-02-23T18:22:49.771Z'
+        attachments:
+          description: 'An array of Attachment objects to add to the Asset (these do not overwrite exisiting Attachments).
+
+            '
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                description: 'A fully-formed URL of the file to upload (required for each new Attachment).
+
+                  '
+                example: https://example.com/new-attachment.jpg
+              filename:
+                type: string
+                description: A complete file name, with extension.
+                example: new-attachment.jpg
+            required:
+            - url
+      required:
+      - name
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
+  securitySchemes:
+    APIToken:
+      scheme: bearer
+      type: http
+      description: API Token.

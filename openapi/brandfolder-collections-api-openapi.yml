@@ -1,0 +1,920 @@
+openapi: 3.2.0
+info:
+  title: Brandfolder OpenAPI Reference Collections API
+  version: v4
+  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
+
+    '
+servers:
+- url: https://brandfolder.com/api/v4
+security:
+- APIToken: []
+tags:
+- name: collections
+  x-displayName: Collections
+  description: 'Collections are nested under a Brandfolder and contain many Assets. They are mainly used as an additional way to organize, manage, share, and restrict access to a subset of Assets within your Brandfolder without having to upload Assets to multiple places.
+
+    '
+paths:
+  /brandfolders/{brandfolder_id}/collections:
+    parameters:
+    - name: brandfolder_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgiju-21olts-ce9egi
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4BrandfoldersCollectionsByBrandfolderIdGet
+      summary: List collections in a Brandfolder
+      description: 'List all collections in the Brandfolder.
+
+
+        You can use the returned `slug` parameter (in conjunction with the slug of
+
+        the parent Brandfolder) to form a link to the desired Collection like so:
+
+
+        ```
+
+        https://brandfolder.com/{brandfolder_slug}/{collection_slug
+
+        ```
+
+        '
+      tags:
+      - collections
+      responses:
+        '200':
+          description: 'All the collections in the Brandfolder.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Collection'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: opIdApiV4BrandfoldersCollectionsByBrandfolderIdPost
+      summary: Create a collection
+      description: Creates a collection in the matching Brandfolder.
+      tags:
+      - collections
+      requestBody:
+        description: 'Attribute values for the collection.
+
+          '
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: A name.
+                          example: My collection
+                        slug:
+                          type: string
+                          description: 'A URL-friendly slug. Use only letters, numbers, hyphens, and
+
+                            underscores.
+
+
+                            NOTE: We recommend **not** to invent your own slug. If it is
+
+                            not unique and valid, the request fails with a `422` error.
+
+                            Default is to automatically assign a slug based on `name` (a
+
+                            name of \"My Collection\" would make a slug of
+
+                            \"my-collection\").
+
+                            '
+                          example: my-collection
+                        tagline:
+                          type: string
+                          description: A tag line.
+                          example: My collection tag line
+                      required:
+                      - name
+                  required:
+                  - attributes
+              required:
+              - data
+      responses:
+        '200':
+          description: 'The new collection.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /collections:
+    parameters:
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4CollectionsGet
+      summary: List collections
+      description: "List the collections accessible to the user. \n\nUnauthorized requests return an empty list.\n\nYou can use the returned `slug` parameter (in conjunction with the slug of\nthe parent Brandfolder) to form a link to the desired Collection like so:\n\n```\nhttps://brandfolder.com/{brandfolder_slug}/{collection_slug}\n```\n"
+      tags:
+      - collections
+      parameters:
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      security:
+      - APIToken: []
+      responses:
+        '200':
+          description: 'A list of collections accessible to the user.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Collection'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /collections/{collection_id}:
+    parameters:
+    - name: collection_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgiju-21olts-ce9egi
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4CollectionsByIdGet
+      summary: Fetch a collection
+      description: 'Returns the matching collection.
+
+        '
+      tags:
+      - collections
+      parameters:
+      - in: query
+        name: fields
+        description: 'Set it to `asset_count` to return the collection''s asset count as part
+
+          of the collection''s attributes in the response.
+
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+          enum:
+          - asset_count
+        example: asset_count
+      - in: query
+        name: include
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nrecord names to return those records related to the collection you're\nfetching. Related records are returned in an `included` array in the\nresponse.\n\nAllowed values: \n\n- brandfolder\n- assets\n- search_filters\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: brandfolder
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      responses:
+        '200':
+          description: 'The matching collection.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Collection'
+                required:
+                - data
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    put:
+      operationId: opIdApiV4CollectionsByIdPut
+      summary: Update a collection
+      description: Updates the matching collection.
+      tags:
+      - collections
+      parameters:
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      requestBody:
+        description: 'Attribute updates for the collection.
+
+          '
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: A new name.
+                          example: New name
+                        slug:
+                          type: string
+                          description: 'A new URL-friendly slug. Use only letters, numbers, hyphens,
+
+                            and underscores.
+
+
+                            NOTE: We recommend **not** to invent your own slug. If it is
+
+                            not unique and valid, the request fails with a `422` error.
+
+                            Default is to automatically assign a slug based on `name` (a
+
+                            name of \"My Collection\" would make a slug of
+
+                            \"my-collection\").
+
+                            '
+                          example: new-name
+                        tagline:
+                          type: string
+                          description: A new tag line.
+                          example: New tag line
+                  required:
+                  - attibutes
+              required:
+              - data
+      responses:
+        '200':
+          description: 'The updated collection.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier for the resource instance.
+                        example: oqgkkd-fr5iv4-hh142d
+                      type:
+                        type: string
+                        description: The type of the resource.
+                        enum:
+                        - collections
+                      attributes:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            description: A new name.
+                            example: New name
+                          slug:
+                            type: string
+                            description: 'A new URL-friendly slug.
+
+                              '
+                            example: new-name
+                          tagline:
+                            type: string
+                            description: A new tag line.
+                            example: New tag line
+                          public:
+                            type: boolean
+                            description: Set to `true` for hassle-free sharing, allowing search engines to index your brand assets. Otherwise, set to `false` to share only with the users you specify.
+                            example: false
+                          stealth:
+                            type: boolean
+                            description: Set to `true` to remove the collection from appearing in web searches.
+                            example: false
+                          is_workspace:
+                            type: boolean
+                            description: Set to `true` if the collection is a Brandfolder workspace.
+                            example: false
+                required:
+                - data
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: opIdApiV4CollectionsByIdDelete
+      summary: Delete a collection
+      description: Removes the matching collection.
+      tags:
+      - collections
+      responses:
+        '200':
+          description: 'Successful response (always an empty object)
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /collections/{collection_id}/assets:
+    parameters:
+    - name: collection_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-443db
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4CollectionsAssetsByCollectionIdGet
+      summary: List assets in a collection
+      description: Lists assets in a collection.
+      tags:
+      - collections
+      parameters:
+      - in: query
+        name: page
+        description: 'Set this to a positive, non-zero integer representing the page number of
+
+          the results you want.
+
+          '
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+      - in: query
+        name: per
+        description: 'Set this pagination parameter to the maximum number of results you want
+
+          to receive back from your request. More records may exist (as denoted by
+
+          the `meta.total_count` value).
+
+          '
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 3000
+          default: 100
+      - in: query
+        name: search
+        description: 'Set it to any URL-encoded query to fetch only assets that match your
+
+          criteria.
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: extension:png
+      - in: query
+        name: fields
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nattributes of the asset to return as part of the asset's attributes in\nthe response.\n\nAllowed values: \n\n- `created_at`\n- `updated_at`\n- `cdn_url`\n- `availability`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: cdn_url
+      - in: query
+        name: include
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nrecord names to return those records related to the asset you're\nfetching. Related records are returned in an `included` array in the\nresponse.\n\nAllowed values: \n\n- `attachments`\n- `brandfolder`\n- `collections`\n- `custom_fields`\n- `section`\n- `tags`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: tags
+      responses:
+        '200':
+          description: 'The matching collection assets.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        '404':
+          description: "This occurs for CDN URLs of assets that are pending approval or\nunpublished. \n"
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: opIdApiV4CollectionsAssetsByCollectionIdPost
+      summary: Create assets in a collection
+      description: 'Creates assets in the matching collection.
+
+
+        Any files you wish to use as an Attachment in Brandfolder must be hosted at
+
+        a publicly available URL (until they have been successfully imported). If
+
+        you need to upload file contents directly to a server, you can use do a
+
+        binary file upload to our temporary storage bucket and then use that URL
+
+        when creating Assets/Attachments.
+
+        '
+      tags:
+      - collections
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/AssetAttributesRequest'
+                  required:
+                  - attributes
+                section_key:
+                  type: string
+                  description: 'ID of the Section in which you want the newly created Asset(s)
+
+                    to live.
+
+                    '
+                  example: oqgol8-dslwxs-58b2z3
+              required:
+              - data
+              - section_key
+      responses:
+        '200':
+          description: 'The new assets.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /collections/{collection_id}/tags:
+    parameters:
+    - name: collection_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-443db
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4CollectionsTagsByCollectionIdGet
+      summary: List tags in a collection
+      description: 'Lists tags in the matching collection.
+
+        '
+      tags:
+      - collections
+      responses:
+        '200':
+          description: 'Tags in the matching collection.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tag'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
+    Tag:
+      title: Tag
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: a3dlao-hd6so4-7d91d2
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - tags
+        attributes:
+          $ref: '#/components/schemas/TagAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    Asset:
+      title: Asset
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-443db
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - generic_files
+        attributes:
+          $ref: '#/components/schemas/AssetAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    Collection:
+      title: Collection
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-hh142d
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - collections
+        attributes:
+          $ref: '#/components/schemas/CollectionAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    AssetAttributes:
+      title: Asset attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
+          type: string
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
+    TagAttributes:
+      title: Tag attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'A keyword associated with exactly one asset.
+
+
+            For example, if you have several assets that represent products you sell, you might create a "product" tag for each one. If you modify or delete the "product" tag for any particular Asset, it doesn''t affect other tags with the same value on other assets.
+
+            '
+          example: product
+        auto_generated:
+          type: boolean
+          description: If `true`, this tag was generated automatically by our smart analysis of file attachments; otherwise, a user created it.
+          example: true
+        source:
+          type:
+          - string
+          - 'null'
+          description: The tag author.
+          example: google_vision
+          default: null
+      required:
+      - name
+    CollectionAttributes:
+      title: Collection attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the collection.
+          example: My collection
+        tagline:
+          type: string
+          description: The tagline of the collection.
+          example: My collection tag line
+        slug:
+          type: string
+          description: The URL-friendly slug of the collection.
+          example: my-collection
+        public:
+          type: boolean
+          description: Set to `true` for hassle-free sharing, allowing search engines to index your brand assets. Otherwise, set to `false` to share only with the users you specify.
+          example: false
+          default: false
+        stealth:
+          type: boolean
+          description: Set to `true` to remove the collection from appearing in web searches.
+          example: false
+          default: false
+        is_workspace:
+          type: boolean
+          description: Set to `true` if the collection is a Brandfolder workspace.
+          example: false
+          default: false
+    AssetAttributesRequest:
+      title: Asset attributes request body
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
+          type: string
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
+        availability_start:
+          type: string
+          format: date-time
+          description: 'This represents the publish/availability date in Brandfolder, the label `draft` will show.
+
+            '
+          example: '2024-02-23T18:22:49.771Z'
+        availability_end:
+          type: string
+          format: date-time
+          description: 'This represents the expiration date in brandfolder, the label `expired` will show.
+
+            '
+          example: '2025-02-23T18:22:49.771Z'
+        attachments:
+          description: 'An array of Attachment objects to add to the Asset (these do not overwrite exisiting Attachments).
+
+            '
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                description: 'A fully-formed URL of the file to upload (required for each new Attachment).
+
+                  '
+                example: https://example.com/new-attachment.jpg
+              filename:
+                type: string
+                description: A complete file name, with extension.
+                example: new-attachment.jpg
+            required:
+            - url
+      required:
+      - name
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
+  securitySchemes:
+    APIToken:
+      scheme: bearer
+      type: http
+      description: API Token.

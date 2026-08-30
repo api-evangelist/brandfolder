@@ -1,0 +1,259 @@
+openapi: 3.2.0
+info:
+  title: Brandfolder OpenAPI Reference Attachments API
+  version: v4
+  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
+
+    '
+servers:
+- url: https://brandfolder.com/api/v4
+security:
+- APIToken: []
+tags:
+- name: attachments
+  x-displayName: Attachments
+  description: 'Attachments are the representation of digital assets in Brandfolder. Generally speaking, they are actual files but can also be colors, fonts, links to embedded/external media, etc. They belong to an Asset and contain extra metadata related to the files they represent.
+
+
+    > **Note:**
+
+    >
+
+    > If you need to list all of an organization''s attachments, follow these steps:
+
+    >
+
+    > 1. List all Brandfolders: `GET /brandfolders?include=organization`
+
+    > 2. List all sections for each Brandfolder within the target organization: `GET /brandfolders/{brandfolder_id}/sections`
+
+    > 3. Iteratively list assets and their attachments for each Section: `GET /sections/{section_id}/assets?include=attachments`
+
+    '
+paths:
+  /attachments/{attachment_id}:
+    parameters:
+    - name: attachment_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-443db
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4AttachmentsByIdGet
+      summary: Fetch an attachment
+      description: Gets the matching attachment.
+      tags:
+      - attachments
+      parameters:
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      - in: query
+        name: fields
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nattributes of the attachment to return as part of the attachment's\nattributes in the response.\n\nAllowed values: \n\n- `metadata` \n- `thumbnail_url` \n- `view_thumbnail_retina` \n- `extension` \n- `version_count` \n- `tag_names` \n- `label_names`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: metadata
+      - in: query
+        name: include
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nrecord names to return those records related to the attachment you're\nfetching. Related records are returned in an `included` array in the\nresponse.\n\nAllowed values: \n\n- `asset`\n- `section`\n- `brandfolder`\n- `collections`\n- `tags`\n- `labels`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: brandfolder
+      responses:
+        '200':
+          description: 'The matching attachment.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Attachment'
+                required:
+                - data
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    put:
+      operationId: opIdApiV4AttachmentsByIdPut
+      summary: Update an attachment
+      description: 'Updates a matching attachment.
+
+        '
+      tags:
+      - attachments
+      requestBody:
+        description: Updates for the matching attachment.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        filename:
+                          type: string
+                          example: brandfolder_logo.png
+                        url:
+                          type: string
+                          example: 'https://example.com/brandfolder_logo.png?expiry=1625260667
+
+                            '
+                  required:
+                  - attributes
+              required:
+              - data
+      responses:
+        '200':
+          description: 'The updated attachment.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Attachment'
+                required:
+                - data
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: opIdApiV4AttachmentsByIdDelete
+      summary: Delete an attachment
+      description: Removes the matching attachment.
+      tags:
+      - attachments
+      responses:
+        '200':
+          description: 'Successful response (always an empty object)
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    Attachment:
+      title: Attachment
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr3j84-33j7db
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - attachments
+        attributes:
+          $ref: '#/components/schemas/AttachmentAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    AttachmentAttributes:
+      title: Attachment attributes
+      type: object
+      properties:
+        mimetype:
+          type: string
+          description: The MIME type of the file.
+          example: image/png
+        extension:
+          type: string
+          description: The file suffix.
+          example: png
+        filename:
+          type: string
+          description: The complete file name, including its suffix (if any).
+          example: brandfolder_logo.png
+        size:
+          type: integer
+          format: int32
+          description: The file size in bytes.
+          minimum: 0
+          example: 123456
+        width:
+          type: integer
+          format: int32
+          description: The image width in pixels.
+          minimum: 0
+          example: 1920
+        height:
+          type: integer
+          format: int32
+          description: The image height in pixels.
+          minimum: 0
+          example: 1080
+        url:
+          type: string
+          description: The file URL.
+          example: https://some_domain.com/brandfolder_logo.png?expiry=1625260667
+        position:
+          type: integer
+          format: int32
+          description: The attachment ranking position in the Brandfolder UI.
+          minimum: 0
+          example: 0
+        thumbnail_url:
+          type: string
+          description: The URL of the the attachment's thumbnail image.
+          example: https://some_domain.com/some_thumbnail.png
+      required:
+      - filename
+      - mimetype
+      - url
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
+  securitySchemes:
+    APIToken:
+      scheme: bearer
+      type: http
+      description: API Token.

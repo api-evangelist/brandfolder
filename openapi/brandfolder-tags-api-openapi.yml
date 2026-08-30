@@ -1,0 +1,533 @@
+openapi: 3.2.0
+info:
+  title: Brandfolder OpenAPI Reference Tags API
+  version: v4
+  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
+
+    '
+servers:
+- url: https://brandfolder.com/api/v4
+security:
+- APIToken: []
+tags:
+- name: tags
+  x-displayName: Tags
+  description: 'Tags can be assigned to Assets and are generally helpful for organizing and searching Assets within a Brandfolder.
+
+
+    Each Tag is essentially a keyword associated with exactly one Asset.
+
+
+    For example, if you have several Assets that represent products you sell, you might create a "product" Tag for each one. If you modify or delete the "product" Tag for any particular Asset, it will not affect other Tags with the same value on other Assets.
+
+
+    Tags have a read-only attribute called `auto_generated` which indicates if the Tag was created automatically by our smart analysis of the file Attachment(s) (`true`) or if a User created the Tag (`false`).
+
+
+    > **IMPORTANT:** Think carefully about whether Tags or Custom Fields are better suited to meet the needs of your particular use case.
+
+    '
+paths:
+  /collections/{collection_id}/tags:
+    parameters:
+    - name: collection_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-443db
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4CollectionsTagsByCollectionIdGet
+      summary: List tags in a collection
+      description: 'Lists tags in the matching collection.
+
+        '
+      tags:
+      - tags
+      responses:
+        '200':
+          description: 'Tags in the matching collection.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tag'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /assets/{asset_id}/tags:
+    parameters:
+    - name: asset_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-443db
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4AssetsTagsByAssetIdGet
+      summary: List tags for an asset
+      description: 'Lists tags for the matching asset.
+
+        '
+      tags:
+      - tags
+      parameters:
+      - in: query
+        name: include
+        description: 'Set it to `asset` to return those asset records related to the tag
+
+          you''re fetching. Related records are returned in an `included` array in
+
+          the response.
+
+
+          Allowed value:  `asset`
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: asset
+      responses:
+        '200':
+          description: 'Tags for the matching asset.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tag'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: opIdApiV4AssetsTagsByAssetIdPost
+      summary: Create tags for an asset
+      description: 'Creates tags for the matching asset.
+
+
+        > **Note:** You can add multiple tags to the `attributes` array in the
+
+        request body.
+
+        '
+      tags:
+      - tags
+      requestBody:
+        description: New tag names for the asset.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: array
+                      description: A list of tag names for the matching asset.
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            description: A tag name.
+                            example: product
+                  required:
+                  - attributes
+              required:
+              - data
+      responses:
+        '200':
+          description: 'All tags for the matching asset.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tag'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /brandfolders/{brandfolder_id}/tags:
+    parameters:
+    - name: brandfolder_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgiju-21olts-ce9egi
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4BrandfoldersTagsByBrandfolderIdGet
+      summary: List tags in a Brandfolder
+      description: 'Lists tags in the matching Brandfolder.
+
+        '
+      tags:
+      - tags
+      responses:
+        '200':
+          description: 'Tags in the matching Brandfolder.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tag'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /tags/{tag_id}:
+    parameters:
+    - name: tag_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-443db
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    put:
+      operationId: opIdApiV4TagsByIdPut
+      summary: Update a tag
+      description: 'Updates the matching tag.
+
+        '
+      tags:
+      - tags
+      requestBody:
+        description: New tag names for the asset.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: product
+                      required:
+                      - name
+                  required:
+                  - attributes
+              required:
+              - data
+      responses:
+        '200':
+          description: 'The updated tag.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Tag'
+                required:
+                - data
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /async/tags/assets/{asset_key}:
+    parameters:
+    - name: asset_key
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: 123456-22mpg8-dfmfi7
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    delete:
+      operationId: opIdApiV4AsyncTagsAssetsByAssetKeyDelete
+      summary: Delete tags
+      description: 'Removes the matching tag(s) of the matching asset.
+
+
+        Example Request Body:
+
+
+        { "tags": ["A", "B"], "locale": "en" }
+
+
+        > **Important:** This endpoint is asynchronous
+
+        '
+      tags:
+      - tags
+      requestBody:
+        description: 'Example: { "tags": ["A", "B"], "locale": "en" }
+
+          '
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tags:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - A
+                  - B
+                locale:
+                  type: string
+                  example: en
+              required:
+              - tags
+      responses:
+        '200':
+          description: 'Successful response (always an empty object)
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    TagAttributes:
+      title: Tag attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'A keyword associated with exactly one asset.
+
+
+            For example, if you have several assets that represent products you sell, you might create a "product" tag for each one. If you modify or delete the "product" tag for any particular Asset, it doesn''t affect other tags with the same value on other assets.
+
+            '
+          example: product
+        auto_generated:
+          type: boolean
+          description: If `true`, this tag was generated automatically by our smart analysis of file attachments; otherwise, a user created it.
+          example: true
+        source:
+          type:
+          - string
+          - 'null'
+          description: The tag author.
+          example: google_vision
+          default: null
+      required:
+      - name
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
+    Tag:
+      title: Tag
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: a3dlao-hd6so4-7d91d2
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - tags
+        attributes:
+          $ref: '#/components/schemas/TagAttributes'
+      required:
+      - id
+      - type
+      - attributes
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
+  securitySchemes:
+    APIToken:
+      scheme: bearer
+      type: http
+      description: API Token.

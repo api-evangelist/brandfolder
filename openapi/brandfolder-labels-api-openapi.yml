@@ -1,0 +1,581 @@
+openapi: 3.2.0
+info:
+  title: Brandfolder OpenAPI Reference Labels API
+  version: v4
+  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
+
+    '
+servers:
+- url: https://brandfolder.com/api/v4
+security:
+- APIToken: []
+tags:
+- name: labels
+  x-displayName: Labels
+  description: 'Brandfolder''s Labels are an enhanced organization and findability feature meant to provide the peace of mind that comes with an organization''s existing folder structure. Think of Labels like your music playlists--any asset can be assigned to a label or multiple labels.
+
+
+    Labels are not turned on for every account. If you are unsure whether you have or need Labels, please contact brandfoldersupport@smartsheet.com.
+
+    '
+paths:
+  /brandfolders/{brandfolder_id}/labels:
+    parameters:
+    - name: brandfolder_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgiju-21olts-ce9egi
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4OrganizationsLabelsByBrandfolderIdGet
+      summary: List labels
+      description: Lists the labels in the matching Brandfolder.
+      tags:
+      - labels
+      responses:
+        '200':
+          description: 'The labels in the matching Brandfolder.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Label'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      operationId: opIdApiV4CollectionsLabelsByBrandfolderIdPost
+      summary: Create a label
+      description: Creates a label in the matching Brandfolder.
+      tags:
+      - labels
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Sets a name for the label.
+                          example: onboarding
+                        parent_key:
+                          type: string
+                          description: 'Set this to the ID of the label''s parent label, if any.
+
+                            If you''re creating a root-level label, don''t specify
+
+                            this property.
+
+                            '
+                          example: abc123
+                      required:
+                      - name
+                  required:
+                  - attributes
+              required:
+              - data
+      responses:
+        '200':
+          description: 'The new label.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Label'
+                required:
+                - data
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /labels/{label_id}:
+    parameters:
+    - name: label_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: 123456-22mpg8-dfmfi7
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4LabelsByIdGet
+      summary: Fetch a label
+      description: Fetches the label.
+      parameters:
+      - in: header
+        name: Accept
+        required: true
+        schema:
+          type: string
+          enum:
+          - application/json
+        example: application/json
+      tags:
+      - labels
+      responses:
+        '200':
+          description: 'The matching label.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Label'
+                required:
+                - data
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    put:
+      operationId: opIdApiV4UpdateLabelPut
+      summary: Update a label
+      description: Updates the name of the matching label.
+      tags:
+      - labels
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: A new name for the label.
+                          example: onboarding
+                      required:
+                      - name
+                  required:
+                  - attributes
+              required:
+              - data
+      responses:
+        '200':
+          description: 'The updated label.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  default_asset_type:
+                    $ref: '#/components/schemas/Label'
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: opIdApiV4LabelsByIdDelete
+      summary: Delete a label
+      description: Deletes the matching label.
+      tags:
+      - labels
+      responses:
+        '200':
+          description: 'Successful response (always an empty object)
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /labels/{label_id}/assets:
+    parameters:
+    - name: label_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-443db
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    get:
+      operationId: opIdApiV4LabelsAssetsByLabelIdGet
+      summary: List assets in a label
+      description: Lists assets in a label.
+      tags:
+      - labels
+      parameters:
+      - in: query
+        name: page
+        description: 'Set this to a positive, non-zero integer representing the page number of
+
+          the results you want.
+
+          '
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+      - in: query
+        name: per
+        description: 'Set this pagination parameter to the maximum number of results you want
+
+          to receive back from your request. More records may exist (as denoted by
+
+          the `meta.total_count` value).
+
+          '
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 3000
+          default: 100
+      - in: query
+        name: search
+        description: 'Set it to any URL-encoded query to fetch only assets that match your
+
+          criteria.
+
+
+          WARNING: This parameter can slow response times.
+
+          '
+        schema:
+          type: string
+        example: extension:png
+      - in: query
+        name: fields
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nattributes of the asset to return as part of the asset's attributes in\nthe response.\n\nAllowed values: \n\n- `created_at`\n- `updated_at`\n- `cdn_url`\n- `availability`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: cdn_url
+      - in: query
+        name: include
+        description: "Set it to a comma-separated list (no spaces) of any of the following\nrecord names to return those records related to the asset you're\nfetching. Related records are returned in an `included` array in the\nresponse.\n\nAllowed values: \n\n- `attachments`\n- `brandfolder`\n- `collections`\n- `custom_fields`\n- `section`\n- `tags`\n\nWARNING: This parameter can slow response times.\n"
+        schema:
+          type: string
+        example: tags
+      responses:
+        '200':
+          description: 'The matching label assets.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMetadataResponse'
+                required:
+                - data
+                - meta
+        '404':
+          description: "This occurs for CDN URLs of assets that are pending approval or\nunpublished. \n"
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+  /labels/{label_id}/move:
+    parameters:
+    - name: label_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique identifier for the resource instance.
+      example: oqgkkd-fr5iv4-443db
+    - in: header
+      name: Content-Type
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - in: header
+      name: Accept
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+      example: application/json
+    - $ref: '#/components/parameters/Authorization'
+    put:
+      operationId: opIdApiV4MoveLabelPut
+      summary: Move the label
+      description: Assigns the label a new parent label.
+      tags:
+      - labels
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        parent_key:
+                          type: string
+                          description: Set this to the ID of the label's new parent label.
+                          example: abc123
+                      required:
+                      - parent_key
+                  required:
+                  - attributes
+              required:
+              - data
+      responses:
+        '200':
+          description: 'The updated label.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Label'
+                required:
+                - data
+        default:
+          description: Generic error payload
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
+    Asset:
+      title: Asset
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-443db
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - generic_files
+        attributes:
+          $ref: '#/components/schemas/AssetAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    AssetAttributes:
+      title: Asset attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
+          type: string
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
+    Label:
+      title: Label
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-443db
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - labels
+        attributes:
+          $ref: '#/components/schemas/LabelAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    LabelAttributes:
+      title: Label attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the label.
+          example: onboarding
+        path:
+          type: array
+          items:
+            schema:
+              type: string
+          example:
+          - oqgkkd-fr5iv4-443db
+          - abc123
+          description: Hierarchy of label IDs, starting with this label's ID.
+        position:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Label location represented by a positive integer; `0` is the first position.
+          example: 0
+        depth:
+          type: integer
+          description: 'The depth of the label hierarchy. A root level label''s depth is `1`, a label with one parent has depth of `2`, and so on.
+
+            '
+          example: 2
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
+  securitySchemes:
+    APIToken:
+      scheme: bearer
+      type: http
+      description: API Token.
