@@ -30,6 +30,9 @@ url: https://raw.githubusercontent.com/api-evangelist/brandfolder/refs/heads/mai
 created: 2026-06-13
 modified: 2026-08-13
 specificationVersion: '0.23'
+x-docs-platform: redocly
+x-docs-platform-confidence: high
+x-docs-platform-checked: 2026-09-20
 tags:
   - Digital Asset Management
   - Brand Management
