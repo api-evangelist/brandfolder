@@ -2,9 +2,7 @@ openapi: 3.2.0
 info:
   title: Brandfolder OpenAPI Reference Brandfolders API
   version: v4
-  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
-
-    '
+  description: Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
 servers:
 - url: https://brandfolder.com/api/v4
 security:
@@ -12,9 +10,7 @@ security:
 tags:
 - name: brandfolders
   x-displayName: Brandfolders
-  description: 'Brandfolders are nested directly underneath an Organization in the overall heirarchy. They can have many Collections, Sections, and Assets.
-
-    '
+  description: Brandfolders are nested directly underneath an Organization in the overall heirarchy. They can have many Collections, Sections, and Assets.
 paths:
   /brandfolders:
     parameters:
@@ -52,9 +48,7 @@ paths:
 
         https://brandfolder.com/{slug}
 
-        ````
-
-        '
+        ````'
       tags:
       - brandfolders
       parameters:
@@ -146,9 +140,7 @@ paths:
 
         https://brandfolder.com/{slug}
 
-        ````
-
-        '
+        ````'
       parameters:
       - in: query
         name: fields
@@ -311,9 +303,7 @@ paths:
     post:
       operationId: opIdApiV4OganizationsBrandfoldersByOrganizationIdPost
       summary: Create a Brandfolder
-      description: 'Creates a Brandfolder in the specified organization.
-
-        '
+      description: Creates a Brandfolder in the specified organization.
       tags:
       - brandfolders
       parameters:
@@ -511,13 +501,11 @@ paths:
 
         > **NOTE:** To create an asset from a binary upload, copy the `object_url`
 
-        value from the [Get an upload
+        value from the Get an upload
 
-        URL](/api/brandfolder/openapi/binary_upload/opidstorageserviceuploadrequestsget)
+        URL
 
-        response into your request body''s `attachments.url` property.
-
-        '
+        response into your request body''s `attachments.url` property.'
       tags:
       - brandfolders
       requestBody:
@@ -600,9 +588,7 @@ paths:
     get:
       operationId: opIdApiV4BrandfoldersTagsByBrandfolderIdGet
       summary: List tags in a Brandfolder
-      description: 'Lists tags in the matching Brandfolder.
-
-        '
+      description: Lists tags in the matching Brandfolder.
       tags:
       - brandfolders
       responses:
@@ -632,6 +618,71 @@ paths:
                 type: string
 components:
   schemas:
+    Tag:
+      title: Tag
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: a3dlao-hd6so4-7d91d2
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - tags
+        attributes:
+          $ref: '#/components/schemas/TagAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    BrandfolderAttributes:
+      title: Brandfolder attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the brandfolder.
+          example: Brandfolder
+        privacy:
+          type: string
+          description: The privacy setting of the brandfolder.
+          example: private
+        slug:
+          type: string
+          description: The URL-friendly slug of the brandfolder.
+          example: brandfolder
+        tagline:
+          type: string
+          description: The tagline of the brandfolder.
+          example: You expected this - Brandfolder's Brandfolder!
+          default: ''
+      required:
+      - name
+      - privacy
+      - slug
+      - tagline
+    AssetAttributes:
+      title: Asset attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
+          type: string
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
     PaginationMetadataResponse:
       title: Pagination metadata
       description: Page context information.
@@ -669,90 +720,6 @@ components:
       - prev_page
       - total_pages
       - total_count
-    BrandfolderAttributes:
-      title: Brandfolder attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the brandfolder.
-          example: Brandfolder
-        privacy:
-          type: string
-          description: The privacy setting of the brandfolder.
-          example: private
-        slug:
-          type: string
-          description: The URL-friendly slug of the brandfolder.
-          example: brandfolder
-        tagline:
-          type: string
-          description: The tagline of the brandfolder.
-          example: You expected this - Brandfolder's Brandfolder!
-          default: ''
-      required:
-      - name
-      - privacy
-      - slug
-      - tagline
-    Tag:
-      title: Tag
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: a3dlao-hd6so4-7d91d2
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - tags
-        attributes:
-          $ref: '#/components/schemas/TagAttributes'
-      required:
-      - id
-      - type
-      - attributes
-    Asset:
-      title: Asset
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-443db
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - generic_files
-        attributes:
-          $ref: '#/components/schemas/AssetAttributes'
-      required:
-      - id
-      - type
-      - attributes
-    AssetAttributes:
-      title: Asset attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the asset.
-          example: Brandfolder Logo
-        description:
-          type: string
-          description: The description of the asset.
-          example: Brandfolder's logo in print ready format
-        thumbnail_url:
-          type: string
-          description: The online location of the asset.
-          example: https://example.com/example.jpg?Expires=1624742369
-        approved:
-          type: boolean
-          description: If `true`, this asset is approved; otherwise, it's not.
-          example: true
     Brandfolder:
       title: Brandfolder
       type: object
@@ -772,32 +739,6 @@ components:
       - id
       - type
       - attributes
-    TagAttributes:
-      title: Tag attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: 'A keyword associated with exactly one asset.
-
-
-            For example, if you have several assets that represent products you sell, you might create a "product" tag for each one. If you modify or delete the "product" tag for any particular Asset, it doesn''t affect other tags with the same value on other assets.
-
-            '
-          example: product
-        auto_generated:
-          type: boolean
-          description: If `true`, this tag was generated automatically by our smart analysis of file attachments; otherwise, a user created it.
-          example: true
-        source:
-          type:
-          - string
-          - 'null'
-          description: The tag author.
-          example: google_vision
-          default: null
-      required:
-      - name
     AssetAttributesRequest:
       title: Asset attributes request body
       type: object
@@ -852,6 +793,51 @@ components:
                 example: new-attachment.jpg
             required:
             - url
+      required:
+      - name
+    Asset:
+      title: Asset
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-443db
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - generic_files
+        attributes:
+          $ref: '#/components/schemas/AssetAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    TagAttributes:
+      title: Tag attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'A keyword associated with exactly one asset.
+
+
+            For example, if you have several assets that represent products you sell, you might create a "product" tag for each one. If you modify or delete the "product" tag for any particular Asset, it doesn''t affect other tags with the same value on other assets.
+
+            '
+          example: product
+        auto_generated:
+          type: boolean
+          description: If `true`, this tag was generated automatically by our smart analysis of file attachments; otherwise, a user created it.
+          example: true
+        source:
+          type:
+          - string
+          - 'null'
+          description: The tag author.
+          example: google_vision
+          default: null
       required:
       - name
   parameters:

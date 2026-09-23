@@ -2,22 +2,18 @@ openapi: 3.2.0
 info:
   title: Brandfolder OpenAPI Reference Labels API
   version: v4
-  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
-
-    '
+  description: Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
 servers:
 - url: https://brandfolder.com/api/v4
 security:
 - APIToken: []
 tags:
-- name: labels
+- name: Labels
   x-displayName: Labels
   description: 'Brandfolder''s Labels are an enhanced organization and findability feature meant to provide the peace of mind that comes with an organization''s existing folder structure. Think of Labels like your music playlists--any asset can be assigned to a label or multiple labels.
 
 
-    Labels are not turned on for every account. If you are unsure whether you have or need Labels, please contact brandfoldersupport@smartsheet.com.
-
-    '
+    Labels are not turned on for every account. If you are unsure whether you have or need Labels, please contact brandfoldersupport@smartsheet.com.'
 paths:
   /brandfolders/{brandfolder_id}/labels:
     parameters:
@@ -50,7 +46,7 @@ paths:
       summary: List labels
       description: Lists the labels in the matching Brandfolder.
       tags:
-      - labels
+      - Labels
       responses:
         '200':
           description: 'The labels in the matching Brandfolder.
@@ -81,7 +77,7 @@ paths:
       summary: Create a label
       description: Creates a label in the matching Brandfolder.
       tags:
-      - labels
+      - Labels
       requestBody:
         content:
           application/json:
@@ -166,7 +162,7 @@ paths:
           - application/json
         example: application/json
       tags:
-      - labels
+      - Labels
       responses:
         '200':
           description: 'The matching label.
@@ -192,7 +188,7 @@ paths:
       summary: Update a label
       description: Updates the name of the matching label.
       tags:
-      - labels
+      - Labels
       requestBody:
         content:
           application/json:
@@ -238,7 +234,7 @@ paths:
       summary: Delete a label
       description: Deletes the matching label.
       tags:
-      - labels
+      - Labels
       responses:
         '200':
           description: 'Successful response (always an empty object)
@@ -286,7 +282,7 @@ paths:
       summary: List assets in a label
       description: Lists assets in a label.
       tags:
-      - labels
+      - Labels
       parameters:
       - in: query
         name: page
@@ -397,7 +393,7 @@ paths:
       summary: Move the label
       description: Assigns the label a new parent label.
       tags:
-      - labels
+      - Labels
       requestBody:
         content:
           application/json:
@@ -441,7 +437,64 @@ paths:
               schema:
                 type: string
 components:
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
   schemas:
+    AssetAttributes:
+      title: Asset attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
+          type: string
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
+    LabelAttributes:
+      title: Label attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the label.
+          example: onboarding
+        path:
+          type: array
+          items:
+            schema:
+              type: string
+          example:
+          - oqgkkd-fr5iv4-443db
+          - abc123
+          description: Hierarchy of label IDs, starting with this label's ID.
+        position:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Label location represented by a positive integer; `0` is the first position.
+          example: 0
+        depth:
+          type: integer
+          description: 'The depth of the label hierarchy. A root level label''s depth is `1`, a label with one parent has depth of `2`, and so on.
+
+            '
+          example: 2
     PaginationMetadataResponse:
       title: Pagination metadata
       description: Page context information.
@@ -479,45 +532,6 @@ components:
       - prev_page
       - total_pages
       - total_count
-    Asset:
-      title: Asset
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-443db
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - generic_files
-        attributes:
-          $ref: '#/components/schemas/AssetAttributes'
-      required:
-      - id
-      - type
-      - attributes
-    AssetAttributes:
-      title: Asset attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the asset.
-          example: Brandfolder Logo
-        description:
-          type: string
-          description: The description of the asset.
-          example: Brandfolder's logo in print ready format
-        thumbnail_url:
-          type: string
-          description: The online location of the asset.
-          example: https://example.com/example.jpg?Expires=1624742369
-        approved:
-          type: boolean
-          description: If `true`, this asset is approved; otherwise, it's not.
-          example: true
     Label:
       title: Label
       type: object
@@ -537,43 +551,25 @@ components:
       - id
       - type
       - attributes
-    LabelAttributes:
-      title: Label attributes
+    Asset:
+      title: Asset
       type: object
       properties:
-        name:
+        id:
           type: string
-          description: The name of the label.
-          example: onboarding
-        path:
-          type: array
-          items:
-            schema:
-              type: string
-          example:
-          - oqgkkd-fr5iv4-443db
-          - abc123
-          description: Hierarchy of label IDs, starting with this label's ID.
-        position:
-          type: integer
-          format: int32
-          minimum: 0
-          description: Label location represented by a positive integer; `0` is the first position.
-          example: 0
-        depth:
-          type: integer
-          description: 'The depth of the label hierarchy. A root level label''s depth is `1`, a label with one parent has depth of `2`, and so on.
-
-            '
-          example: 2
-  parameters:
-    Authorization:
-      in: header
-      name: Authorization
-      required: true
-      schema:
-        type: string
-      description: Bearer token for authentication
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-443db
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - generic_files
+        attributes:
+          $ref: '#/components/schemas/AssetAttributes'
+      required:
+      - id
+      - type
+      - attributes
   securitySchemes:
     APIToken:
       scheme: bearer

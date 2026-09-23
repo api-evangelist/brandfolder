@@ -2,31 +2,15 @@ openapi: 3.2.0
 info:
   title: Brandfolder OpenAPI Reference Tags API
   version: v4
-  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
-
-    '
+  description: Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
 servers:
 - url: https://brandfolder.com/api/v4
 security:
 - APIToken: []
 tags:
-- name: tags
+- name: Tags
   x-displayName: Tags
-  description: 'Tags can be assigned to Assets and are generally helpful for organizing and searching Assets within a Brandfolder.
-
-
-    Each Tag is essentially a keyword associated with exactly one Asset.
-
-
-    For example, if you have several Assets that represent products you sell, you might create a "product" Tag for each one. If you modify or delete the "product" Tag for any particular Asset, it will not affect other Tags with the same value on other Assets.
-
-
-    Tags have a read-only attribute called `auto_generated` which indicates if the Tag was created automatically by our smart analysis of the file Attachment(s) (`true`) or if a User created the Tag (`false`).
-
-
-    > **IMPORTANT:** Think carefully about whether Tags or Custom Fields are better suited to meet the needs of your particular use case.
-
-    '
+  description: Tags can be assigned to Assets and are generally helpful for organizing and searching Assets within a Brandfolder.
 paths:
   /collections/{collection_id}/tags:
     parameters:
@@ -57,11 +41,9 @@ paths:
     get:
       operationId: opIdApiV4CollectionsTagsByCollectionIdGet
       summary: List tags in a collection
-      description: 'Lists tags in the matching collection.
-
-        '
+      description: Lists tags in the matching collection.
       tags:
-      - tags
+      - Tags
       responses:
         '200':
           description: 'Tags in the matching collection.
@@ -116,11 +98,9 @@ paths:
     get:
       operationId: opIdApiV4AssetsTagsByAssetIdGet
       summary: List tags for an asset
-      description: 'Lists tags for the matching asset.
-
-        '
+      description: Lists tags for the matching asset.
       tags:
-      - tags
+      - Tags
       parameters:
       - in: query
         name: include
@@ -173,11 +153,9 @@ paths:
 
         > **Note:** You can add multiple tags to the `attributes` array in the
 
-        request body.
-
-        '
+        request body.'
       tags:
-      - tags
+      - Tags
       requestBody:
         description: New tag names for the asset.
         content:
@@ -256,11 +234,9 @@ paths:
     get:
       operationId: opIdApiV4BrandfoldersTagsByBrandfolderIdGet
       summary: List tags in a Brandfolder
-      description: 'Lists tags in the matching Brandfolder.
-
-        '
+      description: Lists tags in the matching Brandfolder.
       tags:
-      - tags
+      - Tags
       responses:
         '200':
           description: 'Tags in the matching Brandfolder.
@@ -315,11 +291,9 @@ paths:
     put:
       operationId: opIdApiV4TagsByIdPut
       summary: Update a tag
-      description: 'Updates the matching tag.
-
-        '
+      description: Updates the matching tag.
       tags:
-      - tags
+      - Tags
       requestBody:
         description: New tag names for the asset.
         content:
@@ -392,11 +366,9 @@ paths:
         { "tags": ["A", "B"], "locale": "en" }
 
 
-        > **Important:** This endpoint is asynchronous
-
-        '
+        > **Important:** This endpoint is asynchronous'
       tags:
-      - tags
+      - Tags
       requestBody:
         description: 'Example: { "tags": ["A", "B"], "locale": "en" }
 
@@ -436,32 +408,6 @@ paths:
                 type: string
 components:
   schemas:
-    TagAttributes:
-      title: Tag attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: 'A keyword associated with exactly one asset.
-
-
-            For example, if you have several assets that represent products you sell, you might create a "product" tag for each one. If you modify or delete the "product" tag for any particular Asset, it doesn''t affect other tags with the same value on other assets.
-
-            '
-          example: product
-        auto_generated:
-          type: boolean
-          description: If `true`, this tag was generated automatically by our smart analysis of file attachments; otherwise, a user created it.
-          example: true
-        source:
-          type:
-          - string
-          - 'null'
-          description: The tag author.
-          example: google_vision
-          default: null
-      required:
-      - name
     PaginationMetadataResponse:
       title: Pagination metadata
       description: Page context information.
@@ -518,6 +464,32 @@ components:
       - id
       - type
       - attributes
+    TagAttributes:
+      title: Tag attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'A keyword associated with exactly one asset.
+
+
+            For example, if you have several assets that represent products you sell, you might create a "product" tag for each one. If you modify or delete the "product" tag for any particular Asset, it doesn''t affect other tags with the same value on other assets.
+
+            '
+          example: product
+        auto_generated:
+          type: boolean
+          description: If `true`, this tag was generated automatically by our smart analysis of file attachments; otherwise, a user created it.
+          example: true
+        source:
+          type:
+          - string
+          - 'null'
+          description: The tag author.
+          example: google_vision
+          default: null
+      required:
+      - name
   parameters:
     Authorization:
       in: header

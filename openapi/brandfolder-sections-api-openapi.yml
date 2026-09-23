@@ -2,19 +2,15 @@ openapi: 3.2.0
 info:
   title: Brandfolder OpenAPI Reference Sections API
   version: v4
-  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
-
-    '
+  description: Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
 servers:
 - url: https://brandfolder.com/api/v4
 security:
 - APIToken: []
 tags:
-- name: sections
+- name: Sections
   x-displayName: Sections
-  description: 'Sections are nested under a Brandfolder and contain many Assets. They exist to help keep Assets organized within a Brandfolder. They also determine which type of digital assets can be uploaded within them (files, external media, fonts, etc.).
-
-    '
+  description: Sections are nested under a Brandfolder and contain many Assets. They exist to help keep Assets organized within a Brandfolder. They also determine which type of digital assets can be uploaded within them (files, external media, fonts, etc.).
 paths:
   /brandfolders/{brandfolder_id}/sections:
     parameters:
@@ -47,7 +43,7 @@ paths:
       summary: List sections
       description: Returns the Brandfolder's sections.
       tags:
-      - sections
+      - Sections
       parameters:
       - in: query
         name: include
@@ -85,7 +81,7 @@ paths:
       summary: Create a section
       description: Creates a section in the matching Brandfolder.
       tags:
-      - sections
+      - Sections
       requestBody:
         description: 'Attribute values for the section.
 
@@ -194,10 +190,10 @@ paths:
     - $ref: '#/components/parameters/Authorization'
     get:
       operationId: opIdApiV4SectionsByIdGet
-      summary: Fetch a section.
+      summary: Fetch a section
       description: Fetches the matching section.
       tags:
-      - sections
+      - Sections
       parameters:
       - in: query
         name: include
@@ -256,7 +252,7 @@ paths:
       summary: List assets in a section
       description: Lists assets in the matching section.
       tags:
-      - sections
+      - Sections
       parameters:
       - in: query
         name: page
@@ -331,7 +327,35 @@ paths:
               schema:
                 type: string
 components:
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
   schemas:
+    AssetAttributes:
+      title: Asset attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
+          type: string
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
     PaginationMetadataResponse:
       title: Pagination metadata
       description: Page context information.
@@ -369,35 +393,6 @@ components:
       - prev_page
       - total_pages
       - total_count
-    SectionAttributes:
-      title: Section attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the section.
-          example: My section
-        default_asset_type:
-          type: string
-          description: 'The type of asset the section contains.
-
-            '
-          enum:
-          - GenericFile
-          - Color
-          - Font
-          - ExternalMedium
-          - Person
-          - Press
-          - Text
-          example: GenericFile
-        position:
-          type: integer
-          minimum: 0
-          description: 'A non-negative integer that represents where the section displays relative to other sections. The first position is `0`.
-
-            '
-          example: 0
     Section:
       title: Section
       type: object
@@ -436,34 +431,35 @@ components:
       - id
       - type
       - attributes
-    AssetAttributes:
-      title: Asset attributes
+    SectionAttributes:
+      title: Section attributes
       type: object
       properties:
         name:
           type: string
-          description: The name of the asset.
-          example: Brandfolder Logo
-        description:
+          description: The name of the section.
+          example: My section
+        default_asset_type:
           type: string
-          description: The description of the asset.
-          example: Brandfolder's logo in print ready format
-        thumbnail_url:
-          type: string
-          description: The online location of the asset.
-          example: https://example.com/example.jpg?Expires=1624742369
-        approved:
-          type: boolean
-          description: If `true`, this asset is approved; otherwise, it's not.
-          example: true
-  parameters:
-    Authorization:
-      in: header
-      name: Authorization
-      required: true
-      schema:
-        type: string
-      description: Bearer token for authentication
+          description: 'The type of asset the section contains.
+
+            '
+          enum:
+          - GenericFile
+          - Color
+          - Font
+          - ExternalMedium
+          - Person
+          - Press
+          - Text
+          example: GenericFile
+        position:
+          type: integer
+          minimum: 0
+          description: 'A non-negative integer that represents where the section displays relative to other sections. The first position is `0`.
+
+            '
+          example: 0
   securitySchemes:
     APIToken:
       scheme: bearer

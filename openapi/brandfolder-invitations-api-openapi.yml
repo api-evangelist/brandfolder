@@ -2,22 +2,18 @@ openapi: 3.2.0
 info:
   title: Brandfolder OpenAPI Reference Invitations API
   version: v4
-  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
-
-    '
+  description: Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
 servers:
 - url: https://brandfolder.com/api/v4
 security:
 - APIToken: []
 tags:
-- name: invitations
+- name: Invitations
   x-displayName: Invitations
   description: 'Invitations are exactly what they sound like and can be created to invite Users to join your Organization, Brandfolder, or Collection as a `guest`, `collaborator`, `admin`, or (when inviting someone to an Organization) `owner`.
 
 
-    Learn more about the permission levels you can grant Users in our Knowledge Base article on <a href="https://help.smartsheet.com/115002602273-User-Permissions" target="_blank">User Permissions</a>.
-
-    '
+    Learn more about the permission levels you can grant Users in our Knowledge Base article on User Permissions.'
 paths:
   /brandfolders/{brandfolder_id}/invitations:
     parameters:
@@ -48,11 +44,9 @@ paths:
     get:
       operationId: opIdApiV4BrandfoldersInvitationsByBrandfolderIdGet
       summary: List invitations to a Brandfolder
-      description: 'Lists invitations to the matching Brandfolder.
-
-        '
+      description: Lists invitations to the matching Brandfolder.
       tags:
-      - invitations
+      - Invitations
       parameters:
       - in: query
         name: fields
@@ -123,11 +117,9 @@ paths:
     post:
       operationId: opIdApiV4BrandfoldersInvitationsByBrandfolderIdPost
       summary: Create an invitation to a Brandfolder
-      description: 'Creates an invitation to the matching Brandfolder.
-
-        '
+      description: Creates an invitation to the matching Brandfolder.
       tags:
-      - invitations
+      - Invitations
       requestBody:
         description: An invitation to the Brandfolder.
         content:
@@ -193,11 +185,9 @@ paths:
     get:
       operationId: opIdApiV4OrganizationsInvitationsByOrganizationIdGet
       summary: List invitations to an organization
-      description: 'Lists invitations to the matching organization.
-
-        '
+      description: Lists invitations to the matching organization.
       tags:
-      - invitations
+      - Invitations
       parameters:
       - in: query
         name: fields
@@ -268,11 +258,9 @@ paths:
     post:
       operationId: opIdApiV4OrganizationsInvitationsByOrganizationIdPost
       summary: Create an invitation to an organization
-      description: 'Creates an invitation to the matching organization.
-
-        '
+      description: Creates an invitation to the matching organization.
       tags:
-      - invitations
+      - Invitations
       requestBody:
         description: An invitation to the organization.
         content:
@@ -330,11 +318,9 @@ paths:
     get:
       operationId: opIdApiV4CollectionsInvitationsByCollectionIdGet
       summary: List invitations to a collection
-      description: 'Lists invitations to the matching collection.
-
-        '
+      description: Lists invitations to the matching collection.
       tags:
-      - invitations
+      - Invitations
       parameters:
       - in: query
         name: fields
@@ -405,11 +391,9 @@ paths:
     post:
       operationId: opIdApiV4CollectionsInvitationsByCollectionIdPost
       summary: Create an invitation to a collection
-      description: 'Creates an invitation to the matching collection.
-
-        '
+      description: Creates an invitation to the matching collection.
       tags:
-      - invitations
+      - Invitations
       requestBody:
         description: An invitation to the collection.
         content:
@@ -472,11 +456,9 @@ paths:
 
         > **Important:** You can get the portal ID in the response from **Fetch an
 
-        organization**.
-
-        '
+        organization**.'
       tags:
-      - invitations
+      - Invitations
       parameters:
       - in: query
         name: fields
@@ -547,11 +529,9 @@ paths:
     post:
       operationId: opIdApiV4PortalsInvitationsByPortalIdPost
       summary: Create an invitation to a portal
-      description: 'Creates an invitation to the matching portal.
-
-        '
+      description: Creates an invitation to the matching portal.
       tags:
-      - invitations
+      - Invitations
       requestBody:
         description: An invitation to the portal.
         content:
@@ -614,11 +594,9 @@ paths:
 
         > **Important:** You can get the Brandguide ID in the response from **Fetch
 
-        an organization**.
-
-        '
+        an organization**.'
       tags:
-      - invitations
+      - Invitations
       parameters:
       - in: query
         name: fields
@@ -689,11 +667,9 @@ paths:
     post:
       operationId: opIdApiV4BrandguidesInvitationsByBrandguideIdPost
       summary: Create an invitation to a Brandguide
-      description: 'Creates an invitation to the matching Brandguide.
-
-        '
+      description: Creates an invitation to the matching Brandguide.
       tags:
-      - invitations
+      - Invitations
       requestBody:
         description: An invitation to the Brandguide.
         content:
@@ -751,11 +727,9 @@ paths:
     get:
       operationId: opIdApiV4InvitationsByIdGet
       summary: Fetch an invitation
-      description: 'Gets a matching invitation.
-
-        '
+      description: Gets a matching invitation.
       tags:
-      - invitations
+      - Invitations
       parameters:
       - in: header
         name: Accept
@@ -820,11 +794,9 @@ paths:
     delete:
       operationId: opIdApiV4InvitationsByIdDelete
       summary: Delete an invitation
-      description: 'Deletes the matching invitation.
-
-        '
+      description: Deletes the matching invitation.
       tags:
-      - invitations
+      - Invitations
       responses:
         '200':
           description: 'Successful response (always an empty object)
@@ -842,7 +814,37 @@ paths:
               schema:
                 type: string
 components:
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
   schemas:
+    InvitationAttributes:
+      title: Invitation attributes
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email address of the recipient.
+          example: test@example.com
+        permission_level:
+          type: string
+          description: Access to grant the recipient.
+          example: guest
+        personal_message:
+          type: string
+          description: A message for the recipient.
+          example: Welcome to my Brandfolder!
+        invitation_url:
+          type: string
+          description: The invitation's URL.
+          example: https://brandfolder.com/invitations/abc123
+      required:
+      - email
     PaginationMetadataResponse:
       title: Pagination metadata
       description: Page context information.
@@ -880,47 +882,6 @@ components:
       - prev_page
       - total_pages
       - total_count
-    Invitation:
-      title: Invitation
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: a3dlao-hd6so4-7d91d2
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - invitations
-        attributes:
-          $ref: '#/components/schemas/InvitationAttributes'
-      required:
-      - id
-      - type
-      - attributes
-    InvitationAttributes:
-      title: Invitation attributes
-      type: object
-      properties:
-        email:
-          type: string
-          description: Email address of the recipient.
-          example: test@example.com
-        permission_level:
-          type: string
-          description: Access to grant the recipient.
-          example: guest
-        personal_message:
-          type: string
-          description: A message for the recipient.
-          example: Welcome to my Brandfolder!
-        invitation_url:
-          type: string
-          description: The invitation's URL.
-          example: https://brandfolder.com/invitations/abc123
-      required:
-      - email
     InvitationCreationRequest:
       title: Invitation creation request
       type: object
@@ -967,14 +928,25 @@ components:
           - attributes
       required:
       - data
-  parameters:
-    Authorization:
-      in: header
-      name: Authorization
-      required: true
-      schema:
-        type: string
-      description: Bearer token for authentication
+    Invitation:
+      title: Invitation
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: a3dlao-hd6so4-7d91d2
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - invitations
+        attributes:
+          $ref: '#/components/schemas/InvitationAttributes'
+      required:
+      - id
+      - type
+      - attributes
   securitySchemes:
     APIToken:
       scheme: bearer

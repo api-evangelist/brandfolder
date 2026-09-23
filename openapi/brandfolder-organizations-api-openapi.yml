@@ -2,19 +2,15 @@ openapi: 3.2.0
 info:
   title: Brandfolder OpenAPI Reference Organizations API
   version: v4
-  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
-
-    '
+  description: Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
 servers:
 - url: https://brandfolder.com/api/v4
 security:
 - APIToken: []
 tags:
-- name: organizations
+- name: Organizations
   x-displayName: Organizations
-  description: 'An Organization is the top level resource of all objects in Brandfolder. It can have many Brandfolders nested beneath it.
-
-    '
+  description: An Organization is the top level resource of all objects in Brandfolder. It can have many Brandfolders nested beneath it.
 paths:
   /organizations:
     parameters:
@@ -48,11 +44,9 @@ paths:
 
         https://brandfolder.com/organizations/{slug}
 
-        ````
-
-        '
+        ````'
       tags:
-      - organizations
+      - Organizations
       parameters:
       - in: query
         name: fields
@@ -134,11 +128,9 @@ paths:
 
         https://brandfolder.com/organizations/{slug}
 
-        ````
-
-        '
+        ````'
       tags:
-      - organizations
+      - Organizations
       parameters:
       - in: query
         name: fields

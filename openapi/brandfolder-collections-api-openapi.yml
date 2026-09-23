@@ -2,19 +2,15 @@ openapi: 3.2.0
 info:
   title: Brandfolder OpenAPI Reference Collections API
   version: v4
-  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
-
-    '
+  description: Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
 servers:
 - url: https://brandfolder.com/api/v4
 security:
 - APIToken: []
 tags:
-- name: collections
+- name: Collections
   x-displayName: Collections
-  description: 'Collections are nested under a Brandfolder and contain many Assets. They are mainly used as an additional way to organize, manage, share, and restrict access to a subset of Assets within your Brandfolder without having to upload Assets to multiple places.
-
-    '
+  description: Collections are nested under a Brandfolder and contain many Assets. They are mainly used as an additional way to organize, manage, share, and restrict access to a subset of Assets within your Brandfolder without having to upload Assets to multiple places.
 paths:
   /brandfolders/{brandfolder_id}/collections:
     parameters:
@@ -57,11 +53,9 @@ paths:
 
         https://brandfolder.com/{brandfolder_slug}/{collection_slug
 
-        ```
-
-        '
+        ```'
       tags:
-      - collections
+      - Collections
       responses:
         '200':
           description: 'All the collections in the Brandfolder.
@@ -92,7 +86,7 @@ paths:
       summary: Create a collection
       description: Creates a collection in the matching Brandfolder.
       tags:
-      - collections
+      - Collections
       requestBody:
         description: 'Attribute values for the collection.
 
@@ -178,9 +172,24 @@ paths:
     get:
       operationId: opIdApiV4CollectionsGet
       summary: List collections
-      description: "List the collections accessible to the user. \n\nUnauthorized requests return an empty list.\n\nYou can use the returned `slug` parameter (in conjunction with the slug of\nthe parent Brandfolder) to form a link to the desired Collection like so:\n\n```\nhttps://brandfolder.com/{brandfolder_slug}/{collection_slug}\n```\n"
+      description: 'List the collections accessible to the user.
+
+
+        Unauthorized requests return an empty list.
+
+
+        You can use the returned `slug` parameter (in conjunction with the slug of
+
+        the parent Brandfolder) to form a link to the desired Collection like so:
+
+
+        ```
+
+        https://brandfolder.com/{brandfolder_slug}/{collection_slug}
+
+        ```'
       tags:
-      - collections
+      - Collections
       parameters:
       - in: header
         name: Accept
@@ -238,11 +247,9 @@ paths:
     get:
       operationId: opIdApiV4CollectionsByIdGet
       summary: Fetch a collection
-      description: 'Returns the matching collection.
-
-        '
+      description: Returns the matching collection.
       tags:
-      - collections
+      - Collections
       parameters:
       - in: query
         name: fields
@@ -299,7 +306,7 @@ paths:
       summary: Update a collection
       description: Updates the matching collection.
       tags:
-      - collections
+      - Collections
       parameters:
       - in: header
         name: Accept
@@ -419,7 +426,7 @@ paths:
       summary: Delete a collection
       description: Removes the matching collection.
       tags:
-      - collections
+      - Collections
       responses:
         '200':
           description: 'Successful response (always an empty object)
@@ -467,7 +474,7 @@ paths:
       summary: List assets in a collection
       description: Lists assets in a collection.
       tags:
-      - collections
+      - Collections
       parameters:
       - in: query
         name: page
@@ -561,11 +568,9 @@ paths:
 
         binary file upload to our temporary storage bucket and then use that URL
 
-        when creating Assets/Attachments.
-
-        '
+        when creating Assets/Attachments.'
       tags:
-      - collections
+      - Collections
       requestBody:
         content:
           application/json:
@@ -646,11 +651,9 @@ paths:
     get:
       operationId: opIdApiV4CollectionsTagsByCollectionIdGet
       summary: List tags in a collection
-      description: 'Lists tags in the matching collection.
-
-        '
+      description: Lists tags in the matching collection.
       tags:
-      - collections
+      - Collections
       responses:
         '200':
           description: 'Tags in the matching collection.
@@ -678,6 +681,45 @@ paths:
                 type: string
 components:
   schemas:
+    Tag:
+      title: Tag
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: a3dlao-hd6so4-7d91d2
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - tags
+        attributes:
+          $ref: '#/components/schemas/TagAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    AssetAttributes:
+      title: Asset attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
+          type: string
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
     PaginationMetadataResponse:
       title: Pagination metadata
       description: Page context information.
@@ -715,21 +757,77 @@ components:
       - prev_page
       - total_pages
       - total_count
-    Tag:
-      title: Tag
+    AssetAttributesRequest:
+      title: Asset attributes request body
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
+          type: string
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
+        availability_start:
+          type: string
+          format: date-time
+          description: 'This represents the publish/availability date in Brandfolder, the label `draft` will show.
+
+            '
+          example: '2024-02-23T18:22:49.771Z'
+        availability_end:
+          type: string
+          format: date-time
+          description: 'This represents the expiration date in brandfolder, the label `expired` will show.
+
+            '
+          example: '2025-02-23T18:22:49.771Z'
+        attachments:
+          description: 'An array of Attachment objects to add to the Asset (these do not overwrite exisiting Attachments).
+
+            '
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                description: 'A fully-formed URL of the file to upload (required for each new Attachment).
+
+                  '
+                example: https://example.com/new-attachment.jpg
+              filename:
+                type: string
+                description: A complete file name, with extension.
+                example: new-attachment.jpg
+            required:
+            - url
+      required:
+      - name
+    Collection:
+      title: Collection
       type: object
       properties:
         id:
           type: string
           description: Unique identifier for the resource instance.
-          example: a3dlao-hd6so4-7d91d2
+          example: oqgkkd-fr5iv4-hh142d
         type:
           type: string
           description: The type of the resource.
           enum:
-          - tags
+          - collections
         attributes:
-          $ref: '#/components/schemas/TagAttributes'
+          $ref: '#/components/schemas/CollectionAttributes'
       required:
       - id
       - type
@@ -753,45 +851,6 @@ components:
       - id
       - type
       - attributes
-    Collection:
-      title: Collection
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-hh142d
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - collections
-        attributes:
-          $ref: '#/components/schemas/CollectionAttributes'
-      required:
-      - id
-      - type
-      - attributes
-    AssetAttributes:
-      title: Asset attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the asset.
-          example: Brandfolder Logo
-        description:
-          type: string
-          description: The description of the asset.
-          example: Brandfolder's logo in print ready format
-        thumbnail_url:
-          type: string
-          description: The online location of the asset.
-          example: https://example.com/example.jpg?Expires=1624742369
-        approved:
-          type: boolean
-          description: If `true`, this asset is approved; otherwise, it's not.
-          example: true
     TagAttributes:
       title: Tag attributes
       type: object
@@ -849,62 +908,6 @@ components:
           description: Set to `true` if the collection is a Brandfolder workspace.
           example: false
           default: false
-    AssetAttributesRequest:
-      title: Asset attributes request body
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the asset.
-          example: Brandfolder Logo
-        description:
-          type: string
-          description: The description of the asset.
-          example: Brandfolder's logo in print ready format
-        thumbnail_url:
-          type: string
-          description: The online location of the asset.
-          example: https://example.com/example.jpg?Expires=1624742369
-        approved:
-          type: boolean
-          description: If `true`, this asset is approved; otherwise, it's not.
-          example: true
-        availability_start:
-          type: string
-          format: date-time
-          description: 'This represents the publish/availability date in Brandfolder, the label `draft` will show.
-
-            '
-          example: '2024-02-23T18:22:49.771Z'
-        availability_end:
-          type: string
-          format: date-time
-          description: 'This represents the expiration date in brandfolder, the label `expired` will show.
-
-            '
-          example: '2025-02-23T18:22:49.771Z'
-        attachments:
-          description: 'An array of Attachment objects to add to the Asset (these do not overwrite exisiting Attachments).
-
-            '
-          type: array
-          items:
-            type: object
-            properties:
-              url:
-                type: string
-                description: 'A fully-formed URL of the file to upload (required for each new Attachment).
-
-                  '
-                example: https://example.com/new-attachment.jpg
-              filename:
-                type: string
-                description: A complete file name, with extension.
-                example: new-attachment.jpg
-            required:
-            - url
-      required:
-      - name
   parameters:
     Authorization:
       in: header

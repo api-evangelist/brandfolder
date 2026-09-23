@@ -1,0 +1,44 @@
+{
+  "provider": "brandfolder",
+  "sources": [
+    "_original/brandfolder-openapi-original.yml"
+  ],
+  "outputs": [
+    "brandfolder-assets-api-openapi.yml",
+    "brandfolder-attachments-api-openapi.yml",
+    "brandfolder-binary-upload-api-openapi.yml",
+    "brandfolder-brandfolders-api-openapi.yml",
+    "brandfolder-collections-api-openapi.yml",
+    "brandfolder-custom-fields-api-openapi.yml",
+    "brandfolder-invitations-api-openapi.yml",
+    "brandfolder-labels-api-openapi.yml",
+    "brandfolder-organizations-api-openapi.yml",
+    "brandfolder-sections-api-openapi.yml",
+    "brandfolder-tags-api-openapi.yml",
+    "brandfolder-user-permissions-api-openapi.yml",
+    "brandfolder-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "brandfolder-openapi-original.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "brandfolder-assets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brandfolder-attachments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brandfolder-binary-upload-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brandfolder-brandfolders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brandfolder-collections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brandfolder-custom-fields-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brandfolder-invitations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brandfolder-labels-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brandfolder-organizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brandfolder-sections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brandfolder-tags-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brandfolder-user-permissions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brandfolder-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

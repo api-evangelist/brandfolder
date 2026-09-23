@@ -2,28 +2,15 @@ openapi: 3.2.0
 info:
   title: Brandfolder OpenAPI Reference Custom Fields API
   version: v4
-  description: 'Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
-
-    '
+  description: Welcome to the OpenAPI reference documentation for Brandfolder by Smartsheet!
 servers:
 - url: https://brandfolder.com/api/v4
 security:
 - APIToken: []
 tags:
-- name: custom_fields
+- name: Custom Fields
   x-displayName: Custom fields
-  description: 'Custom Fields can be assigned to Assets and are generally helpful for organizing and searching Assets within a Brandfolder, as well as for understanding more details about each Asset.
-
-
-    Each Custom Field is essentially a key/value pair associated with **exactly one Asset**. Keys and values are always a string type, so use `"123"` instead of `123`.
-
-
-    For example, if you have several Assets that represent products you sell in different colors, you might create a Custom Field for each of those Assets with a key of `"color"` and a value of `"blue"` or `"red"`, etc. If you modify or delete a `"color":"blue"` Custom Field for any particular Asset, it will not affect other Custom Fields on other Assets, even if they have the same key and/or value.
-
-
-    > **IMPORTANT:** Think carefully about whether Tags or Custom Fields are better suited to meet the needs of your particular use case.
-
-    '
+  description: Custom Fields can be assigned to Assets and are generally helpful for organizing and searching Assets within a Brandfolder, as well as for understanding more details about each Asset.
 paths:
   /brandfolders/{brandfolder_id}/custom_field_keys:
     parameters:
@@ -54,11 +41,9 @@ paths:
     get:
       operationId: opIdApiV4BrandfoldersCustomFieldKeysByBrandfolderIdGet
       summary: List custom field keys
-      description: 'Lists custom field keys for the matching Brandfolder.
-
-        '
+      description: Lists custom field keys for the matching Brandfolder.
       tags:
-      - custom_fields
+      - Custom Fields
       parameters:
       - in: query
         name: fields
@@ -131,11 +116,9 @@ paths:
 
         optionally restrict their allowed values for Custom Fields using this
 
-        endpoint.
-
-        '
+        endpoint.'
       tags:
-      - custom_fields
+      - Custom Fields
       requestBody:
         description: Custom field keys for the matching brandfolder.
         content:
@@ -242,9 +225,7 @@ paths:
     get:
       operationId: opIdApiV4AssetsCustomFieldValuesByAssetIdGet
       summary: List custom fields
-      description: 'Lists custom fields for the matching asset.
-
-        '
+      description: Lists custom fields for the matching asset.
       parameters:
       - in: query
         name: include
@@ -264,7 +245,7 @@ paths:
 
           '
       tags:
-      - custom_fields
+      - Custom Fields
       responses:
         '200':
           description: 'The custom fields for the asset.
@@ -324,24 +305,22 @@ paths:
 
         In order to use this endpoint, you will need to have the Custom Field Key ID
 
-        for the Custom Field you wish to create. Please see [List Custom Field Keys
+        for the Custom Field you wish to create. Please see List Custom Field Keys
 
         for a
 
-        Brandfolder](/api/brandfolder/openapi/custom_fields/opidapiv4brandfolderscustomfieldkeysbybrandfolderidget)
+        Brandfolder
 
         to get a list of the Custom Field Key IDs.
 
 
         Want to learn more about Custom Fields? Check out out our Knowledge Base
 
-        article on <a href="https://help.smartsheet.com/115002608613-Setting-up-Custom-Fields" target="_blank">Custom
+        article on Custom
 
-        Fields</a>.
-
-        '
+        Fields.'
       tags:
-      - custom_fields
+      - Custom Fields
       requestBody:
         content:
           application/json:
@@ -469,11 +448,9 @@ paths:
 
         use. Changing allowed values or whether they are restricted after other
 
-        values have already been used can lead to undesirable results.
-
-        '
+        values have already been used can lead to undesirable results.'
       tags:
-      - custom_fields
+      - Custom Fields
       parameters:
       - in: header
         name: Accept
@@ -588,11 +565,9 @@ paths:
 
         > **Warning:** Be very careful when using this endpoint as it also deletes
 
-        all associated values for that key.
-
-        '
+        all associated values for that key.'
       tags:
-      - custom_fields
+      - Custom Fields
       parameters:
       - in: header
         name: Content-Type
@@ -639,11 +614,9 @@ paths:
     put:
       operationId: opIdApiV4CustomFieldValuesByIdPut
       summary: Update a custom field
-      description: 'Update the matching custom field.
-
-        '
+      description: Update the matching custom field.
       tags:
-      - custom_fields
+      - Custom Fields
       parameters:
       - in: header
         name: Accept
@@ -697,11 +670,9 @@ paths:
     delete:
       operationId: opIdApiV4CustomFieldValuesByIdDelete
       summary: Delete a custom field
-      description: 'Deletes the matching custom field.
-
-        '
+      description: Deletes the matching custom field.
       tags:
-      - custom_fields
+      - Custom Fields
       parameters:
       - in: header
         name: Content-Type
@@ -729,6 +700,37 @@ paths:
                 type: string
 components:
   schemas:
+    CustomFieldValue:
+      title: Custom field value
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: r79p3j4gbcgtv33gbsqrxb
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - custom_field_values
+        attributes:
+          $ref: '#/components/schemas/CustomFieldValueAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    CustomFieldValueAttributes:
+      title: Custom field value attributes
+      type: object
+      properties:
+        key:
+          type: string
+          description: A key name.
+          example: Campaign
+        value:
+          type: string
+          description: The value for the key.
+          example: Fall
     PaginationMetadataResponse:
       title: Pagination metadata
       description: Page context information.
@@ -766,6 +768,25 @@ components:
       - prev_page
       - total_pages
       - total_count
+    CustomFieldKey:
+      title: Custom field key
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: plqlkk-22rw6g-3dqgx0
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - custom_field_keys
+        attributes:
+          $ref: '#/components/schemas/CustomFieldKeyAttributes'
+      required:
+      - id
+      - type
+      - attributes
     CustomFieldKeyAttributes:
       title: Custom field key attributes
       type: object
@@ -803,56 +824,6 @@ components:
           example: true
       required:
       - name
-    CustomFieldValue:
-      title: Custom field value
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: r79p3j4gbcgtv33gbsqrxb
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - custom_field_values
-        attributes:
-          $ref: '#/components/schemas/CustomFieldValueAttributes'
-      required:
-      - id
-      - type
-      - attributes
-    CustomFieldValueAttributes:
-      title: Custom field value attributes
-      type: object
-      properties:
-        key:
-          type: string
-          description: A key name.
-          example: Campaign
-        value:
-          type: string
-          description: The value for the key.
-          example: Fall
-    CustomFieldKey:
-      title: Custom field key
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: plqlkk-22rw6g-3dqgx0
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - custom_field_keys
-        attributes:
-          $ref: '#/components/schemas/CustomFieldKeyAttributes'
-      required:
-      - id
-      - type
-      - attributes
   parameters:
     Authorization:
       in: header
