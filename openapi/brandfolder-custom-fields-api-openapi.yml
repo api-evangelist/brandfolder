@@ -700,74 +700,6 @@ paths:
                 type: string
 components:
   schemas:
-    CustomFieldValue:
-      title: Custom field value
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: r79p3j4gbcgtv33gbsqrxb
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - custom_field_values
-        attributes:
-          $ref: '#/components/schemas/CustomFieldValueAttributes'
-      required:
-      - id
-      - type
-      - attributes
-    CustomFieldValueAttributes:
-      title: Custom field value attributes
-      type: object
-      properties:
-        key:
-          type: string
-          description: A key name.
-          example: Campaign
-        value:
-          type: string
-          description: The value for the key.
-          example: Fall
-    PaginationMetadataResponse:
-      title: Pagination metadata
-      description: Page context information.
-      type: object
-      properties:
-        current_page:
-          type: integer
-          format: int32
-          example: 1
-          minimum: 1
-          default: 1
-        next_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        prev_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        total_pages:
-          example: 1
-          minimum: 1
-          default: 1
-        total_count:
-          example: 1
-          minimum: 0
-          default: 0
-      required:
-      - current_page
-      - next_page
-      - prev_page
-      - total_pages
-      - total_count
     CustomFieldKey:
       title: Custom field key
       type: object
@@ -824,6 +756,74 @@ components:
           example: true
       required:
       - name
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
+    CustomFieldValue:
+      title: Custom field value
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: r79p3j4gbcgtv33gbsqrxb
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - custom_field_values
+        attributes:
+          $ref: '#/components/schemas/CustomFieldValueAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    CustomFieldValueAttributes:
+      title: Custom field value attributes
+      type: object
+      properties:
+        key:
+          type: string
+          description: A key name.
+          example: Campaign
+        value:
+          type: string
+          description: The value for the key.
+          example: Fall
   parameters:
     Authorization:
       in: header

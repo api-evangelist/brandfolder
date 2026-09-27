@@ -169,6 +169,25 @@ paths:
                 type: string
 components:
   schemas:
+    Organization:
+      title: Organization
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-cocc75
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - organizations
+        attributes:
+          $ref: '#/components/schemas/OrganizationAttributes'
+      required:
+      - id
+      - type
+      - attributes
     PaginationMetadataResponse:
       title: Pagination metadata
       description: Page context information.
@@ -206,25 +225,6 @@ components:
       - prev_page
       - total_pages
       - total_count
-    Organization:
-      title: Organization
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-cocc75
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - organizations
-        attributes:
-          $ref: '#/components/schemas/OrganizationAttributes'
-      required:
-      - id
-      - type
-      - attributes
     OrganizationAttributes:
       title: Organization attributes
       type: object

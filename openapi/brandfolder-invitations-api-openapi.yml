@@ -814,74 +814,7 @@ paths:
               schema:
                 type: string
 components:
-  parameters:
-    Authorization:
-      in: header
-      name: Authorization
-      required: true
-      schema:
-        type: string
-      description: Bearer token for authentication
   schemas:
-    InvitationAttributes:
-      title: Invitation attributes
-      type: object
-      properties:
-        email:
-          type: string
-          description: Email address of the recipient.
-          example: test@example.com
-        permission_level:
-          type: string
-          description: Access to grant the recipient.
-          example: guest
-        personal_message:
-          type: string
-          description: A message for the recipient.
-          example: Welcome to my Brandfolder!
-        invitation_url:
-          type: string
-          description: The invitation's URL.
-          example: https://brandfolder.com/invitations/abc123
-      required:
-      - email
-    PaginationMetadataResponse:
-      title: Pagination metadata
-      description: Page context information.
-      type: object
-      properties:
-        current_page:
-          type: integer
-          format: int32
-          example: 1
-          minimum: 1
-          default: 1
-        next_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        prev_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        total_pages:
-          example: 1
-          minimum: 1
-          default: 1
-        total_count:
-          example: 1
-          minimum: 0
-          default: 0
-      required:
-      - current_page
-      - next_page
-      - prev_page
-      - total_pages
-      - total_count
     InvitationCreationRequest:
       title: Invitation creation request
       type: object
@@ -947,6 +880,73 @@ components:
       - id
       - type
       - attributes
+    InvitationAttributes:
+      title: Invitation attributes
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email address of the recipient.
+          example: test@example.com
+        permission_level:
+          type: string
+          description: Access to grant the recipient.
+          example: guest
+        personal_message:
+          type: string
+          description: A message for the recipient.
+          example: Welcome to my Brandfolder!
+        invitation_url:
+          type: string
+          description: The invitation's URL.
+          example: https://brandfolder.com/invitations/abc123
+      required:
+      - email
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
   securitySchemes:
     APIToken:
       scheme: bearer

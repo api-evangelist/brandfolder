@@ -407,6 +407,14 @@ paths:
               schema:
                 type: string
 components:
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
   schemas:
     PaginationMetadataResponse:
       title: Pagination metadata
@@ -490,14 +498,6 @@ components:
           default: null
       required:
       - name
-  parameters:
-    Authorization:
-      in: header
-      name: Authorization
-      required: true
-      schema:
-        type: string
-      description: Bearer token for authentication
   securitySchemes:
     APIToken:
       scheme: bearer

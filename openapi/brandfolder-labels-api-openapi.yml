@@ -446,26 +446,6 @@ components:
         type: string
       description: Bearer token for authentication
   schemas:
-    AssetAttributes:
-      title: Asset attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the asset.
-          example: Brandfolder Logo
-        description:
-          type: string
-          description: The description of the asset.
-          example: Brandfolder's logo in print ready format
-        thumbnail_url:
-          type: string
-          description: The online location of the asset.
-          example: https://example.com/example.jpg?Expires=1624742369
-        approved:
-          type: boolean
-          description: If `true`, this asset is approved; otherwise, it's not.
-          example: true
     LabelAttributes:
       title: Label attributes
       type: object
@@ -495,43 +475,6 @@ components:
 
             '
           example: 2
-    PaginationMetadataResponse:
-      title: Pagination metadata
-      description: Page context information.
-      type: object
-      properties:
-        current_page:
-          type: integer
-          format: int32
-          example: 1
-          minimum: 1
-          default: 1
-        next_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        prev_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        total_pages:
-          example: 1
-          minimum: 1
-          default: 1
-        total_count:
-          example: 1
-          minimum: 0
-          default: 0
-      required:
-      - current_page
-      - next_page
-      - prev_page
-      - total_pages
-      - total_count
     Label:
       title: Label
       type: object
@@ -570,6 +513,63 @@ components:
       - id
       - type
       - attributes
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
+    AssetAttributes:
+      title: Asset attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
+          type: string
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
   securitySchemes:
     APIToken:
       scheme: bearer

@@ -327,35 +327,55 @@ paths:
               schema:
                 type: string
 components:
-  parameters:
-    Authorization:
-      in: header
-      name: Authorization
-      required: true
-      schema:
-        type: string
-      description: Bearer token for authentication
   schemas:
-    AssetAttributes:
-      title: Asset attributes
+    SectionAttributes:
+      title: Section attributes
       type: object
       properties:
         name:
           type: string
-          description: The name of the asset.
-          example: Brandfolder Logo
-        description:
+          description: The name of the section.
+          example: My section
+        default_asset_type:
           type: string
-          description: The description of the asset.
-          example: Brandfolder's logo in print ready format
-        thumbnail_url:
+          description: 'The type of asset the section contains.
+
+            '
+          enum:
+          - GenericFile
+          - Color
+          - Font
+          - ExternalMedium
+          - Person
+          - Press
+          - Text
+          example: GenericFile
+        position:
+          type: integer
+          minimum: 0
+          description: 'A non-negative integer that represents where the section displays relative to other sections. The first position is `0`.
+
+            '
+          example: 0
+    Asset:
+      title: Asset
+      type: object
+      properties:
+        id:
           type: string
-          description: The online location of the asset.
-          example: https://example.com/example.jpg?Expires=1624742369
-        approved:
-          type: boolean
-          description: If `true`, this asset is approved; otherwise, it's not.
-          example: true
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-443db
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - generic_files
+        attributes:
+          $ref: '#/components/schemas/AssetAttributes'
+      required:
+      - id
+      - type
+      - attributes
     PaginationMetadataResponse:
       title: Pagination metadata
       description: Page context information.
@@ -412,54 +432,34 @@ components:
       - id
       - type
       - attributes
-    Asset:
-      title: Asset
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-443db
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - generic_files
-        attributes:
-          $ref: '#/components/schemas/AssetAttributes'
-      required:
-      - id
-      - type
-      - attributes
-    SectionAttributes:
-      title: Section attributes
+    AssetAttributes:
+      title: Asset attributes
       type: object
       properties:
         name:
           type: string
-          description: The name of the section.
-          example: My section
-        default_asset_type:
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
           type: string
-          description: 'The type of asset the section contains.
-
-            '
-          enum:
-          - GenericFile
-          - Color
-          - Font
-          - ExternalMedium
-          - Person
-          - Press
-          - Text
-          example: GenericFile
-        position:
-          type: integer
-          minimum: 0
-          description: 'A non-negative integer that represents where the section displays relative to other sections. The first position is `0`.
-
-            '
-          example: 0
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
   securitySchemes:
     APIToken:
       scheme: bearer

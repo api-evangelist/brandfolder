@@ -821,83 +821,15 @@ paths:
               schema:
                 type: string
 components:
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
   schemas:
-    Tag:
-      title: Tag
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: a3dlao-hd6so4-7d91d2
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - tags
-        attributes:
-          $ref: '#/components/schemas/TagAttributes'
-      required:
-      - id
-      - type
-      - attributes
-    AssetAttributes:
-      title: Asset attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the asset.
-          example: Brandfolder Logo
-        description:
-          type: string
-          description: The description of the asset.
-          example: Brandfolder's logo in print ready format
-        thumbnail_url:
-          type: string
-          description: The online location of the asset.
-          example: https://example.com/example.jpg?Expires=1624742369
-        approved:
-          type: boolean
-          description: If `true`, this asset is approved; otherwise, it's not.
-          example: true
-    PaginationMetadataResponse:
-      title: Pagination metadata
-      description: Page context information.
-      type: object
-      properties:
-        current_page:
-          type: integer
-          format: int32
-          example: 1
-          minimum: 1
-          default: 1
-        next_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        prev_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        total_pages:
-          example: 1
-          minimum: 1
-          default: 1
-        total_count:
-          example: 1
-          minimum: 0
-          default: 0
-      required:
-      - current_page
-      - next_page
-      - prev_page
-      - total_pages
-      - total_count
     AssetAttributesRequest:
       title: Asset attributes request body
       type: object
@@ -973,6 +905,62 @@ components:
       - id
       - type
       - attributes
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
+    Tag:
+      title: Tag
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: a3dlao-hd6so4-7d91d2
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - tags
+        attributes:
+          $ref: '#/components/schemas/TagAttributes'
+      required:
+      - id
+      - type
+      - attributes
     TagAttributes:
       title: Tag attributes
       type: object
@@ -999,14 +987,26 @@ components:
           default: null
       required:
       - name
-  parameters:
-    Authorization:
-      in: header
-      name: Authorization
-      required: true
-      schema:
-        type: string
-      description: Bearer token for authentication
+    AssetAttributes:
+      title: Asset attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
+          type: string
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
   securitySchemes:
     APIToken:
       scheme: bearer
