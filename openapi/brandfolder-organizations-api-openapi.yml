@@ -168,26 +168,31 @@ paths:
               schema:
                 type: string
 components:
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
   schemas:
-    Organization:
-      title: Organization
+    OrganizationAttributes:
+      title: Organization attributes
       type: object
       properties:
-        id:
+        name:
           type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-cocc75
-        type:
+          description: The name of the brandfolder.
+          example: Brandfolder's Organization
+        tagline:
           type: string
-          description: The type of the resource.
-          enum:
-          - organizations
-        attributes:
-          $ref: '#/components/schemas/OrganizationAttributes'
-      required:
-      - id
-      - type
-      - attributes
+          description: The tagline of the brandfolder.
+          example: An example tagline for the Organization
+        slug:
+          type: string
+          description: The URL-friendly slug of the brandfolder.
+          example: brandfolder-organization
     PaginationMetadataResponse:
       title: Pagination metadata
       description: Page context information.
@@ -225,30 +230,25 @@ components:
       - prev_page
       - total_pages
       - total_count
-    OrganizationAttributes:
-      title: Organization attributes
+    Organization:
+      title: Organization
       type: object
       properties:
-        name:
+        id:
           type: string
-          description: The name of the brandfolder.
-          example: Brandfolder's Organization
-        tagline:
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-cocc75
+        type:
           type: string
-          description: The tagline of the brandfolder.
-          example: An example tagline for the Organization
-        slug:
-          type: string
-          description: The URL-friendly slug of the brandfolder.
-          example: brandfolder-organization
-  parameters:
-    Authorization:
-      in: header
-      name: Authorization
-      required: true
-      schema:
-        type: string
-      description: Bearer token for authentication
+          description: The type of the resource.
+          enum:
+          - organizations
+        attributes:
+          $ref: '#/components/schemas/OrganizationAttributes'
+      required:
+      - id
+      - type
+      - attributes
   securitySchemes:
     APIToken:
       scheme: bearer

@@ -437,14 +437,6 @@ paths:
               schema:
                 type: string
 components:
-  parameters:
-    Authorization:
-      in: header
-      name: Authorization
-      required: true
-      schema:
-        type: string
-      description: Bearer token for authentication
   schemas:
     LabelAttributes:
       title: Label attributes
@@ -475,44 +467,6 @@ components:
 
             '
           example: 2
-    Label:
-      title: Label
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-443db
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - labels
-        attributes:
-          $ref: '#/components/schemas/LabelAttributes'
-      required:
-      - id
-      - type
-      - attributes
-    Asset:
-      title: Asset
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-443db
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - generic_files
-        attributes:
-          $ref: '#/components/schemas/AssetAttributes'
-      required:
-      - id
-      - type
-      - attributes
     PaginationMetadataResponse:
       title: Pagination metadata
       description: Page context information.
@@ -570,6 +524,52 @@ components:
           type: boolean
           description: If `true`, this asset is approved; otherwise, it's not.
           example: true
+    Label:
+      title: Label
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-443db
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - labels
+        attributes:
+          $ref: '#/components/schemas/LabelAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    Asset:
+      title: Asset
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-443db
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - generic_files
+        attributes:
+          $ref: '#/components/schemas/AssetAttributes'
+      required:
+      - id
+      - type
+      - attributes
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
   securitySchemes:
     APIToken:
       scheme: bearer

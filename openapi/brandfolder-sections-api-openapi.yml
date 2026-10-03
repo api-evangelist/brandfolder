@@ -413,25 +413,6 @@ components:
       - prev_page
       - total_pages
       - total_count
-    Section:
-      title: Section
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-hh142d
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - sections
-        attributes:
-          $ref: '#/components/schemas/SectionAttributes'
-      required:
-      - id
-      - type
-      - attributes
     AssetAttributes:
       title: Asset attributes
       type: object
@@ -452,6 +433,25 @@ components:
           type: boolean
           description: If `true`, this asset is approved; otherwise, it's not.
           example: true
+    Section:
+      title: Section
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-hh142d
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - sections
+        attributes:
+          $ref: '#/components/schemas/SectionAttributes'
+      required:
+      - id
+      - type
+      - attributes
   parameters:
     Authorization:
       in: header

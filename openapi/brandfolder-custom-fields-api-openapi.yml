@@ -700,25 +700,6 @@ paths:
                 type: string
 components:
   schemas:
-    CustomFieldKey:
-      title: Custom field key
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: plqlkk-22rw6g-3dqgx0
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - custom_field_keys
-        attributes:
-          $ref: '#/components/schemas/CustomFieldKeyAttributes'
-      required:
-      - id
-      - type
-      - attributes
     CustomFieldKeyAttributes:
       title: Custom field key attributes
       type: object
@@ -808,6 +789,25 @@ components:
           - custom_field_values
         attributes:
           $ref: '#/components/schemas/CustomFieldValueAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    CustomFieldKey:
+      title: Custom field key
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: plqlkk-22rw6g-3dqgx0
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - custom_field_keys
+        attributes:
+          $ref: '#/components/schemas/CustomFieldKeyAttributes'
       required:
       - id
       - type

@@ -421,6 +421,37 @@ paths:
                 type: string
 components:
   schemas:
+    CollectionAttributes:
+      title: Collection attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the collection.
+          example: My collection
+        tagline:
+          type: string
+          description: The tagline of the collection.
+          example: My collection tag line
+        slug:
+          type: string
+          description: The URL-friendly slug of the collection.
+          example: my-collection
+        public:
+          type: boolean
+          description: Set to `true` for hassle-free sharing, allowing search engines to index your brand assets. Otherwise, set to `false` to share only with the users you specify.
+          example: false
+          default: false
+        stealth:
+          type: boolean
+          description: Set to `true` to remove the collection from appearing in web searches.
+          example: false
+          default: false
+        is_workspace:
+          type: boolean
+          description: Set to `true` if the collection is a Brandfolder workspace.
+          example: false
+          default: false
     User:
       title: User
       type: object
@@ -440,25 +471,32 @@ components:
       - id
       - type
       - attributes
-    Organization:
-      title: Organization
+    BrandfolderAttributes:
+      title: Brandfolder attributes
       type: object
       properties:
-        id:
+        name:
           type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-cocc75
-        type:
+          description: The name of the brandfolder.
+          example: Brandfolder
+        privacy:
           type: string
-          description: The type of the resource.
-          enum:
-          - organizations
-        attributes:
-          $ref: '#/components/schemas/OrganizationAttributes'
+          description: The privacy setting of the brandfolder.
+          example: private
+        slug:
+          type: string
+          description: The URL-friendly slug of the brandfolder.
+          example: brandfolder
+        tagline:
+          type: string
+          description: The tagline of the brandfolder.
+          example: You expected this - Brandfolder's Brandfolder!
+          default: ''
       required:
-      - id
-      - type
-      - attributes
+      - name
+      - privacy
+      - slug
+      - tagline
     OrganizationAttributes:
       title: Organization attributes
       type: object
@@ -475,8 +513,83 @@ components:
           type: string
           description: The URL-friendly slug of the brandfolder.
           example: brandfolder-organization
-    UserPermissionToCollection:
-      title: User permission to a collection
+    Collection:
+      title: Collection
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-hh142d
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - collections
+        attributes:
+          $ref: '#/components/schemas/CollectionAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    Brandfolder:
+      title: Brandfolder
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgiju-21olts-ce9egi
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - brandfolders
+        attributes:
+          $ref: '#/components/schemas/BrandfolderAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
+    UserPermissionToOrganization:
+      title: User permission to an organization
       type: object
       properties:
         id:
@@ -525,12 +638,12 @@ components:
                 id:
                   type: string
                   description: Unique identifier for the resource instance.
-                  example: oqgkkd-fr5iv4-hh142d
+                  example: obte6d-45b4mo-123456
                 type:
                   type: string
                   description: The type of the resource.
                   enum:
-                  - collections
+                  - organizations
       required:
       - id
       - type
@@ -597,27 +710,8 @@ components:
       - type
       - attributes
       - relationships
-    Brandfolder:
-      title: Brandfolder
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: oqgiju-21olts-ce9egi
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - brandfolders
-        attributes:
-          $ref: '#/components/schemas/BrandfolderAttributes'
-      required:
-      - id
-      - type
-      - attributes
-    UserPermissionToOrganization:
-      title: User permission to an organization
+    UserPermissionToCollection:
+      title: User permission to a collection
       type: object
       properties:
         id:
@@ -666,130 +760,36 @@ components:
                 id:
                   type: string
                   description: Unique identifier for the resource instance.
-                  example: obte6d-45b4mo-123456
+                  example: oqgkkd-fr5iv4-hh142d
                 type:
                   type: string
                   description: The type of the resource.
                   enum:
-                  - organizations
+                  - collections
       required:
       - id
       - type
       - attributes
       - relationships
-    BrandfolderAttributes:
-      title: Brandfolder attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the brandfolder.
-          example: Brandfolder
-        privacy:
-          type: string
-          description: The privacy setting of the brandfolder.
-          example: private
-        slug:
-          type: string
-          description: The URL-friendly slug of the brandfolder.
-          example: brandfolder
-        tagline:
-          type: string
-          description: The tagline of the brandfolder.
-          example: You expected this - Brandfolder's Brandfolder!
-          default: ''
-      required:
-      - name
-      - privacy
-      - slug
-      - tagline
-    Collection:
-      title: Collection
+    Organization:
+      title: Organization
       type: object
       properties:
         id:
           type: string
           description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-hh142d
+          example: oqgkkd-fr5iv4-cocc75
         type:
           type: string
           description: The type of the resource.
           enum:
-          - collections
+          - organizations
         attributes:
-          $ref: '#/components/schemas/CollectionAttributes'
+          $ref: '#/components/schemas/OrganizationAttributes'
       required:
       - id
       - type
       - attributes
-    PaginationMetadataResponse:
-      title: Pagination metadata
-      description: Page context information.
-      type: object
-      properties:
-        current_page:
-          type: integer
-          format: int32
-          example: 1
-          minimum: 1
-          default: 1
-        next_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        prev_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        total_pages:
-          example: 1
-          minimum: 1
-          default: 1
-        total_count:
-          example: 1
-          minimum: 0
-          default: 0
-      required:
-      - current_page
-      - next_page
-      - prev_page
-      - total_pages
-      - total_count
-    CollectionAttributes:
-      title: Collection attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the collection.
-          example: My collection
-        tagline:
-          type: string
-          description: The tagline of the collection.
-          example: My collection tag line
-        slug:
-          type: string
-          description: The URL-friendly slug of the collection.
-          example: my-collection
-        public:
-          type: boolean
-          description: Set to `true` for hassle-free sharing, allowing search engines to index your brand assets. Otherwise, set to `false` to share only with the users you specify.
-          example: false
-          default: false
-        stealth:
-          type: boolean
-          description: Set to `true` to remove the collection from appearing in web searches.
-          example: false
-          default: false
-        is_workspace:
-          type: boolean
-          description: Set to `true` if the collection is a Brandfolder workspace.
-          example: false
-          default: false
     UserAttributes:
       title: User attributes
       type: object

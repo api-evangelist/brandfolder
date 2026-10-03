@@ -395,6 +395,14 @@ paths:
               schema:
                 type: string
 components:
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
   schemas:
     Webhook:
       title: Webhook
@@ -445,14 +453,6 @@ components:
       - resource_key
       - resource_type
       - callback_url
-  parameters:
-    Authorization:
-      in: header
-      name: Authorization
-      required: true
-      schema:
-        type: string
-      description: Bearer token for authentication
   securitySchemes:
     APIToken:
       scheme: bearer
