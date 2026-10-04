@@ -421,6 +421,22 @@ paths:
                 type: string
 components:
   schemas:
+    OrganizationAttributes:
+      title: Organization attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the brandfolder.
+          example: Brandfolder's Organization
+        tagline:
+          type: string
+          description: The tagline of the brandfolder.
+          example: An example tagline for the Organization
+        slug:
+          type: string
+          description: The URL-friendly slug of the brandfolder.
+          example: brandfolder-organization
     CollectionAttributes:
       title: Collection attributes
       type: object
@@ -452,25 +468,6 @@ components:
           description: Set to `true` if the collection is a Brandfolder workspace.
           example: false
           default: false
-    User:
-      title: User
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: p0v24p-g7jy9k-123456
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - users
-        attributes:
-          $ref: '#/components/schemas/UserAttributes'
-      required:
-      - id
-      - type
-      - attributes
     BrandfolderAttributes:
       title: Brandfolder attributes
       type: object
@@ -497,41 +494,6 @@ components:
       - privacy
       - slug
       - tagline
-    OrganizationAttributes:
-      title: Organization attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the brandfolder.
-          example: Brandfolder's Organization
-        tagline:
-          type: string
-          description: The tagline of the brandfolder.
-          example: An example tagline for the Organization
-        slug:
-          type: string
-          description: The URL-friendly slug of the brandfolder.
-          example: brandfolder-organization
-    Collection:
-      title: Collection
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-hh142d
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - collections
-        attributes:
-          $ref: '#/components/schemas/CollectionAttributes'
-      required:
-      - id
-      - type
-      - attributes
     Brandfolder:
       title: Brandfolder
       type: object
@@ -551,43 +513,6 @@ components:
       - id
       - type
       - attributes
-    PaginationMetadataResponse:
-      title: Pagination metadata
-      description: Page context information.
-      type: object
-      properties:
-        current_page:
-          type: integer
-          format: int32
-          example: 1
-          minimum: 1
-          default: 1
-        next_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        prev_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        total_pages:
-          example: 1
-          minimum: 1
-          default: 1
-        total_count:
-          example: 1
-          minimum: 0
-          default: 0
-      required:
-      - current_page
-      - next_page
-      - prev_page
-      - total_pages
-      - total_count
     UserPermissionToOrganization:
       title: User permission to an organization
       type: object
@@ -649,6 +574,45 @@ components:
       - type
       - attributes
       - relationships
+    Organization:
+      title: Organization
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-cocc75
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - organizations
+        attributes:
+          $ref: '#/components/schemas/OrganizationAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    UserAttributes:
+      title: User attributes
+      type: object
+      properties:
+        email:
+          type: string
+          description: The user's email address.
+          example: jane.doe@smartsheet.com
+        first_name:
+          type: string
+          description: The user's first name.
+          example: Jane
+        last_name:
+          type: string
+          description: The user's last name.
+          example: Doe
+      required:
+      - email
+      - first_name
+      - last_name
     UserPermissionToBrandfolder:
       title: User permission to a Brandfolder
       type: object
@@ -710,6 +674,81 @@ components:
       - type
       - attributes
       - relationships
+    Collection:
+      title: Collection
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-hh142d
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - collections
+        attributes:
+          $ref: '#/components/schemas/CollectionAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    User:
+      title: User
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: p0v24p-g7jy9k-123456
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - users
+        attributes:
+          $ref: '#/components/schemas/UserAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
     UserPermissionToCollection:
       title: User permission to a collection
       type: object
@@ -771,45 +810,6 @@ components:
       - type
       - attributes
       - relationships
-    Organization:
-      title: Organization
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-cocc75
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - organizations
-        attributes:
-          $ref: '#/components/schemas/OrganizationAttributes'
-      required:
-      - id
-      - type
-      - attributes
-    UserAttributes:
-      title: User attributes
-      type: object
-      properties:
-        email:
-          type: string
-          description: The user's email address.
-          example: jane.doe@smartsheet.com
-        first_name:
-          type: string
-          description: The user's first name.
-          example: Jane
-        last_name:
-          type: string
-          description: The user's last name.
-          example: Doe
-      required:
-      - email
-      - first_name
-      - last_name
   parameters:
     Authorization:
       in: header

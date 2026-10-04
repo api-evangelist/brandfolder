@@ -700,6 +700,25 @@ paths:
                 type: string
 components:
   schemas:
+    CustomFieldValue:
+      title: Custom field value
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: r79p3j4gbcgtv33gbsqrxb
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - custom_field_values
+        attributes:
+          $ref: '#/components/schemas/CustomFieldValueAttributes'
+      required:
+      - id
+      - type
+      - attributes
     CustomFieldKeyAttributes:
       title: Custom field key attributes
       type: object
@@ -737,6 +756,25 @@ components:
           example: true
       required:
       - name
+    CustomFieldKey:
+      title: Custom field key
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: plqlkk-22rw6g-3dqgx0
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - custom_field_keys
+        attributes:
+          $ref: '#/components/schemas/CustomFieldKeyAttributes'
+      required:
+      - id
+      - type
+      - attributes
     PaginationMetadataResponse:
       title: Pagination metadata
       description: Page context information.
@@ -774,44 +812,6 @@ components:
       - prev_page
       - total_pages
       - total_count
-    CustomFieldValue:
-      title: Custom field value
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: r79p3j4gbcgtv33gbsqrxb
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - custom_field_values
-        attributes:
-          $ref: '#/components/schemas/CustomFieldValueAttributes'
-      required:
-      - id
-      - type
-      - attributes
-    CustomFieldKey:
-      title: Custom field key
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: plqlkk-22rw6g-3dqgx0
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - custom_field_keys
-        attributes:
-          $ref: '#/components/schemas/CustomFieldKeyAttributes'
-      required:
-      - id
-      - type
-      - attributes
     CustomFieldValueAttributes:
       title: Custom field value attributes
       type: object

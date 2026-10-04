@@ -168,14 +168,6 @@ paths:
               schema:
                 type: string
 components:
-  parameters:
-    Authorization:
-      in: header
-      name: Authorization
-      required: true
-      schema:
-        type: string
-      description: Bearer token for authentication
   schemas:
     OrganizationAttributes:
       title: Organization attributes
@@ -249,6 +241,14 @@ components:
       - id
       - type
       - attributes
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
   securitySchemes:
     APIToken:
       scheme: bearer

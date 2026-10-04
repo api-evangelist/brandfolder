@@ -815,6 +815,25 @@ paths:
                 type: string
 components:
   schemas:
+    Invitation:
+      title: Invitation
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: a3dlao-hd6so4-7d91d2
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - invitations
+        attributes:
+          $ref: '#/components/schemas/InvitationAttributes'
+      required:
+      - id
+      - type
+      - attributes
     InvitationAttributes:
       title: Invitation attributes
       type: object
@@ -837,25 +856,6 @@ components:
           example: https://brandfolder.com/invitations/abc123
       required:
       - email
-    Invitation:
-      title: Invitation
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: a3dlao-hd6so4-7d91d2
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - invitations
-        attributes:
-          $ref: '#/components/schemas/InvitationAttributes'
-      required:
-      - id
-      - type
-      - attributes
     InvitationCreationRequest:
       title: Invitation creation request
       type: object

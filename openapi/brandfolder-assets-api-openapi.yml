@@ -822,62 +822,25 @@ paths:
                 type: string
 components:
   schemas:
-    Tag:
-      title: Tag
+    Asset:
+      title: Asset
       type: object
       properties:
         id:
           type: string
           description: Unique identifier for the resource instance.
-          example: a3dlao-hd6so4-7d91d2
+          example: oqgkkd-fr5iv4-443db
         type:
           type: string
           description: The type of the resource.
           enum:
-          - tags
+          - generic_files
         attributes:
-          $ref: '#/components/schemas/TagAttributes'
+          $ref: '#/components/schemas/AssetAttributes'
       required:
       - id
       - type
       - attributes
-    PaginationMetadataResponse:
-      title: Pagination metadata
-      description: Page context information.
-      type: object
-      properties:
-        current_page:
-          type: integer
-          format: int32
-          example: 1
-          minimum: 1
-          default: 1
-        next_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        prev_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        total_pages:
-          example: 1
-          minimum: 1
-          default: 1
-        total_count:
-          example: 1
-          minimum: 0
-          default: 0
-      required:
-      - current_page
-      - next_page
-      - prev_page
-      - total_pages
-      - total_count
     AssetAttributes:
       title: Asset attributes
       type: object
@@ -898,32 +861,25 @@ components:
           type: boolean
           description: If `true`, this asset is approved; otherwise, it's not.
           example: true
-    TagAttributes:
-      title: Tag attributes
+    Tag:
+      title: Tag
       type: object
       properties:
-        name:
+        id:
           type: string
-          description: 'A keyword associated with exactly one asset.
-
-
-            For example, if you have several assets that represent products you sell, you might create a "product" tag for each one. If you modify or delete the "product" tag for any particular Asset, it doesn''t affect other tags with the same value on other assets.
-
-            '
-          example: product
-        auto_generated:
-          type: boolean
-          description: If `true`, this tag was generated automatically by our smart analysis of file attachments; otherwise, a user created it.
-          example: true
-        source:
-          type:
-          - string
-          - 'null'
-          description: The tag author.
-          example: google_vision
-          default: null
+          description: Unique identifier for the resource instance.
+          example: a3dlao-hd6so4-7d91d2
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - tags
+        attributes:
+          $ref: '#/components/schemas/TagAttributes'
       required:
-      - name
+      - id
+      - type
+      - attributes
     AssetAttributesRequest:
       title: Asset attributes request body
       type: object
@@ -980,25 +936,69 @@ components:
             - url
       required:
       - name
-    Asset:
-      title: Asset
+    TagAttributes:
+      title: Tag attributes
       type: object
       properties:
-        id:
+        name:
           type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-443db
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - generic_files
-        attributes:
-          $ref: '#/components/schemas/AssetAttributes'
+          description: 'A keyword associated with exactly one asset.
+
+
+            For example, if you have several assets that represent products you sell, you might create a "product" tag for each one. If you modify or delete the "product" tag for any particular Asset, it doesn''t affect other tags with the same value on other assets.
+
+            '
+          example: product
+        auto_generated:
+          type: boolean
+          description: If `true`, this tag was generated automatically by our smart analysis of file attachments; otherwise, a user created it.
+          example: true
+        source:
+          type:
+          - string
+          - 'null'
+          description: The tag author.
+          example: google_vision
+          default: null
       required:
-      - id
-      - type
-      - attributes
+      - name
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
   parameters:
     Authorization:
       in: header

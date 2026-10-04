@@ -681,6 +681,45 @@ paths:
                 type: string
 components:
   schemas:
+    Asset:
+      title: Asset
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-443db
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - generic_files
+        attributes:
+          $ref: '#/components/schemas/AssetAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    AssetAttributes:
+      title: Asset attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
+          type: string
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
     CollectionAttributes:
       title: Collection attributes
       type: object
@@ -731,108 +770,6 @@ components:
       - id
       - type
       - attributes
-    Collection:
-      title: Collection
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-hh142d
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - collections
-        attributes:
-          $ref: '#/components/schemas/CollectionAttributes'
-      required:
-      - id
-      - type
-      - attributes
-    PaginationMetadataResponse:
-      title: Pagination metadata
-      description: Page context information.
-      type: object
-      properties:
-        current_page:
-          type: integer
-          format: int32
-          example: 1
-          minimum: 1
-          default: 1
-        next_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        prev_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        total_pages:
-          example: 1
-          minimum: 1
-          default: 1
-        total_count:
-          example: 1
-          minimum: 0
-          default: 0
-      required:
-      - current_page
-      - next_page
-      - prev_page
-      - total_pages
-      - total_count
-    AssetAttributes:
-      title: Asset attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the asset.
-          example: Brandfolder Logo
-        description:
-          type: string
-          description: The description of the asset.
-          example: Brandfolder's logo in print ready format
-        thumbnail_url:
-          type: string
-          description: The online location of the asset.
-          example: https://example.com/example.jpg?Expires=1624742369
-        approved:
-          type: boolean
-          description: If `true`, this asset is approved; otherwise, it's not.
-          example: true
-    TagAttributes:
-      title: Tag attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: 'A keyword associated with exactly one asset.
-
-
-            For example, if you have several assets that represent products you sell, you might create a "product" tag for each one. If you modify or delete the "product" tag for any particular Asset, it doesn''t affect other tags with the same value on other assets.
-
-            '
-          example: product
-        auto_generated:
-          type: boolean
-          description: If `true`, this tag was generated automatically by our smart analysis of file attachments; otherwise, a user created it.
-          example: true
-        source:
-          type:
-          - string
-          - 'null'
-          description: The tag author.
-          example: google_vision
-          default: null
-      required:
-      - name
     AssetAttributesRequest:
       title: Asset attributes request body
       type: object
@@ -889,25 +826,88 @@ components:
             - url
       required:
       - name
-    Asset:
-      title: Asset
+    Collection:
+      title: Collection
       type: object
       properties:
         id:
           type: string
           description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-443db
+          example: oqgkkd-fr5iv4-hh142d
         type:
           type: string
           description: The type of the resource.
           enum:
-          - generic_files
+          - collections
         attributes:
-          $ref: '#/components/schemas/AssetAttributes'
+          $ref: '#/components/schemas/CollectionAttributes'
       required:
       - id
       - type
       - attributes
+    TagAttributes:
+      title: Tag attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'A keyword associated with exactly one asset.
+
+
+            For example, if you have several assets that represent products you sell, you might create a "product" tag for each one. If you modify or delete the "product" tag for any particular Asset, it doesn''t affect other tags with the same value on other assets.
+
+            '
+          example: product
+        auto_generated:
+          type: boolean
+          description: If `true`, this tag was generated automatically by our smart analysis of file attachments; otherwise, a user created it.
+          example: true
+        source:
+          type:
+          - string
+          - 'null'
+          description: The tag author.
+          example: google_vision
+          default: null
+      required:
+      - name
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
   parameters:
     Authorization:
       in: header
