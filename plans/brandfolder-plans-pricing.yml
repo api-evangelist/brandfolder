@@ -73,3 +73,22 @@ x-evidence:
   - url: https://brandfolder.com/contact/sales/
     status: 404
     note: The URL previously recorded as the Pricing pointer now 404s; corrected to /pricing.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - negotiated
+  units: []
+  plans:
+  - name: Premium
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Enterprise
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
