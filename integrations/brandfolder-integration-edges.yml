@@ -1,6 +1,7 @@
 generated: '2026-10-14'
 method: searched
 checked:
+- contentful/integrations/contentful-integration-edges.yml
 - okta/integrations/okta-integration-edges.yml
 source:
 - okta/integrations/okta-integration-edges.yml
@@ -26,3 +27,19 @@ edges:
   - OKTA_VERIFIED
   features:
   - SAML
+- partner_name: Contentful (own)
+  partner: contentful
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.contentful.com/marketplace/brandfolder/
+  mirror_of: contentful/integrations/contentful-integration-edges.yml
+  apps:
+  - Brandfolder App
+  listing_count: 1
+  detected: '2026-10-15'
+  detected_by: mirror-platform-listings.py
