@@ -39,7 +39,7 @@
     app_slug: brandfolder
     beta: false
     builder: unknown (not in the directory record)
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: brandfolder-contentful-own
   label: Contentful (own)
