@@ -151,26 +151,15 @@ paths:
               schema:
                 type: string
 components:
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer token for authentication
   schemas:
-    Attachment:
-      title: Attachment
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr3j84-33j7db
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - attachments
-        attributes:
-          $ref: '#/components/schemas/AttachmentAttributes'
-      required:
-      - id
-      - type
-      - attributes
     AttachmentAttributes:
       title: Attachment attributes
       type: object
@@ -223,14 +212,25 @@ components:
       - filename
       - mimetype
       - url
-  parameters:
-    Authorization:
-      in: header
-      name: Authorization
-      required: true
-      schema:
-        type: string
-      description: Bearer token for authentication
+    Attachment:
+      title: Attachment
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr3j84-33j7db
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - attachments
+        attributes:
+          $ref: '#/components/schemas/AttachmentAttributes'
+      required:
+      - id
+      - type
+      - attributes
   securitySchemes:
     APIToken:
       scheme: bearer

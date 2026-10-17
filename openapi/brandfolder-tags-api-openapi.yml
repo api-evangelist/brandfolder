@@ -445,25 +445,6 @@ components:
       - prev_page
       - total_pages
       - total_count
-    Tag:
-      title: Tag
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: a3dlao-hd6so4-7d91d2
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - tags
-        attributes:
-          $ref: '#/components/schemas/TagAttributes'
-      required:
-      - id
-      - type
-      - attributes
     TagAttributes:
       title: Tag attributes
       type: object
@@ -490,6 +471,25 @@ components:
           default: null
       required:
       - name
+    Tag:
+      title: Tag
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: a3dlao-hd6so4-7d91d2
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - tags
+        attributes:
+          $ref: '#/components/schemas/TagAttributes'
+      required:
+      - id
+      - type
+      - attributes
   parameters:
     Authorization:
       in: header

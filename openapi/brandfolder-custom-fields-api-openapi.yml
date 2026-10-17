@@ -700,62 +700,6 @@ paths:
                 type: string
 components:
   schemas:
-    CustomFieldValue:
-      title: Custom field value
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: r79p3j4gbcgtv33gbsqrxb
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - custom_field_values
-        attributes:
-          $ref: '#/components/schemas/CustomFieldValueAttributes'
-      required:
-      - id
-      - type
-      - attributes
-    CustomFieldKeyAttributes:
-      title: Custom field key attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: The key name.
-          example: color
-        allowed_values:
-          type: array
-          description: The `value` that can be used with this `key` when creating or updating any Custom Field on an Asset must be one of these strings. If not included or empty array `[]`, the `values` are unrestricted.
-          items:
-            type: string
-          example:
-          - red
-          - white
-          - blue
-        position:
-          type: integer
-          format: int32
-          description: Sets the location of the custom field among other custom fields in the Brandfolder UI.
-          minimum: 0
-          example: 0
-        prioritized:
-          type: boolean
-          description: Set to `true` to display the custom field in asset previews. A Brandfolder can have up to five prioritized custom fields.
-          example: false
-        required:
-          type: boolean
-          description: If set to `true`, users uploading an asset must input the custom field before uploading the asset. Children of dependent custom fields can also be marked as required.
-          example: false
-        restricted:
-          type: boolean
-          description: If set to `true`, the field value is restricted to a set of allowed values (see `allowed_values`); otherwise, the field value is unrestricted.
-          example: true
-      required:
-      - name
     CustomFieldKey:
       title: Custom field key
       type: object
@@ -812,6 +756,62 @@ components:
       - prev_page
       - total_pages
       - total_count
+    CustomFieldValue:
+      title: Custom field value
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: r79p3j4gbcgtv33gbsqrxb
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - custom_field_values
+        attributes:
+          $ref: '#/components/schemas/CustomFieldValueAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    CustomFieldKeyAttributes:
+      title: Custom field key attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The key name.
+          example: color
+        allowed_values:
+          type: array
+          description: The `value` that can be used with this `key` when creating or updating any Custom Field on an Asset must be one of these strings. If not included or empty array `[]`, the `values` are unrestricted.
+          items:
+            type: string
+          example:
+          - red
+          - white
+          - blue
+        position:
+          type: integer
+          format: int32
+          description: Sets the location of the custom field among other custom fields in the Brandfolder UI.
+          minimum: 0
+          example: 0
+        prioritized:
+          type: boolean
+          description: Set to `true` to display the custom field in asset previews. A Brandfolder can have up to five prioritized custom fields.
+          example: false
+        required:
+          type: boolean
+          description: If set to `true`, users uploading an asset must input the custom field before uploading the asset. Children of dependent custom fields can also be marked as required.
+          example: false
+        restricted:
+          type: boolean
+          description: If set to `true`, the field value is restricted to a set of allowed values (see `allowed_values`); otherwise, the field value is unrestricted.
+          example: true
+      required:
+      - name
     CustomFieldValueAttributes:
       title: Custom field value attributes
       type: object

@@ -328,35 +328,25 @@ paths:
                 type: string
 components:
   schemas:
-    SectionAttributes:
-      title: Section attributes
+    Section:
+      title: Section
       type: object
       properties:
-        name:
+        id:
           type: string
-          description: The name of the section.
-          example: My section
-        default_asset_type:
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-hh142d
+        type:
           type: string
-          description: 'The type of asset the section contains.
-
-            '
+          description: The type of the resource.
           enum:
-          - GenericFile
-          - Color
-          - Font
-          - ExternalMedium
-          - Person
-          - Press
-          - Text
-          example: GenericFile
-        position:
-          type: integer
-          minimum: 0
-          description: 'A non-negative integer that represents where the section displays relative to other sections. The first position is `0`.
-
-            '
-          example: 0
+          - sections
+        attributes:
+          $ref: '#/components/schemas/SectionAttributes'
+      required:
+      - id
+      - type
+      - attributes
     Asset:
       title: Asset
       type: object
@@ -376,26 +366,6 @@ components:
       - id
       - type
       - attributes
-    AssetAttributes:
-      title: Asset attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the asset.
-          example: Brandfolder Logo
-        description:
-          type: string
-          description: The description of the asset.
-          example: Brandfolder's logo in print ready format
-        thumbnail_url:
-          type: string
-          description: The online location of the asset.
-          example: https://example.com/example.jpg?Expires=1624742369
-        approved:
-          type: boolean
-          description: If `true`, this asset is approved; otherwise, it's not.
-          example: true
     PaginationMetadataResponse:
       title: Pagination metadata
       description: Page context information.
@@ -433,25 +403,55 @@ components:
       - prev_page
       - total_pages
       - total_count
-    Section:
-      title: Section
+    SectionAttributes:
+      title: Section attributes
       type: object
       properties:
-        id:
+        name:
           type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-hh142d
-        type:
+          description: The name of the section.
+          example: My section
+        default_asset_type:
           type: string
-          description: The type of the resource.
+          description: 'The type of asset the section contains.
+
+            '
           enum:
-          - sections
-        attributes:
-          $ref: '#/components/schemas/SectionAttributes'
-      required:
-      - id
-      - type
-      - attributes
+          - GenericFile
+          - Color
+          - Font
+          - ExternalMedium
+          - Person
+          - Press
+          - Text
+          example: GenericFile
+        position:
+          type: integer
+          minimum: 0
+          description: 'A non-negative integer that represents where the section displays relative to other sections. The first position is `0`.
+
+            '
+          example: 0
+    AssetAttributes:
+      title: Asset attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the asset.
+          example: Brandfolder Logo
+        description:
+          type: string
+          description: The description of the asset.
+          example: Brandfolder's logo in print ready format
+        thumbnail_url:
+          type: string
+          description: The online location of the asset.
+          example: https://example.com/example.jpg?Expires=1624742369
+        approved:
+          type: boolean
+          description: If `true`, this asset is approved; otherwise, it's not.
+          example: true
   parameters:
     Authorization:
       in: header

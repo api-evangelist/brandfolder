@@ -438,6 +438,72 @@ paths:
                 type: string
 components:
   schemas:
+    LabelAttributes:
+      title: Label attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the label.
+          example: onboarding
+        path:
+          type: array
+          items:
+            schema:
+              type: string
+          example:
+          - oqgkkd-fr5iv4-443db
+          - abc123
+          description: Hierarchy of label IDs, starting with this label's ID.
+        position:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Label location represented by a positive integer; `0` is the first position.
+          example: 0
+        depth:
+          type: integer
+          description: 'The depth of the label hierarchy. A root level label''s depth is `1`, a label with one parent has depth of `2`, and so on.
+
+            '
+          example: 2
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
     Asset:
       title: Asset
       type: object
@@ -477,35 +543,6 @@ components:
           type: boolean
           description: If `true`, this asset is approved; otherwise, it's not.
           example: true
-    LabelAttributes:
-      title: Label attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the label.
-          example: onboarding
-        path:
-          type: array
-          items:
-            schema:
-              type: string
-          example:
-          - oqgkkd-fr5iv4-443db
-          - abc123
-          description: Hierarchy of label IDs, starting with this label's ID.
-        position:
-          type: integer
-          format: int32
-          minimum: 0
-          description: Label location represented by a positive integer; `0` is the first position.
-          example: 0
-        depth:
-          type: integer
-          description: 'The depth of the label hierarchy. A root level label''s depth is `1`, a label with one parent has depth of `2`, and so on.
-
-            '
-          example: 2
     Label:
       title: Label
       type: object
@@ -525,43 +562,6 @@ components:
       - id
       - type
       - attributes
-    PaginationMetadataResponse:
-      title: Pagination metadata
-      description: Page context information.
-      type: object
-      properties:
-        current_page:
-          type: integer
-          format: int32
-          example: 1
-          minimum: 1
-          default: 1
-        next_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        prev_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        total_pages:
-          example: 1
-          minimum: 1
-          default: 1
-        total_count:
-          example: 1
-          minimum: 0
-          default: 0
-      required:
-      - current_page
-      - next_page
-      - prev_page
-      - total_pages
-      - total_count
   parameters:
     Authorization:
       in: header

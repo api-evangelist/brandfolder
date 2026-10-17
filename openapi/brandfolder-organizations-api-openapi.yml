@@ -169,22 +169,6 @@ paths:
                 type: string
 components:
   schemas:
-    OrganizationAttributes:
-      title: Organization attributes
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the brandfolder.
-          example: Brandfolder's Organization
-        tagline:
-          type: string
-          description: The tagline of the brandfolder.
-          example: An example tagline for the Organization
-        slug:
-          type: string
-          description: The URL-friendly slug of the brandfolder.
-          example: brandfolder-organization
     PaginationMetadataResponse:
       title: Pagination metadata
       description: Page context information.
@@ -241,6 +225,22 @@ components:
       - id
       - type
       - attributes
+    OrganizationAttributes:
+      title: Organization attributes
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the brandfolder.
+          example: Brandfolder's Organization
+        tagline:
+          type: string
+          description: The tagline of the brandfolder.
+          example: An example tagline for the Organization
+        slug:
+          type: string
+          description: The URL-friendly slug of the brandfolder.
+          example: brandfolder-organization
   parameters:
     Authorization:
       in: header

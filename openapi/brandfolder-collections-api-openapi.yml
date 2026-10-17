@@ -681,6 +681,43 @@ paths:
                 type: string
 components:
   schemas:
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
     Asset:
       title: Asset
       type: object
@@ -696,6 +733,44 @@ components:
           - generic_files
         attributes:
           $ref: '#/components/schemas/AssetAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    Tag:
+      title: Tag
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: a3dlao-hd6so4-7d91d2
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - tags
+        attributes:
+          $ref: '#/components/schemas/TagAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    Collection:
+      title: Collection
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: oqgkkd-fr5iv4-hh142d
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - collections
+        attributes:
+          $ref: '#/components/schemas/CollectionAttributes'
       required:
       - id
       - type
@@ -751,25 +826,6 @@ components:
           description: Set to `true` if the collection is a Brandfolder workspace.
           example: false
           default: false
-    Tag:
-      title: Tag
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: a3dlao-hd6so4-7d91d2
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - tags
-        attributes:
-          $ref: '#/components/schemas/TagAttributes'
-      required:
-      - id
-      - type
-      - attributes
     AssetAttributesRequest:
       title: Asset attributes request body
       type: object
@@ -826,25 +882,6 @@ components:
             - url
       required:
       - name
-    Collection:
-      title: Collection
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: oqgkkd-fr5iv4-hh142d
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - collections
-        attributes:
-          $ref: '#/components/schemas/CollectionAttributes'
-      required:
-      - id
-      - type
-      - attributes
     TagAttributes:
       title: Tag attributes
       type: object
@@ -871,43 +908,6 @@ components:
           default: null
       required:
       - name
-    PaginationMetadataResponse:
-      title: Pagination metadata
-      description: Page context information.
-      type: object
-      properties:
-        current_page:
-          type: integer
-          format: int32
-          example: 1
-          minimum: 1
-          default: 1
-        next_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        prev_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        total_pages:
-          example: 1
-          minimum: 1
-          default: 1
-        total_count:
-          example: 1
-          minimum: 0
-          default: 0
-      required:
-      - current_page
-      - next_page
-      - prev_page
-      - total_pages
-      - total_count
   parameters:
     Authorization:
       in: header

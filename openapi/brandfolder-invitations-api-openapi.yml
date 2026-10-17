@@ -815,25 +815,6 @@ paths:
                 type: string
 components:
   schemas:
-    Invitation:
-      title: Invitation
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the resource instance.
-          example: a3dlao-hd6so4-7d91d2
-        type:
-          type: string
-          description: The type of the resource.
-          enum:
-          - invitations
-        attributes:
-          $ref: '#/components/schemas/InvitationAttributes'
-      required:
-      - id
-      - type
-      - attributes
     InvitationAttributes:
       title: Invitation attributes
       type: object
@@ -856,6 +837,62 @@ components:
           example: https://brandfolder.com/invitations/abc123
       required:
       - email
+    Invitation:
+      title: Invitation
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the resource instance.
+          example: a3dlao-hd6so4-7d91d2
+        type:
+          type: string
+          description: The type of the resource.
+          enum:
+          - invitations
+        attributes:
+          $ref: '#/components/schemas/InvitationAttributes'
+      required:
+      - id
+      - type
+      - attributes
+    PaginationMetadataResponse:
+      title: Pagination metadata
+      description: Page context information.
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+          default: 1
+        next_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        prev_page:
+          type:
+          - object
+          - 'null'
+          example: null
+          default: null
+        total_pages:
+          example: 1
+          minimum: 1
+          default: 1
+        total_count:
+          example: 1
+          minimum: 0
+          default: 0
+      required:
+      - current_page
+      - next_page
+      - prev_page
+      - total_pages
+      - total_count
     InvitationCreationRequest:
       title: Invitation creation request
       type: object
@@ -902,43 +939,6 @@ components:
           - attributes
       required:
       - data
-    PaginationMetadataResponse:
-      title: Pagination metadata
-      description: Page context information.
-      type: object
-      properties:
-        current_page:
-          type: integer
-          format: int32
-          example: 1
-          minimum: 1
-          default: 1
-        next_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        prev_page:
-          type:
-          - object
-          - 'null'
-          example: null
-          default: null
-        total_pages:
-          example: 1
-          minimum: 1
-          default: 1
-        total_count:
-          example: 1
-          minimum: 0
-          default: 0
-      required:
-      - current_page
-      - next_page
-      - prev_page
-      - total_pages
-      - total_count
   parameters:
     Authorization:
       in: header
