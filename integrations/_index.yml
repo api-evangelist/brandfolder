@@ -53,3 +53,34 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: brandfolder-pypi
+  label: PyPI
+  partner: pypi
+  partner_name: PyPI
+  category: official SDK (Python)
+  type: register
+  channel: package-registry
+  evidence: https://pypi.org/project/brandfolder/
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: PyPI (public registry JSON)
+    spec_file: null
+    language: Python
+    packages:
+    - name: brandfolder
+      version: 2.0.0
+      released: '2024-12-20'
+      released_field: upload_time
+      lapsed: false
+      page: https://pypi.org/project/brandfolder/
+      repo_leg: github-org:brandfolder
+      publisher_leg: email:brandfolder.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
