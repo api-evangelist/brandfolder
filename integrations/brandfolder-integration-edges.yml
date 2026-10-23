@@ -11,30 +11,10 @@ checked:
 - https://rubygems.org/api/v1
 - https://zapier.com/api/v4/apps/
 - okta/integrations/okta-integration-edges.yml
+- drupal/integrations/drupal-integration-edges.yml
 source:
 - okta/integrations/okta-integration-edges.yml
 edges:
-- partner_name: Okta (own)
-  partner: okta
-  partner_match: mirror
-  mirror_match: domain
-  type: marketplace
-  relationship: platform-app
-  direction: third-party
-  channel: partner-built
-  marketplace: own
-  evidence: https://www.okta.com/integrations/brandfoldersaml/
-  mirror_of: okta/integrations/okta-integration-edges.yml
-  apps:
-  - Brandfolder SAML
-  listing_count: 1
-  detected: '2026-10-14'
-  detected_by: mirror-platform-listings.py
-  category: Single Sign-On
-  badges:
-  - OKTA_VERIFIED
-  features:
-  - SAML
 - partner_name: Zapier
   partner: zapier
   partner_match: aggregator
@@ -60,22 +40,6 @@ edges:
     builder: unknown (not in the directory record)
   detected_by: sweep-workflow-automation.py
   first_seen: '2026-10-15'
-- partner_name: Contentful (own)
-  partner: contentful
-  partner_match: mirror
-  mirror_match: domain
-  type: marketplace
-  relationship: platform-app
-  direction: third-party
-  channel: partner-built
-  marketplace: own
-  evidence: https://www.contentful.com/marketplace/brandfolder/
-  mirror_of: contentful/integrations/contentful-integration-edges.yml
-  apps:
-  - Brandfolder App
-  listing_count: 1
-  detected: '2026-10-15'
-  detected_by: mirror-platform-listings.py
 - partner_name: PyPI
   partner: pypi
   partner_match: register
@@ -106,3 +70,57 @@ edges:
     detected: '2026-10-18'
   detected_by: sweep-official-sdks.py
   first_seen: '2026-10-18'
+- partner_name: Okta (own)
+  partner: okta
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.okta.com/integrations/brandfoldersaml/
+  mirror_of: okta/integrations/okta-integration-edges.yml
+  apps:
+  - Brandfolder SAML
+  listing_count: 1
+  detected: '2026-10-14'
+  detected_by: mirror-platform-listings.py
+  category: Single Sign-On
+  badges:
+  - OKTA_VERIFIED
+  features:
+  - SAML
+- partner_name: Contentful (own)
+  partner: contentful
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.contentful.com/marketplace/brandfolder/
+  mirror_of: contentful/integrations/contentful-integration-edges.yml
+  apps:
+  - Brandfolder App
+  listing_count: 1
+  detected: '2026-10-15'
+  detected_by: mirror-platform-listings.py
+- partner_name: Drupal (own)
+  partner: drupal
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.drupal.org/project/brandfolder
+  mirror_of: drupal/integrations/drupal-integration-edges.yml
+  apps:
+  - Brandfolder
+  listing_count: 1
+  detected: '2026-10-22'
+  detected_by: mirror-platform-listings.py
+  category: Drupal contributed module
