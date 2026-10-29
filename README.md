@@ -64,20 +64,159 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Brandfolder is a digital asset management (DAM) platform and Smartsheet company that provides a RESTful API for managing brand assets, collections, sections, tags, share links, webhooks, and asset distribution permissions.
+Brandfolder is a digital asset management (DAM) platform and Smartsheet company that provides a RESTful API for managing brand assets, collections, sections, tags, share links, webhooks, and asset distribution permissions. The API enables organizations to push Brandfolder content to other applications, pull data from external sources, and synchronize Brandfolder with other platforms.
 
-## API
+**Areas:** Digital Asset Management · Brand Management · Assets · Media · Collection · Smartsheet
 
-- **Base URL:** `https://brandfolder.com/api/v4`
-- **Authentication:** Bearer token (API key from https://brandfolder.com/profile#integrations)
-- **Documentation:** https://developers.smartsheet.com/api/brandfolder
-- **OpenAPI Reference:** https://developers.smartsheet.com/api/brandfolder/openapi
+## Brandfolder on APIs.io
 
-## Resources
+Everything profiled for Brandfolder is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/brandfolder/](https://apis.io/providers/brandfolder/)** — or go straight to one of the APIs or properties below.
+
+### APIs (13)
+
+- [Brandfolder Assets API](https://apis.io/apis/brandfolder/brandfolder-assets-api/) — Assets are the core resource of Brandfolder. They act like containers that hold all of your digital resources and files, which we call Attachments. They…
+- [Brandfolder Attachments API](https://apis.io/apis/brandfolder/brandfolder-attachments-api/) — Attachments are the representation of digital assets in Brandfolder. Generally speaking, they are actual files but can also be colors, fonts, links to…
+- [Brandfolder Binary Upload API](https://apis.io/apis/brandfolder/brandfolder-binary-upload-api/) — Brandfolder's Binary Upload service allows for authenticated users to upload locally stored files into Brandfolder via our API. Binary Upload is a…
+- [Brandfolder Brandfolders API](https://apis.io/apis/brandfolder/brandfolder-brandfolders-api/) — Brandfolders are nested directly underneath an Organization in the overall heirarchy. They can have many Collections, Sections, and Assets.
+- [Brandfolder Collections API](https://apis.io/apis/brandfolder/brandfolder-collections-api/) — Collections are nested under a Brandfolder and contain many Assets. They are mainly used as an additional way to organize, manage, share, and restrict…
+- [Brandfolder Custom Fields API](https://apis.io/apis/brandfolder/brandfolder-custom-fields-api/) — Custom Fields can be assigned to Assets and are generally helpful for organizing and searching Assets within a Brandfolder, as well as for understanding…
+- [Brandfolder Invitations API](https://apis.io/apis/brandfolder/brandfolder-invitations-api/) — Invitations are exactly what they sound like and can be created to invite Users to join your Organization, Brandfolder, or Collection as a `guest`,…
+- [Brandfolder Labels API](https://apis.io/apis/brandfolder/brandfolder-labels-api/) — Brandfolder's Labels are an enhanced organization and findability feature meant to provide the peace of mind that comes with an organization's existing…
+- [Brandfolder Organizations API](https://apis.io/apis/brandfolder/brandfolder-organizations-api/) — An Organization is the top level resource of all objects in Brandfolder. It can have many Brandfolders nested beneath it.
+- [Brandfolder Sections API](https://apis.io/apis/brandfolder/brandfolder-sections-api/) — Sections are nested under a Brandfolder and contain many Assets. They exist to help keep Assets organized within a Brandfolder. They also determine which…
+- [Brandfolder Tags API](https://apis.io/apis/brandfolder/brandfolder-tags-api/) — Tags can be assigned to Assets and are generally helpful for organizing and searching Assets within a Brandfolder. Each Tag is essentially a keyword…
+- [Brandfolder User Permissions API](https://apis.io/apis/brandfolder/brandfolder-user-permissions-api/) — User permissions describe relationships between Organizations, Brandfolders, Collections, Portals or Brandguides and the users that have access to them.…
+- [Brandfolder Webhooks API](https://apis.io/apis/brandfolder/brandfolder-webhooks-api/) — The Brandfolder Webhooks service allows you to subscribe to event-based notifications (callbacks) when a qualifying event is triggered within Brandfolder.…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Brandfolder Webhooks](https://apis.io/asyncapis/brandfolder/brandfolder-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [smartsheet-developer-portal-docs-mcp](https://apis.io/servers/brandfolder/smartsheet-developer-portal-docs-mcp/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Brandfolder Agentic Access](https://apis.io/agentic-access/brandfolder/brandfolder-agentic-access/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Brandfolder Context](https://apis.io/jsonld/brandfolder/brandfolder-context/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Brandfolder Openapi Original Overlay](https://apis.io/overlays/brandfolder/brandfolder-openapi-original-overlay/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Brandfolder Authentication](https://apis.io/security/brandfolder/brandfolder-authentication/)
+- [Brandfolder Domain Security](https://apis.io/security/brandfolder/brandfolder-domain-security/)
+- [Brandfolder Trust Center](https://apis.io/security/brandfolder/brandfolder-trust-center/)
+- [Brandfolder Vulnerability Disclosure](https://apis.io/security/brandfolder/brandfolder-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Brandfolder Plans Pricing](https://apis.io/plans/brandfolder/brandfolder-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Brandfolder Rate Limits](https://apis.io/rate-limits/brandfolder/brandfolder-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Brandfolder Finops](https://apis.io/finops/brandfolder/brandfolder-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://brandfolder.com)
-- [Developer Documentation](https://developers.smartsheet.com/api/brandfolder)
-- [Engineering Blog](https://brandfolder.engineering/)
-- [Status Page](https://status.brandfolder.com/)
-- [LinkedIn](https://www.linkedin.com/company/brandfolder-inc-)
-- [X / Twitter](https://twitter.com/Brandfolder)
+- [Documentation](https://developers.smartsheet.com/api/brandfolder)
+- [Getting started](https://developers.smartsheet.com/api/brandfolder/introduction)
+- [Pricing](https://brandfolder.com/pricing)
+- [Support](https://help.smartsheet.com/brandfolder)
+- [Blog](https://brandfolder.engineering/)
+- [Security](https://www.smartsheet.com/legal/bugbounty)
+- [Compliance](https://www.smartsheet.com/legal/security)
+- [Terms of service](https://www.smartsheet.com/legal/user-agreement)
+- [Privacy policy](https://www.smartsheet.com/legal/privacy)
+- [GitHub](https://github.com/brandfolder)
+- [Status](https://status.brandfolder.com/)
+
+## API Evangelist rating
+
+**Kin Score 55.9** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 61.2 |
+| Contract governance | 4.5 |
+| Operational transparency | 44.7 |
+| Developer ergonomics | 47.0 |
+| Access clarity | 75.0 |
+
+**Agent readiness 35.2** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | platform (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 35.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/brandfolder/](https://apis.io/providers/brandfolder/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Brandfolder: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/brandfolder/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
